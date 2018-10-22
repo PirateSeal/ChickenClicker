@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChickenFarmer.Model
 {
-    class Properties
+    public class Properties
     {
 
         int _layRate;

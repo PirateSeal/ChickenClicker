@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ChickenFarmer.Model
 {
-    class Farm
+    public class Farm
     {
         
         int _money;
@@ -25,13 +23,16 @@ namespace ChickenFarmer.Model
 
         public int Money { get => _money; set => _money = value; }
         public int TotalEgg { get => _TotalEgg; set => _TotalEgg = value; }
+<<<<<<< Updated upstream:ChickenFarmer/Farm.cs
         internal HenhouseCollections Houses { get => _Houses; }
         internal Market Market { get => market;}
+=======
+        public int Chickencount { get => _chickencount; set => _chickencount = value; }
+        public HenhouseCollections Houses => _Houses;
+        public Market Market => market;
+>>>>>>> Stashed changes:ChickenTest/Farm.cs
 
-        internal void addEgg()
-        {
-            _TotalEgg++;
-        }
+        internal void addEgg() => _TotalEgg++;
 
 
 
@@ -41,6 +42,7 @@ namespace ChickenFarmer.Model
             info();
         }
 
+<<<<<<< Updated upstream:ChickenFarmer/Farm.cs
         public void info()
         {
             Console.WriteLine("money : {0} , " +
@@ -54,6 +56,9 @@ namespace ChickenFarmer.Model
 
 
 
+=======
+        public void info() => Console.WriteLine("money : {0} , " + "egg :{1} ," + " chicken {2} ", _money, _TotalEgg, _chickencount);
+>>>>>>> Stashed changes:ChickenTest/Farm.cs
     }
 
 

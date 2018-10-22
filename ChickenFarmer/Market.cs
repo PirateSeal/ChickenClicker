@@ -1,6 +1,6 @@
 ﻿namespace ChickenFarmer.Model
 {
-    class Market
+    public class Market
     {
         Farm farm;
 

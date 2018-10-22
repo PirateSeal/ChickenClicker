@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChickenFarmer.Model
 {
-   internal class HenhouseCollections
+   public class HenhouseCollections
     {
         public  List<Henhouse> _HenHouses;
         private Farm _farm;

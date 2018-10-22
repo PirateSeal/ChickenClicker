@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream:ChickenFarmer/Enum.cs
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ChickenFarmer.Model
+=======
+﻿namespace ChickenTest
+>>>>>>> Stashed changes:ChickenTest/Enum.cs
 {
     public class Enum
     {

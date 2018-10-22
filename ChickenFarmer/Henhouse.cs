@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ChickenFarmer.Model
 {
-    class Henhouse
+    public class Henhouse
     {
         int _lvl; 
         List<Chicken> _chickens;

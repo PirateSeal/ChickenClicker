@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2041
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChickenFarmer.Model", "ChickenFarmer\ChickenFarmer.Model.csproj", "{A86EE908-E7F2-410C-8A8E-DE6708E0E5C8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChickenFarmer.Tests", "ChickenFarmer.Tests\ChickenFarmer.Tests.csproj", "{965D44D2-3748-437B-A364-B8384DC6F5CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A86EE908-E7F2-410C-8A8E-DE6708E0E5C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A86EE908-E7F2-410C-8A8E-DE6708E0E5C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A86EE908-E7F2-410C-8A8E-DE6708E0E5C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{965D44D2-3748-437B-A364-B8384DC6F5CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{965D44D2-3748-437B-A364-B8384DC6F5CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{965D44D2-3748-437B-A364-B8384DC6F5CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{965D44D2-3748-437B-A364-B8384DC6F5CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
