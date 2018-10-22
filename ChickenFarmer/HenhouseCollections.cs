@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChickenFarmer.Model
 {
-   internal class HenhouseCollections
+   public class HenhouseCollections
     {
         private  List<Henhouse> _HenHouses;
         private Farm _farm;
@@ -29,6 +29,8 @@ namespace ChickenFarmer.Model
 
         public Henhouse AddHouse()
         {
+            if (_HenHouses.Count == Enum.HenhouseCollection.defaultCapacity) { throw new InvalidOperationException("Can't add a new henhouse, max limit reached"); }
+
             Henhouse newHouse = new Henhouse(this, Enum.HenHouse.DefaultHenhouseLimit);
             _HenHouses.Add(newHouse);
             return newHouse;
