@@ -1,5 +1,6 @@
-﻿using ChickenTest;
+﻿using ChickenFarmer.Model;
 using NUnit.Framework;
+using System;
 
 namespace ChickenFarmer.Tests
 {
@@ -13,7 +14,7 @@ namespace ChickenFarmer.Tests
             Farm farm = new Farm();
             farm.Houses.AddHouse();
 
-            Assert.That(farm.Houses._HenHouses.Capacity == Enum.HenHeouse.DefaultHenhouseLimit);
+            Assert.That(farm.Houses._HenHouses.Capacity == Model.Enum.HenhouseCollection.defaultCapacity);
         }
 
         [Test]
@@ -21,13 +22,21 @@ namespace ChickenFarmer.Tests
         {
             Farm farm = new Farm();
 
-            for (int i = 0; i < 5; i++)
-            {
-                farm.Houses.AddHouse();
-                Assert.That(farm.Houses._HenHouses.Count == i + 1);
-            }
+            Assert.That(farm.Houses._HenHouses.Count == 1);
 
+            farm.Houses.AddHouse();
+            Assert.That(farm.Houses._HenHouses.Count == 2);
+
+            farm.Houses.AddHouse();
+            Assert.That(farm.Houses._HenHouses.Count == 3);
+
+            farm.Houses.AddHouse();
+            Assert.That(farm.Houses._HenHouses.Count == 4);
+
+            Assert.Throws<InvalidOperationException>( () => farm.Houses.AddHouse() );
         }
+
+
 
 
 

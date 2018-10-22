@@ -17,9 +17,8 @@ namespace ChickenFarmer.Model
             _collection = collections;
             _id = System.Guid.NewGuid().ToString();
             _lvl = 1;
-            _chickens = new List<Chicken>(limit * _lvl);
-            
-
+            _limit = Enum.HenHouse.DefaultHenhouseLimit;
+            _chickens = new List<Chicken>(_limit * _lvl);
         }
 
         public void Upgrade()
@@ -29,9 +28,6 @@ namespace ChickenFarmer.Model
             newLimit = _limit * _lvl;
 
             _chickens.Capacity = newLimit;
-
-
-
         }
 
         public void AddChicken(int breed)
@@ -48,24 +44,8 @@ namespace ChickenFarmer.Model
             }
         }
 
-        /*
-       public void Dispose()
-       {
-           //Antoine//
-           pourquoi draw dans ui quand tu peut le faire dans cette classe sans parler de séparer les choses
-           idem pour dispose & les assets
-       }
-
-       public void Draw(Function Draw)
-       {
-          Draw(Chickens);
-       }
-       */
-
-
         public int ChickenCount => _chickens.Count;
-
-        public string Id { get => _id; }
+        public string Id => _id;
         internal HenhouseCollections Collection  => _collection; 
         public int Limit => _limit;
         internal List<Chicken> Chikens => _chickens;

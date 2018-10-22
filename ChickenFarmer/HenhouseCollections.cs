@@ -29,6 +29,8 @@ namespace ChickenFarmer.Model
 
         public Henhouse AddHouse()
         {
+            if (_HenHouses.Count == Enum.HenhouseCollection.defaultCapacity) { throw new InvalidOperationException("Can't add a new henhouse, max limit reached"); }
+
             Henhouse newHouse = new Henhouse(this, Enum.HenHouse.DefaultHenhouseLimit);
             _HenHouses.Add(newHouse);
             return newHouse;

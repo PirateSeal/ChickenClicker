@@ -1,4 +1,4 @@
-﻿using ChickenTest;
+﻿using ChickenFarmer.Model;
 using NUnit.Framework;
 
 namespace ChickenFarmer.Tests
