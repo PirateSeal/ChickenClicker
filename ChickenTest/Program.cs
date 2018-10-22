@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ChickenTest
+namespace ChickenFarmer.Model
 {
     class Program
     {
@@ -31,6 +31,7 @@ namespace ChickenTest
                     
                     case "buychicken":
                         {
+                            
                             Console.WriteLine("breed (1,2,3,4) ?");
                             var breed = int.Parse(Console.ReadLine());
 

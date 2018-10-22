@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChickenTest
+namespace ChickenFarmer.Model
 {
    internal class HenhouseCollections
     {
@@ -17,6 +17,14 @@ namespace ChickenTest
         {
             _HenHouses = new List<Henhouse>(10);
             _farm = farm; 
+        }
+
+        public void UpgradeHouse(Henhouse house)
+        {
+            foreach (var item in _HenHouses)
+            {
+                if (item == house) item.Upgrade();
+            }
         }
 
         public Henhouse AddHouse()

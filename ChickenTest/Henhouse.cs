@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ChickenTest
+namespace ChickenFarmer.Model
 {
     class Henhouse
     {
-        List<Chicken> _chikens;
+        int _lvl; 
+        List<Chicken> _chickens;
         string _id;
         HenhouseCollections _collection;
         int _limit;
@@ -14,27 +15,46 @@ namespace ChickenTest
         public Henhouse(HenhouseCollections collections, int limit)
         {
             _collection = collections;
-            _chikens = new List<Chicken>(limit - 1);
             _id = System.Guid.NewGuid().ToString();
+            _lvl = 1;
+            _chickens = new List<Chicken>(limit * _lvl);
+
         }
 
+        public void Upgrade()
+        {
+            _lvl++;
+            int newLimit;
+            newLimit = _limit * _lvl;
+            
+
+            List<Chicken> tempslist = new List<Chicken>();
+
+            for (int i = 0; i < this._chickens.Count; i++)
+            {
+                tempslist[i] = this._chickens[i];
+            }
+
+            List<Chicken> _chickens = new List<Chicken>(newLimit);
+
+            for (int i = 0; i < this._chickens.Count; i++)
+            {
+                this._chickens[i] = tempslist[i]; 
+            }
+
+
+
+        }
 
         public void AddChicken(int breed)
         {
             Chicken newchiken = new Chicken(_collection.Farm,breed);
-            _chikens.Add(newchiken);
-        }
-
-        public void UpgradeHouse(int newCapacity)
-        {
-            // Tableau temporaire
-            // New tableau avec new taille
-            // permutation tableau
+            _chickens.Add(newchiken);
         }
 
         public void Update()
         {
-            foreach (var item in _chikens)
+            foreach (var item in _chickens)
             {
                 item.update();
             }
@@ -55,8 +75,9 @@ namespace ChickenTest
         */
 
         public string Id { get => _id; }
-        internal HenhouseCollections Collection { get => _collection;  }
-        public int Limit { get => _limit; set => _limit = value; }
-        internal List<Chicken> Chikens { get => _chikens; set => _chikens = value; }
+        internal HenhouseCollections Collection  => _collection; 
+        public int Limit => _limit;
+        internal List<Chicken> Chikens => _chickens;
+        public int Lvl => _lvl;
     }
 }

@@ -4,15 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChickenTest
+namespace ChickenFarmer.Model
 {
     class Market
     {
-        Farm _ctx;
+        Farm farm;
 
         public Market(Farm ctx)
         {
-            _ctx = ctx;
+            farm = ctx;
+        }
+
+        public void UpgradeHouse(Henhouse house )
+        {
+            
+            foreach (var item in farm.Houses._HenHouses)
+            {
+
+            }
         }
 
         public bool BuyChicken(Farm farm,Henhouse house ,int amount, int breed)

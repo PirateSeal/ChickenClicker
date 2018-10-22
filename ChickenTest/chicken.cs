@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ChickenTest
+namespace ChickenFarmer.Model
 {
     class Chicken
     {
