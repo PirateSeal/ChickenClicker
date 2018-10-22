@@ -10,7 +10,7 @@ namespace ChickenFarmer.Model
             Farm farm = new Farm();
             farm.info();
             Henhouse house = farm.Houses.AddHouse();
-            farm.Market.BuyChicken(farm, house, 3,1);
+            bool  titi =  farm.Market.BuyChicken(house, 3,1);
 
 
             Console.WriteLine(@"start Game ");
@@ -38,7 +38,7 @@ namespace ChickenFarmer.Model
                             Console.WriteLine("how many ?");
                             var count = int.Parse(Console.ReadLine());
 
-                            if (farm.Market.BuyChicken(farm, house, count,breed)) Console.WriteLine("chiken buyed");
+                            if (farm.Market.BuyChicken(house, count,breed)) Console.WriteLine("chiken buyed");
                             else Console.WriteLine("failed ");
                             Console.ReadLine();
                             break;

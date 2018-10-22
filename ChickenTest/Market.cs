@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ChickenFarmer.Model
+﻿namespace ChickenFarmer.Model
 {
     class Market
     {
@@ -15,32 +9,31 @@ namespace ChickenFarmer.Model
             farm = ctx;
         }
 
-        public void UpgradeHouse(Henhouse house )
+        public void UpgradeHouse(Henhouse house)
         {
-            
+
             foreach (var item in farm.Houses._HenHouses)
             {
 
             }
         }
 
-        public bool BuyChicken(Farm farm,Henhouse house ,int amount, int breed)
+        public bool BuyChicken(Henhouse house, int amount, int breed)
+        {
+            for (int i = 0; i < amount; i++)
             {
-                if (house.Chikens.Count < house.Limit && amount*Enum.Market.DefaultChickenCost[breed] <= farm.Money)
+
+                if (house.Chikens.Count <= house.Chikens.Capacity && Enum.Market.DefaultChickenCost[breed] <= farm.Money)
                 {
 
-                    for (int i = 0; i < amount; i++)
-                    {
-                        farm.Money += (-10);
-                        farm.Chickencount++;
-                        farm.Houses.AddChicken(house,breed);
-                    }
 
-                return true;
+                    farm.Money -= Enum.Market.DefaultChickenCost[breed];
+                    farm.Houses.AddChicken(house, breed);
+                   
                 }
-            return false;
-           }
-
+            }
+            return true;
+        }
 
         public void Sellegg(Farm farm)
         {

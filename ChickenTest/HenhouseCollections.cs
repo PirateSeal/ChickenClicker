@@ -10,12 +10,12 @@ namespace ChickenFarmer.Model
     {
         public  List<Henhouse> _HenHouses;
         private Farm _farm;
-        int Limit = 10;
         internal Farm Farm { get => _farm;}
 
         public HenhouseCollections(Farm farm)
         {
-            _HenHouses = new List<Henhouse>(10);
+            _HenHouses = new List<Henhouse>(Enum.HenhouseCollection.defaultCapacity);
+            AddHouse();
             _farm = farm; 
         }
 
@@ -29,7 +29,7 @@ namespace ChickenFarmer.Model
 
         public Henhouse AddHouse()
         {
-            Henhouse newHouse = new Henhouse(this, Enum.HenHeouse.DefaultHenhouseLimit);
+            Henhouse newHouse = new Henhouse(this, Enum.HenHouse.DefaultHenhouseLimit);
             _HenHouses.Add(newHouse);
             return newHouse;
         }
@@ -44,6 +44,17 @@ namespace ChickenFarmer.Model
         }
 
         public int Count() => _HenHouses.Count();
+
+
+        public int ChickenCount()
+        {
+            int count = 0;
+            foreach (var item in _HenHouses)
+            {
+                count += item.ChickenCount;
+            }
+            return count;
+        }
 
         public void Update()
         {

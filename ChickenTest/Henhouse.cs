@@ -18,6 +18,7 @@ namespace ChickenFarmer.Model
             _id = System.Guid.NewGuid().ToString();
             _lvl = 1;
             _chickens = new List<Chicken>(limit * _lvl);
+            
 
         }
 
@@ -26,21 +27,8 @@ namespace ChickenFarmer.Model
             _lvl++;
             int newLimit;
             newLimit = _limit * _lvl;
-            
 
-            List<Chicken> tempslist = new List<Chicken>();
-
-            for (int i = 0; i < this._chickens.Count; i++)
-            {
-                tempslist[i] = this._chickens[i];
-            }
-
-            List<Chicken> _chickens = new List<Chicken>(newLimit);
-
-            for (int i = 0; i < this._chickens.Count; i++)
-            {
-                this._chickens[i] = tempslist[i]; 
-            }
+            _chickens.Capacity = newLimit;
 
 
 
@@ -60,19 +48,22 @@ namespace ChickenFarmer.Model
             }
         }
 
-         /*
-        public void Dispose()
-        {
-            //Antoine//
-            pourquoi draw dans ui quand tu peut le faire dans cette classe sans parler de séparer les choses
-            idem pour dispose & les assets
-        }
+        /*
+       public void Dispose()
+       {
+           //Antoine//
+           pourquoi draw dans ui quand tu peut le faire dans cette classe sans parler de séparer les choses
+           idem pour dispose & les assets
+       }
 
-        public void Draw(Function Draw)
-        {
-           Draw(Chickens);
-        }
-        */
+       public void Draw(Function Draw)
+       {
+          Draw(Chickens);
+       }
+       */
+
+
+        public int ChickenCount => _chickens.Count;
 
         public string Id { get => _id; }
         internal HenhouseCollections Collection  => _collection; 

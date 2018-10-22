@@ -13,7 +13,12 @@ namespace ChickenFarmer.Model
             public static int DefaultMoney = 100;
         }
 
-        public struct HenHeouse
+        public struct HenhouseCollection
+        {
+            public static int defaultCapacity = 4;
+        }
+
+        public struct HenHouse
         {
             public static int DefaultHenhouseLimit = 10;     
         }
