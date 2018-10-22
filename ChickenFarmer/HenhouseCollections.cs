@@ -8,7 +8,7 @@ namespace ChickenFarmer.Model
 {
    internal class HenhouseCollections
     {
-        public  List<Henhouse> _HenHouses;
+        private  List<Henhouse> _HenHouses;
         private Farm _farm;
         internal Farm Farm { get => _farm;}
 
