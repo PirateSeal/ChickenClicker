@@ -11,11 +11,16 @@
 
         public void UpgradeHouse(Henhouse house)
         {
-
-            foreach (var item in farm.Houses._HenHouses)
+            int lvl = house.Lvl;
+            if(farm.Money < Enum.HenHouse.UpgradeHouseCost[lvl + 1] && lvl < Enum.HenHouse.UpgradeHouseCost.Length )
             {
-
+                farm.Houses.UpgradeHouse(house);
             }
+           
+
+
+            //verif argent joueur  + verif max lvl + drécrediter joueur + ajouter lvl 
+           
         }
 
         public bool BuyChicken(Henhouse house, int amount, int breed)

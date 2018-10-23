@@ -6,6 +6,11 @@ namespace ChickenFarmer.Model
     {
         static void Main(string[] args)
         {
+            //SFML.SystemNative.Load();
+            //SFML.GraphicsNative.Load();
+            //SFML.AudioNative.Load();
+            //SFML.WindowNative.Load();
+
             Console.WriteLine("Hello");
             Farm farm = new Farm();
             farm.info();

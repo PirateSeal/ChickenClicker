@@ -20,6 +20,10 @@ namespace ChickenFarmer.Model
              market = new Market(this);
         }
 
+
+
+
+
         public int Money { get => _money; set => _money = value; }
         public int TotalEgg { get => _TotalEgg; set => _TotalEgg = value; }
         public HenhouseCollections Houses => _Houses;
