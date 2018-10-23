@@ -8,18 +8,24 @@ namespace ChickenFarmer.Model
         int _money;
         int _TotalEgg;
         int _chickencount;
+        readonly FarmOptions _options;
         HenhouseCollections _Houses;
         Market market;
 
         public Farm()
         {
-            _money = Enum.Farm.DefaultMoney;
+            _options = new FarmOptions();
+            _money = _options.DefaultMoney;
             _TotalEgg = 0;
             _chickencount = 0;
             _Houses = new HenhouseCollections(this);
              market = new Market(this);
         }
 
+        internal FarmOptions Options
+        {
+            get { return _options; }
+        }
 
 
 

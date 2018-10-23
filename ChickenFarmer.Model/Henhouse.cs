@@ -10,14 +10,16 @@ namespace ChickenFarmer.Model
         List<Chicken> _chickens;
         string _id;
         HenhouseCollections _collection;
+        readonly FarmOptions _options;
         int _limit;
 
         public Henhouse(HenhouseCollections collections, int limit)
         {
+            _options = new FarmOptions();
             _collection = collections;
             _id = System.Guid.NewGuid().ToString();
             _lvl = 1;
-            _limit = Enum.HenHouse.DefaultHenhouseLimit;
+            _limit = _options.DefaultHenHouseLimit;
             _chickens = new List<Chicken>(_limit * _lvl);
         }
 

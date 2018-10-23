@@ -10,12 +10,13 @@ namespace ChickenFarmer.Model
     {
 
         int _layRate;
+        FarmOptions _options;
 
 
 
         public Properties()
         {
-            _layRate = Enum.Chicken.DefaultLayByMinute;
+            _layRate = _options.DefaultLayByMinute;
         }
 
         public static int DefaultChickenCost = 10;

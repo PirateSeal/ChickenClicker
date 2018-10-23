@@ -11,10 +11,13 @@ namespace ChickenFarmer.Model
         private  List<Henhouse> _HenHouses;
         private Farm _farm;
         internal Farm Farm { get => _farm;}
+        readonly FarmOptions _options;
+
 
         public HenhouseCollections(Farm farm)
         {
-            _HenHouses = new List<Henhouse>(Enum.HenhouseCollection.defaultCapacity);
+            _options = new FarmOptions();
+            _HenHouses = new List<Henhouse>(_options.DefaultCapacity);
             AddHouse();
             _farm = farm; 
         }
@@ -29,9 +32,9 @@ namespace ChickenFarmer.Model
 
         public Henhouse AddHouse()
         {
-            if (_HenHouses.Count == Enum.HenhouseCollection.defaultCapacity) { throw new InvalidOperationException("Can't add a new henhouse, max limit reached"); }
+            if (_HenHouses.Count == _options.DefaultCapacity) { throw new InvalidOperationException("Can't add a new henhouse, max limit reached"); }
 
-            Henhouse newHouse = new Henhouse(this, Enum.HenHouse.DefaultHenhouseLimit);
+            Henhouse newHouse = new Henhouse(this, _options.DefaultHenHouseLimit);
             _HenHouses.Add(newHouse);
             return newHouse;
         }

@@ -3,16 +3,18 @@
     public class Market
     {
         Farm farm;
+        FarmOptions _options;
 
         public Market(Farm ctx)
         {
+            _options = new FarmOptions();
             farm = ctx;
         }
 
         public void UpgradeHouse(Henhouse house)
         {
             int lvl = house.Lvl;
-            if(farm.Money < Enum.HenHouse.UpgradeHouseCost[lvl + 1] && lvl < Enum.HenHouse.UpgradeHouseCost.Length )
+            if(farm.Money < _options.UpgradeHouseCost[lvl + 1] && lvl < _options.UpgradeHouseCost.Length )
             {
                 farm.Houses.UpgradeHouse(house);
             }
@@ -28,11 +30,11 @@
             for (int i = 0; i < amount; i++)
             {
 
-                if (house.Chikens.Count <= house.Chikens.Capacity && Enum.Market.DefaultChickenCost[breed] <= farm.Money)
+                if (house.Chikens.Count <= house.Chikens.Capacity && _options.DefaultChickenCost[breed] <= farm.Money)
                 {
 
 
-                    farm.Money -= Enum.Market.DefaultChickenCost[breed];
+                    farm.Money -= _options.DefaultChickenCost[breed];
                     farm.Houses.AddChicken(house, breed);
                    
                 }
