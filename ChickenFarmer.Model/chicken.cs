@@ -19,19 +19,15 @@ namespace ChickenFarmer.Model
             _farm = farm;
         }
 
-        public int Type { get => _breed;}
+        public int Type => _breed;
 
         public void update()
         {
             _hunger--;
-
             lay();
         }
 
-        private void lay()
-        {
-            _farm.addEgg();
-        }
+        private void lay() => _farm.addEgg();
 
     }
 }

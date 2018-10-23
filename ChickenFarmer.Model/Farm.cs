@@ -46,10 +46,5 @@ namespace ChickenFarmer.Model
         public void info() => Console.WriteLine("money : {0} , " + "egg :{1} ," + " chicken {2} ", _money, _TotalEgg, Chickencount);
 
         public int Chickencount => _Houses.ChickenCount();
-
-
-
     }
-
-
 }

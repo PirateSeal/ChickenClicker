@@ -45,11 +45,12 @@ namespace ChickenFarmer.Model
             {
                 if (item == house) house.AddChicken(breed);
             }
-
         }
+
 
         public int Count() => _HenHouses.Count();
 
+        public List<Henhouse> Henhouses => _HenHouses;
 
         public int ChickenCount()
         {

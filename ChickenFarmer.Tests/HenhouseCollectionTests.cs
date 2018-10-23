@@ -14,7 +14,10 @@ namespace ChickenFarmer.Tests
             Farm farm = new Farm();
             farm.Houses.AddHouse();
 
-            Assert.That(farm.Houses._HenHouses.Capacity == Model.Enum.HenhouseCollection.defaultCapacity);
+            foreach (Henhouse item in farm.Houses.Henhouses)
+            {
+                Assert.That(item.Limit == Model.Enum.HenhouseCollection.defaultCapacity);
+            }
         }
 
         [Test]
@@ -22,24 +25,19 @@ namespace ChickenFarmer.Tests
         {
             Farm farm = new Farm();
 
-            Assert.That(farm.Houses._HenHouses.Count == 1);
+            Assert.That(farm.Houses.Count() == 1);
 
             farm.Houses.AddHouse();
-            Assert.That(farm.Houses._HenHouses.Count == 2);
+            Assert.That(farm.Houses.Count() == 2);
 
             farm.Houses.AddHouse();
-            Assert.That(farm.Houses._HenHouses.Count == 3);
+            Assert.That(farm.Houses.Count() == 3);
 
             farm.Houses.AddHouse();
-            Assert.That(farm.Houses._HenHouses.Count == 4);
+            Assert.That(farm.Houses.Count() == 4);
 
-            Assert.Throws<InvalidOperationException>( () => farm.Houses.AddHouse() );
+            Assert.Throws<InvalidOperationException>(() => farm.Houses.AddHouse());
         }
-
-
-
-
-
         #endregion
     }
 }

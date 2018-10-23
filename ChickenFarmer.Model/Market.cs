@@ -1,4 +1,6 @@
-﻿namespace ChickenFarmer.Model
+﻿using System;
+
+namespace ChickenFarmer.Model
 {
     public class Market
     {
@@ -18,11 +20,7 @@
             {
                 farm.Houses.UpgradeHouse(house);
             }
-           
-
-
             //verif argent joueur  + verif max lvl + drécrediter joueur + ajouter lvl 
-           
         }
 
         public bool BuyChicken(Henhouse house, int amount, int breed)
@@ -36,8 +34,8 @@
 
                     farm.Money -= _options.DefaultChickenCost[breed];
                     farm.Houses.AddChicken(house, breed);
-                   
                 }
+                else { return false; }
             }
             return true;
         }
@@ -47,8 +45,6 @@
             int money = 2 * farm.TotalEgg;
             farm.TotalEgg = 0;
             farm.Money += money;
-
-
         }
 
         internal void BuyHenhouse(Farm farm)
