@@ -38,7 +38,7 @@ namespace ChickenFarmer.Model
 
         public int DefaultHenHouseLimit
         {
-            get { return _defaultCapacity; }
+            get { return _defaultHenhouseLimit; }
             set { _defaultHenhouseLimit = value; }
         }
 

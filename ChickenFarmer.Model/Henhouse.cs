@@ -18,7 +18,7 @@ namespace ChickenFarmer.Model
             _options = new FarmOptions();
             _collection = collections;
             _id = System.Guid.NewGuid().ToString();
-            _lvl = 1;
+            _lvl = 0;
             _limit = _options.DefaultHenHouseLimit;
             _chickens = new List<Chicken>(_limit * _lvl);
         }
