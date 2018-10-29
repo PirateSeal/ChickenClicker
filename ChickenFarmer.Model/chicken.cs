@@ -6,20 +6,20 @@ namespace ChickenFarmer.Model
 {
     class Chicken
     {
-        private int _breed;
+        // private int _breed;
         private  string _id;
         private int _hunger;
         Farm _farm;
 
         public Chicken(Farm farm,int breed)
         {
-            _breed = breed;
+            // _breed = breed;
             _id = System.Guid.NewGuid().ToString();
             _hunger = 100;
             _farm = farm;
         }
 
-        public int Type => _breed;
+        // public int Type => _breed;
 
         public void update()
         {

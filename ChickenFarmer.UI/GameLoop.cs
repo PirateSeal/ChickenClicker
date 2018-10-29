@@ -4,56 +4,75 @@ using SFML.System;
 using SFML.Window;
 using SFML.Graphics;
 
+
 namespace ChickenFarmer.UI
 {
-    public abstract class GameLoop
+
+    public class GameLoop
     {
-        public RenderWindow Window
+        RenderWindow _window;
+        Event _input;
+        TimeSpan _interval = new TimeSpan(0, 0, 0, 0, 100);
+        DateTime _old = DateTime.Now;
+
+
+        public GameLoop()
         {
-            get;
-            protected set;
+
+            _window = new RenderWindow(new VideoMode(800, 600), "ChickenFarmer", Styles.Titlebar);
+            _window.SetFramerateLimit(60);
+
         }
 
-        public SFML.Graphics.Color WindowClearColor
+        public static void Init()
         {
-            get;
-            protected set;
-        }
-
-        protected GameLoop(uint windowWidth, uint windowHeight, string windowTitle, SFML.Graphics.Color windowClearColor)
-        {
-
             SFML.SystemNative.Load();
             SFML.WindowNative.Load();
             SFML.GraphicsNative.Load();
-            //SFML.AudioNative.Load();
+            SFML.AudioNative.Load();
+            
+        }
 
-            while (true)
+        public void Run()
+        {
+            Init();
+            Vector2f size = new Vector2f(800f, 600f);
+            Shape _square = new RectangleShape(size);
+            _square.
+            _square.FillColor = Color.Red;
+            Texture texture = new Texture("C:/Users/Wazaa/Desktop/Chicken Farmer/farm_background.jpg");
+            
+            Sprite sprite = new Sprite(texture);
+            
+            
+            
+
+
+            while (_window.IsOpen)
             {
+                
+                if (Keyboard.IsKeyPressed(Keyboard.Key.Escape))
+                {
+                    _window.Close();
+                }
+                _window.Clear();
+                _window.Draw(_square);
+                _window.Draw(sprite);
+                _window.Display();
+                Update();
 
-                WindowClearColor = windowClearColor;
-                Window = new RenderWindow(new VideoMode(windowWidth, windowHeight), windowTitle);
-                Window.KeyPressed += WindowEscaping;
             }
         }
 
-        public void Run() // Main method of the gameloop
+
+        public void Update()
         {
-            LoadContent();
-            Initialize();
+            DateTime current = DateTime.Now;
+            if (_old.Add(_interval) < current)
+            {
+                Console.WriteLine("HelloWord");
+                _old = current;
+            }
         }
-
-        public abstract void LoadContent();
-        public abstract void Initialize();
-        public abstract void Update();
-        public abstract void Draw();
-
-        private void WindowEscaping(object sender, KeyEventArgs e)
-        {
-            if (e.Code == Keyboard.Key.Escape) Window.Close();
-        }
-
-
-        public Window GameWindow => Window;
     }
 }
