@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ChickenFarmer.Model
+﻿namespace ChickenFarmer.Model
 {
     public class Market
     {
@@ -16,7 +14,7 @@ namespace ChickenFarmer.Model
         public void UpgradeHouse(Henhouse house)
         {
             int lvl = house.Lvl;
-            if(farm.Money > _options.UpgradeHouseCost[lvl] && lvl < _options.UpgradeHouseCost.Length )
+            if (farm.Money > _options.UpgradeHouseCost[lvl] && lvl < _options.UpgradeHouseCost.Length)
             {
                 farm.Houses.UpgradeHouse(house);
                 farm.Money -= _options.UpgradeHouseCost[lvl];
@@ -43,9 +41,18 @@ namespace ChickenFarmer.Model
             farm.Money += money;
         }
 
+        public void BuyFood(int amount)
+        {
+            if (farm.Money > _options.FoodPrice * amount)
+            {
+                farm.Money -= _options.FoodPrice * amount;
+                farm.FoodStock += amount;
+            }
+        }
+
         public void BuyHenhouse()
         {
-            
+
             if (farm.Money > _options.DefaultHenHouseCost && farm.Houses.Count() < _options.DefaultCapacity)
             {
                 farm.Money -= _options.DefaultHenHouseCost;

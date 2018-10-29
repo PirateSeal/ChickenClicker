@@ -1,17 +1,17 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ChickenFarmer.Model
 {
     public class Henhouse
     {
-        int _lvl; 
+        int _lvl;
         List<Chicken> _chickens;
         string _id;
         HenhouseCollections _collection;
         readonly FarmOptions _options;
         int _limit;
+        List<Chicken> _dyingChickens;
 
         public Henhouse(HenhouseCollections collections, int limit)
         {
@@ -21,6 +21,7 @@ namespace ChickenFarmer.Model
             _lvl = 0;
             _limit = _options.DefaultHenHouseLimit;
             _chickens = new List<Chicken>(_limit * _lvl);
+            _dyingChickens = new List<Chicken>();
         }
 
         public void Upgrade()
@@ -34,23 +35,63 @@ namespace ChickenFarmer.Model
 
         public void AddChicken(int breed)
         {
-            Chicken newchiken = new Chicken(_collection.Farm,breed);
+            Chicken newchiken = new Chicken(_collection.Farm, breed);
             _chickens.Add(newchiken);
         }
 
         public void Update()
         {
-            foreach (var item in _chickens)
+            foreach (Chicken item in _chickens)
             {
                 item.update();
+                if (item.CheckIfStarving() && !FindDyingChicken(item))
+                {
+                    _dyingChickens.Add(item);
+                }
             }
+            if (!CheckIfAllDyingAreFed())
+            {
+                KillStarvingChicken();
+            }
+        }
+
+        internal bool CheckIfAllDyingAreFed()
+        {
+            foreach (Chicken chicken in _dyingChickens)
+            {
+                if (chicken.Hunger <= 25) return false;
+            }
+            return true;
+        }
+
+        internal void KillStarvingChicken()
+        {
+            foreach (var chicken in _dyingChickens)
+            {
+                if (chicken.Hunger <= 0)
+                {
+                    chicken.Die();
+                    _chickens.Remove(chicken);
+                }
+            }
+            _dyingChickens.Clear();
+        }
+
+        internal bool FindDyingChicken(Chicken chickenParam)
+        {
+            foreach (Chicken chicken in _dyingChickens)
+            {
+                if (chickenParam == chicken) return true; 
+            }
+            return false;
         }
 
         public int ChickenCount => _chickens.Count;
         public string Id => _id;
-        internal HenhouseCollections Collection  => _collection; 
+        internal HenhouseCollections Collection => _collection;
         public int Limit => _limit;
         internal List<Chicken> Chikens => _chickens;
         public int Lvl => _lvl;
+        public int CountDyingChickens => _dyingChickens.Count;
     }
 }

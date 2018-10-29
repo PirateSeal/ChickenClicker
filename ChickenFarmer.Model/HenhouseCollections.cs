@@ -55,7 +55,7 @@ namespace ChickenFarmer.Model
         public int ChickenCount()
         {
             int count = 0;
-            foreach (var item in _HenHouses)
+            foreach (var item in Henhouses)
             {
                 count += item.ChickenCount;
             }
@@ -69,10 +69,5 @@ namespace ChickenFarmer.Model
                 item.Update();
             }
         }
-
-
-
-       
-
     }
 }
