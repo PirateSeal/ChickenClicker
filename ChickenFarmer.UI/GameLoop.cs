@@ -19,7 +19,7 @@ namespace ChickenFarmer.UI
 
         public GameLoop()
         {
-            _farmUI = new FarmUI(this);
+            
             _window = new RenderWindow(new VideoMode(800, 600), "ChickenFarmer", Styles.Titlebar);
             _window.SetFramerateLimit(60);
 
@@ -43,9 +43,9 @@ namespace ChickenFarmer.UI
             Shape _square = new RectangleShape(size);
             
             _square.FillColor = Color.Red;
-            Texture texture = new Texture("C:/Users/Wazaa/Desktop/Chicken Farmer/farm_background.jpg");
+            Texture texture = new Texture("../../../../Data/farm_background.jpg");
             
-            Sprite sprite = new Sprite(texture);
+            Sprite background = new Sprite(texture);
             
             
             
@@ -60,7 +60,7 @@ namespace ChickenFarmer.UI
                 }
                 _window.Clear();
                 _window.Draw(_square);
-                _window.Draw(sprite);
+                _window.Draw(background);
                 _window.Display();
                 Update();
                 
