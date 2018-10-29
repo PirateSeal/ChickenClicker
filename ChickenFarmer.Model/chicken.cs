@@ -5,16 +5,16 @@
         private int _breed;
         private string _id;
         private int _hunger;
-        Farm _farm;
         FarmOptions _farmOptions;
+        Henhouse _ctxHouse;
 
-        public Chicken(Farm farm, int breed)
+        public Chicken(Henhouse ctxHouse, int breed)
         {
             _breed = breed;
             _farmOptions = new FarmOptions();
             _id = System.Guid.NewGuid().ToString();
             _hunger = 100;
-            _farm = farm;
+            _ctxHouse = ctxHouse;
         }
 
         public int Type => _breed;
@@ -27,7 +27,8 @@
 
         public void ChickenFeed()
         {
-            _farm.FoodStock -= Type * _farmOptions.DefaultFoodConsumption;
+
+            _ctxHouse.CtxCollection.CtxFarm.FoodStock -= Type * _farmOptions.DefaultFoodConsumption;
             Hunger = 100;
         }
 
@@ -42,10 +43,10 @@
 
         internal void Die()
         {
-            _farm = null;
+            _ctxHouse.CtxCollection.CtxFarm = null;
         }
 
-        private void Lay() => _farm.addEgg();
+        private void Lay() => _ctxHouse.CtxCollection.CtxFarm.addEgg();
         public int Hunger
         {
             get => _hunger;

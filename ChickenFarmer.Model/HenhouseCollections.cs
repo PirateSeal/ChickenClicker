@@ -9,8 +9,10 @@ namespace ChickenFarmer.Model
    public class HenhouseCollections
     {
         private  List<Henhouse> _HenHouses;
-        private Farm _farm;
-        internal Farm Farm { get => _farm;}
+        private Farm _ctxFarm;
+
+     
+
         readonly FarmOptions _options;
 
 
@@ -19,7 +21,8 @@ namespace ChickenFarmer.Model
             _options = new FarmOptions();
             _HenHouses = new List<Henhouse>(_options.DefaultCapacity);
             AddHouse();
-            _farm = farm; 
+            AddChicken(_HenHouses[0], 1);
+            CtxFarm = farm; 
         }
 
         public void UpgradeHouse(Henhouse house)
@@ -51,6 +54,8 @@ namespace ChickenFarmer.Model
         public int Count() => _HenHouses.Count();
 
         public List<Henhouse> Henhouses => _HenHouses;
+
+        public Farm CtxFarm { get => _ctxFarm; set => _ctxFarm = value; }
 
         public int ChickenCount()
         {

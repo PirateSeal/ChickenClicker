@@ -8,7 +8,7 @@ namespace ChickenFarmer.Model
         int _lvl;
         List<Chicken> _chickens;
         string _id;
-        HenhouseCollections _collection;
+        HenhouseCollections _ctxCollection;
         readonly FarmOptions _options;
         int _limit;
         List<Chicken> _dyingChickens;
@@ -16,7 +16,7 @@ namespace ChickenFarmer.Model
         public Henhouse(HenhouseCollections collections, int limit)
         {
             _options = new FarmOptions();
-            _collection = collections;
+            _ctxCollection = collections;
             _id = System.Guid.NewGuid().ToString();
             _lvl = 0;
             _limit = _options.DefaultHenHouseLimit;
@@ -35,7 +35,7 @@ namespace ChickenFarmer.Model
 
         public void AddChicken(int breed)
         {
-            Chicken newchiken = new Chicken(_collection.Farm, breed);
+            Chicken newchiken = new Chicken(this, breed);
             _chickens.Add(newchiken);
         }
 
@@ -88,7 +88,7 @@ namespace ChickenFarmer.Model
 
         public int ChickenCount => _chickens.Count;
         public string Id => _id;
-        internal HenhouseCollections Collection => _collection;
+        internal HenhouseCollections CtxCollection => _ctxCollection;
         public int Limit => _limit;
         internal List<Chicken> Chikens => _chickens;
         public int Lvl => _lvl;

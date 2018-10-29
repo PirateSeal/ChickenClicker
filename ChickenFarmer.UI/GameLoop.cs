@@ -22,7 +22,7 @@ namespace ChickenFarmer.UI
             _farmUI = new FarmUI(this);
             _window = new RenderWindow(new VideoMode(800, 600), "ChickenFarmer", Styles.Titlebar);
             _window.SetFramerateLimit(60);
-
+            _farmUI = new FarmUI(this);
         }
 
         public RenderWindow Window { get => _window; set => _window = value; }
@@ -58,6 +58,7 @@ namespace ChickenFarmer.UI
                 //_window.Draw(_square);
                 //_window.Draw(background);
                 _window.Display();
+                _farmUI.DrawInfo();
                 Update();
                 
 

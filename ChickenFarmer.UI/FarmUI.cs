@@ -22,7 +22,7 @@ namespace ChickenFarmer.UI
             farm = new Farm();
             _ctx = ctx;
             font = new Font(fontlocation);
-
+            
         }
 
 
@@ -37,7 +37,7 @@ namespace ChickenFarmer.UI
             string infoToPrint = "";
             foreach (var item in info)
             {
-                infoToPrint += item.ToString();
+                infoToPrint += "  "+item.ToString();
             }
             Text text = new Text(infoToPrint, font);
             _ctx.Window.Draw(text);

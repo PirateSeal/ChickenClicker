@@ -12,7 +12,7 @@ namespace ChickenFarmer.Model
         int _chickentToFeed;
         readonly FarmOptions _options;
         HenhouseCollections _Houses;
-        Market market;
+        Market _market;
 
         public Farm()
         {
@@ -23,7 +23,7 @@ namespace ChickenFarmer.Model
             _chickencount = 0;
             _chickentToFeed = 0;
             _Houses = new HenhouseCollections(this);
-            market = new Market(this);
+            _market = new Market(this);
         }
 
         internal FarmOptions Options => _options;
@@ -31,7 +31,7 @@ namespace ChickenFarmer.Model
         public int Money { get => _money; set => _money = value; }
         public int TotalEgg { get => _TotalEgg; set => _TotalEgg = value; }
         public HenhouseCollections Houses => _Houses;
-        public Market Market => market;
+        public Market Market => _market;
 
         public void addEgg() => _TotalEgg++;
 
