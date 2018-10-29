@@ -38,7 +38,7 @@ namespace ChickenFarmer.UI
             Init();
             Vector2f size = new Vector2f(800f, 600f);
             Shape _square = new RectangleShape(size);
-            _square.
+            
             _square.FillColor = Color.Red;
             Texture texture = new Texture("C:/Users/Wazaa/Desktop/Chicken Farmer/farm_background.jpg");
             
