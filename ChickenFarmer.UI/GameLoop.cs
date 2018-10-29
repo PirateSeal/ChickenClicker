@@ -54,11 +54,12 @@ namespace ChickenFarmer.UI
                     _window.Close();
                 }
                 _window.Clear();
+                
+                _window.Draw(_square);
+                _window.Draw(background);
                 _farmUI.DrawInfo();
-                //_window.Draw(_square);
-                //_window.Draw(background);
                 _window.Display();
-                _farmUI.DrawInfo();
+               
                 Update();
                 
 

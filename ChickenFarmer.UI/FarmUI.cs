@@ -37,7 +37,7 @@ namespace ChickenFarmer.UI
             string infoToPrint = "";
             foreach (var item in info)
             {
-                infoToPrint += "  "+item.ToString();
+                infoToPrint += "  " +item.ToString();
             }
             Text text = new Text(infoToPrint, font);
             _ctx.Window.Draw(text);
