@@ -19,7 +19,7 @@ namespace ChickenFarmer.UI
 
         public GameLoop()
         {
-            
+            _farmUI = new FarmUI(this);
             _window = new RenderWindow(new VideoMode(800, 600), "ChickenFarmer", Styles.Titlebar);
             _window.SetFramerateLimit(60);
 
@@ -39,18 +39,13 @@ namespace ChickenFarmer.UI
         public void Run()
         {
             Init();
+
             Vector2f size = new Vector2f(800f, 600f);
             Shape _square = new RectangleShape(size);
-            
             _square.FillColor = Color.Red;
             Texture texture = new Texture("../../../../Data/farm_background.jpg");
-            
             Sprite background = new Sprite(texture);
             
-            
-            
-
-
             while (_window.IsOpen)
             {
                 
@@ -59,8 +54,9 @@ namespace ChickenFarmer.UI
                     _window.Close();
                 }
                 _window.Clear();
-                _window.Draw(_square);
-                _window.Draw(background);
+                _farmUI.DrawInfo();
+                //_window.Draw(_square);
+                //_window.Draw(background);
                 _window.Display();
                 Update();
                 
@@ -74,7 +70,7 @@ namespace ChickenFarmer.UI
             DateTime current = DateTime.Now;
             if (_old.Add(_interval) < current)
             {
-                Console.WriteLine("HelloWord");
+                _farmUI.update();
                 _old = current;
             }
         }

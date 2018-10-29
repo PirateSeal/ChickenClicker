@@ -34,12 +34,13 @@ namespace ChickenFarmer.UI
         public void DrawInfo()
         {
             int[] info = farm.UIinfo();
+            string infoToPrint = "";
             foreach (var item in info)
             {
-                Text text = new Text(item.ToString(), font, 30);
-                text.FillColor = Color.White;
-                _ctx.Window.Draw(text);
+                infoToPrint += item.ToString();
             }
+            Text text = new Text(infoToPrint, font);
+            _ctx.Window.Draw(text);
         }
 
     }
