@@ -51,7 +51,7 @@ namespace ChickenFarmer.Model
 
                     case "buyhenhouse":
                         {
-                            farm.Market.BuyHenhouse(farm);
+                            farm.Market.BuyHenhouse();
                             break;
                         }
                     case "sellegg":

@@ -12,8 +12,9 @@ namespace ChickenFarmer.Tests
         public void Farm_Check_Default_Money()
         {
             Farm farm = new Farm();
+            FarmOptions farmOptions = new FarmOptions();
 
-            Assert.That(farm.Money == Enum.Farm.DefaultMoney);
+            Assert.That(farm.Money == farmOptions.DefaultMoney);
         }
 
         [Test]

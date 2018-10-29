@@ -13,10 +13,11 @@ namespace ChickenFarmer.Tests
         {
             Farm farm = new Farm();
             farm.Houses.AddHouse();
+            FarmOptions farmOptions = new FarmOptions();
 
             foreach (Henhouse item in farm.Houses.Henhouses)
             {
-                Assert.That(item.Limit == Model.Enum.HenhouseCollection.defaultCapacity);
+                Assert.That(item.Limit == farmOptions.DefaultHenHouseLimit);
             }
         }
 

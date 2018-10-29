@@ -9,6 +9,9 @@ namespace ChickenFarmer.Model
         int _defaultLayByMinute;
         int[] _defaultChickenCost;
         int _defaultHenHouseCost;
+        int _defaultFoodStock;
+        int _foodPrice;
+        int _defaultFoodConsumption;
 
 
 
@@ -22,50 +25,56 @@ namespace ChickenFarmer.Model
             _defaultLayByMinute = 0;
             _defaultChickenCost = new int[] { 10, 20, 30, 40 };
             _defaultHenHouseCost = 150;
+            _defaultFoodStock = 0;
+            _foodPrice = 3;
+            _defaultFoodConsumption = 2;
         }
 
         public int DefaultMoney
         {
-            get { return _defaultMoney; }
-            set { _defaultMoney = value; }
+            get => _defaultMoney;
+            set => _defaultMoney = value;
         }
 
         public int DefaultCapacity
         {
-            get { return _defaultCapacity; }
-            set { _defaultCapacity = value; }
+            get => _defaultCapacity;
+            set => _defaultCapacity = value;
         }
 
         public int DefaultHenHouseLimit
         {
-            get { return _defaultCapacity; }
-            set { _defaultHenhouseLimit = value; }
+            get => _defaultHenhouseLimit;
+            set => _defaultHenhouseLimit = value;
         }
 
         public int[] UpgradeHouseCost
         {
-            get { return _upgradeHouseCost; }
-            set { _upgradeHouseCost = value; }
+            get => _upgradeHouseCost;
+            set => _upgradeHouseCost = value;
         }
 
         public int DefaultLayByMinute
         {
-            get { return _defaultLayByMinute; }
-            set { _defaultLayByMinute = value; }
+            get => _defaultLayByMinute;
+            set => _defaultLayByMinute = value;
         }
 
         public int[] DefaultChickenCost
         {
-            get { return _defaultChickenCost; }
-            set { _defaultChickenCost = value; }
+            get => _defaultChickenCost;
+            set => _defaultChickenCost = value;
         }
 
         public int DefaultHenHouseCost
         {
-            get { return _defaultHenHouseCost; }
-            set { _defaultHenHouseCost = value; }
+            get => _defaultHenHouseCost;
+            set => _defaultHenHouseCost = value;
         }
 
+        public int DefaultFoodStock => _defaultFoodStock;
+        public int FoodPrice => _foodPrice;
+        public int DefaultFoodConsumption => _defaultFoodConsumption;
 
         /*
         public struct Chicken

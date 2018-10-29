@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ChickenFarmer.Model
+﻿namespace ChickenFarmer.Model
 {
     public class Market
     {
@@ -16,26 +14,22 @@ namespace ChickenFarmer.Model
         public void UpgradeHouse(Henhouse house)
         {
             int lvl = house.Lvl;
-            if(farm.Money < _options.UpgradeHouseCost[lvl + 1] && lvl < _options.UpgradeHouseCost.Length )
+            if (farm.Money > _options.UpgradeHouseCost[lvl] && lvl < _options.UpgradeHouseCost.Length)
             {
                 farm.Houses.UpgradeHouse(house);
+                farm.Money -= _options.UpgradeHouseCost[lvl];
             }
-            //verif argent joueur  + verif max lvl + drécrediter joueur + ajouter lvl 
         }
 
         public bool BuyChicken(Henhouse house, int amount, int breed)
         {
             for (int i = 0; i < amount; i++)
             {
-
-                if (house.Chikens.Count <= house.Chikens.Capacity && _options.DefaultChickenCost[breed] <= farm.Money)
+                if (house.Chikens.Count < house.Limit && _options.DefaultChickenCost[breed] <= farm.Money)
                 {
-
-
                     farm.Money -= _options.DefaultChickenCost[breed];
                     farm.Houses.AddChicken(house, breed);
                 }
-                else { return false; }
             }
             return true;
         }
@@ -47,10 +41,23 @@ namespace ChickenFarmer.Model
             farm.Money += money;
         }
 
-        internal void BuyHenhouse(Farm farm)
+        public void BuyFood(int amount)
         {
-            farm.Houses.AddHouse();
-            int money = 2 * farm.TotalEgg;
+            if (farm.Money > _options.FoodPrice * amount)
+            {
+                farm.Money -= _options.FoodPrice * amount;
+                farm.FoodStock += amount;
+            }
+        }
+
+        public void BuyHenhouse()
+        {
+
+            if (farm.Money > _options.DefaultHenHouseCost && farm.Houses.Count() < _options.DefaultCapacity)
+            {
+                farm.Money -= _options.DefaultHenHouseCost;
+                farm.Houses.AddHouse();
+            }
         }
     }
 }
