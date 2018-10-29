@@ -17,7 +17,7 @@
             _farm = farm;
         }
 
-        // public int Type => _breed;
+        public int Type => _breed;
 
         public void update()
         {

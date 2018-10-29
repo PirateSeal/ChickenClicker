@@ -11,5 +11,9 @@
     <PackageReference Include="ITI.SFML.System" Version="0.1.0" />
     <PackageReference Include="ITI.SFML.Window" Version="0.1.0" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\ChickenFarmer.Model\ChickenFarmer.Model.csproj" />
+  </ItemGroup>
 
 </Project>

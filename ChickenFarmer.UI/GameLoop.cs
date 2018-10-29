@@ -14,15 +14,18 @@ namespace ChickenFarmer.UI
         Event _input;
         TimeSpan _interval = new TimeSpan(0, 0, 0, 0, 100);
         DateTime _old = DateTime.Now;
+        FarmUI _farmUI;
 
 
         public GameLoop()
         {
-
+            _farmUI = new FarmUI(this);
             _window = new RenderWindow(new VideoMode(800, 600), "ChickenFarmer", Styles.Titlebar);
             _window.SetFramerateLimit(60);
 
         }
+
+        public RenderWindow Window { get => _window; set => _window = value; }
 
         public static void Init()
         {
@@ -60,6 +63,7 @@ namespace ChickenFarmer.UI
                 _window.Draw(sprite);
                 _window.Display();
                 Update();
+                
 
             }
         }
@@ -74,5 +78,7 @@ namespace ChickenFarmer.UI
                 _old = current;
             }
         }
+
+       
     }
 }

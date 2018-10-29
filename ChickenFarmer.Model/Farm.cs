@@ -81,5 +81,10 @@ namespace ChickenFarmer.Model
             get => _chickentToFeed;
             set => _chickentToFeed = value;
         }
+
+        public int[] UIinfo()
+        {
+            return new int[] { _money, _TotalEgg, Chickencount };
+        }
     }
 }
