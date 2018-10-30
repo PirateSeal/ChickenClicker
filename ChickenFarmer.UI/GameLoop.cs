@@ -10,6 +10,7 @@ namespace ChickenFarmer.UI
 
     public class GameLoop
     {
+        InputHandler _playerInput;
         RenderWindow _window;
         Event _input;
         TimeSpan _interval = new TimeSpan(0, 0, 0, 0, 100);
@@ -19,10 +20,12 @@ namespace ChickenFarmer.UI
 
         public GameLoop()
         {
+
             _farmUI = new FarmUI(this);
             _window = new RenderWindow(new VideoMode(800, 600), "ChickenFarmer", Styles.Titlebar);
             _window.SetFramerateLimit(60);
             _farmUI = new FarmUI(this);
+            _playerInput = new InputHandler(this);
         }
 
         public RenderWindow Window { get => _window; set => _window = value; }
@@ -48,13 +51,8 @@ namespace ChickenFarmer.UI
             
             while (_window.IsOpen)
             {
-                
-                if (Keyboard.IsKeyPressed(Keyboard.Key.Escape))
-                {
-                    _window.Close();
-                }
+                _playerInput.Handle();
                 _window.Clear();
-                
                 _window.Draw(_square);
                 _window.Draw(background);
                 _farmUI.DrawInfo();

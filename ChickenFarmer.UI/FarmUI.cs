@@ -35,10 +35,25 @@ namespace ChickenFarmer.UI
         {
             int[] info = farm.UIinfo();
             string infoToPrint = "";
-            foreach (var item in info)
+
+            int i;
+            for (i = 0; i < 3; i++)
             {
-                infoToPrint += "  " +item.ToString();
+                if (i == 0)
+                {
+                    infoToPrint += "Argent : " + info[i].ToString() + "\n";
+                }
+                else if (i == 1)
+                {
+                    infoToPrint += "Oeufs : " + info[i].ToString() + "\n";
+                }
+                else if ( i == 2 )
+                {
+                    infoToPrint += "Poules : " + info[i].ToString() + "\n";
+                }
             }
+
+            
             Text text = new Text(infoToPrint, font);
             _ctx.Window.Draw(text);
         }

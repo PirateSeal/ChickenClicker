@@ -4,7 +4,7 @@
     {
         private int _breed;
         private string _id;
-        private int _hunger;
+        private float _hunger;
         FarmOptions _farmOptions;
         Henhouse _ctxHouse;
 
@@ -21,7 +21,7 @@
 
         public void update()
         {
-            Hunger--;
+            Hunger -= 0.1f;
             Lay();
         }
 
@@ -47,7 +47,7 @@
         }
 
         private void Lay() => _ctxHouse.CtxCollection.CtxFarm.addEgg();
-        public int Hunger
+        public float Hunger
         {
             get => _hunger;
             set => _hunger = value;
