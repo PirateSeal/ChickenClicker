@@ -29,14 +29,14 @@ namespace ChickenFarmer.Tests
             farm.Market.BuyChicken(henhouse, 1, 0);
             for (int i = 0; i < 101; i++)
             {
-                farm.update();
+                farm.Update();
             }
 
             Assert.That(henhouse.ChickenCount == 0);
         }
 
         [Test]
-        public void Feed_All_chicken()
+        public void Feed_All_chicken_In_One_Henhouse()
         {
             Farm farm = new Farm();
             var henhouse = farm.Houses.Henhouses[0];
@@ -45,15 +45,13 @@ namespace ChickenFarmer.Tests
             farm.Market.BuyChicken(henhouse, 5, 0);
             for (int i = 0; i < 85; i++)
             {
-                farm.update();
+                farm.Update();
             }
 
-            Console.WriteLine(farm.ChickenToFeed);
-            farm.Market.BuyFood(60);
-            farm.FeedAllChicken();
+            farm.Market.BuyFood(60,Market.StorageType.Seed);
+            henhouse.FeedChicken();
 
-            farm.update();
-            Console.WriteLine(farm.ChickenToFeed);
+            farm.Update();
             foreach (var item in farm.Houses.Henhouses)
             {
                 Assert.That(item.CountDyingChickens == 0);

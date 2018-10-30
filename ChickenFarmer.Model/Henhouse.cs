@@ -1,23 +1,20 @@
-using System;
 using System.Collections.Generic;
 
 namespace ChickenFarmer.Model
 {
     public class Henhouse
     {
-        int _lvl;
+        HenhouseCollections _ctx;
+        FarmOptions _options;
         List<Chicken> _chickens;
-        string _id;
-        HenhouseCollections _collection;
-        readonly FarmOptions _options;
-        int _limit;
         List<Chicken> _dyingChickens;
+        int _lvl;
+        int _limit;
 
-        public Henhouse(HenhouseCollections collections, int limit)
+        public Henhouse(HenhouseCollections henhouseCollections, FarmOptions farmOptions, int limit)
         {
-            _options = new FarmOptions();
-            _collection = collections;
-            _id = System.Guid.NewGuid().ToString();
+            _options = farmOptions;
+            _ctx = henhouseCollections;
             _lvl = 0;
             _limit = _options.DefaultHenHouseLimit;
             _chickens = new List<Chicken>(_limit * _lvl);
@@ -33,9 +30,20 @@ namespace ChickenFarmer.Model
             _chickens.Capacity = newLimit;
         }
 
+        public void FeedChicken()
+        {
+            if (Collection.Farm.Storage.SeedCapacity >= CountDyingChickens)
+            {
+                foreach (var chicken in Chikens)
+                {
+                    chicken.ChickenFeed();
+                }
+            }
+        }
+
         public void AddChicken(int breed)
         {
-            Chicken newchiken = new Chicken(_collection.Farm, breed);
+            Chicken newchiken = new Chicken(this, _options, breed);
             _chickens.Add(newchiken);
         }
 
@@ -43,8 +51,8 @@ namespace ChickenFarmer.Model
         {
             foreach (Chicken item in _chickens)
             {
-                item.update();
-                if (item.CheckIfStarving() && !FindDyingChicken(item))
+                item.Update();
+                if (item.CheckIfStarving&& !FindDyingChicken(item))
                 {
                     _dyingChickens.Add(item);
                 }
@@ -81,16 +89,15 @@ namespace ChickenFarmer.Model
         {
             foreach (Chicken chicken in _dyingChickens)
             {
-                if (chickenParam == chicken) return true; 
+                if (chickenParam == chicken) return true;
             }
             return false;
         }
 
-        public int ChickenCount => _chickens.Count;
-        public string Id => _id;
-        internal HenhouseCollections Collection => _collection;
-        public int Limit => _limit;
+        internal HenhouseCollections Collection => _ctx;
         internal List<Chicken> Chikens => _chickens;
+        public int ChickenCount => _chickens.Count;
+        public int Limit => _limit;
         public int Lvl => _lvl;
         public int CountDyingChickens => _dyingChickens.Count;
     }
