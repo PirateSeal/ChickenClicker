@@ -6,36 +6,17 @@ namespace ChickenFarmer.Tests
     [TestFixture]
     class FarmTests
     {
-        #region Farm_Creation
-
         [Test]
-        public void Farm_Check_Default_Money()
+        public void Create_Farm()
         {
             Farm farm = new Farm();
 
-            Assert.That(farm.Money == Enum.Farm.DefaultMoney);
-        }
-
-        [Test]
-        public void Farm_Check_Default_Egg()
-        {
-            Farm farm = new Farm();
-
+            Assert.That(farm.Storage.SeedCapacity == 1000);
+            Assert.That(farm.Money == 100);
             Assert.That(farm.TotalEgg == 0);
+            Assert.That(farm.Houses.Henhouses.Count == 1);
+            Assert.That(farm.Chickencount == 0);
         }
 
-        #endregion
-
-        #region Farm_Edit
-        [Test]
-        public void Add_Money()
-        {
-            Farm farm = new Farm();
-
-            farm.Money = 5000;
-
-            Assert.That(farm.Money == 5000);
-        }
-        #endregion
     }
 }

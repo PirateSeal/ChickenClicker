@@ -13,7 +13,7 @@ namespace ChickenFarmer.Model
 
             Console.WriteLine("Hello");
             Farm farm = new Farm();
-            farm.info();
+            farm.Info();
             Henhouse house = farm.Houses.AddHouse();
             bool  titi =  farm.Market.BuyChicken(house, 3,1);
 
@@ -28,7 +28,7 @@ namespace ChickenFarmer.Model
             while (game)
             {                        
                 Console.Clear();
-                farm.info();
+                farm.Info();
                 Console.WriteLine("enter a command  :");
                 string input = Console.ReadLine();
                 switch (input)
@@ -51,7 +51,7 @@ namespace ChickenFarmer.Model
 
                     case "buyhenhouse":
                         {
-                            farm.Market.BuyHenhouse(farm);
+                            farm.Market.BuyHenhouse();
                             break;
                         }
                     case "sellegg":
@@ -61,7 +61,7 @@ namespace ChickenFarmer.Model
                         }
                     case "info":
                         {
-                            farm.info();
+                            farm.Info();
                             break;
                         }
                     case "stop":
@@ -75,8 +75,8 @@ namespace ChickenFarmer.Model
 
                     default:
                         Console.WriteLine("updated");
-                        farm.update();
-                        farm.info();
+                        farm.Update();
+                        farm.Info();
                         break;
                 }
                 

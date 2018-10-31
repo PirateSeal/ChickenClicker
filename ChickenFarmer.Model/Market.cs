@@ -7,35 +7,110 @@ namespace ChickenFarmer.Model
         Farm farm;
         FarmOptions _options;
 
-        public Market(Farm ctx)
+        public enum StorageType: byte
         {
-            _options = new FarmOptions();
+            None = 0,
+            Seed = 1,
+            Vegetable = 2,
+            Meat = 3,
+            Egg = 4
+        }
+
+        public Market(Farm ctx, FarmOptions farmOptions)
+        {
+            _options = farmOptions;
             farm = ctx;
         }
 
         public void UpgradeHouse(Henhouse house)
         {
             int lvl = house.Lvl;
-            if(farm.Money < _options.UpgradeHouseCost[lvl + 1] && lvl < _options.UpgradeHouseCost.Length )
+            if (farm.Money > _options.UpgradeHouseCost[lvl] && lvl < _options.UpgradeHouseCost.Length)
             {
                 farm.Houses.UpgradeHouse(house);
+                farm.Money -= _options.UpgradeHouseCost[lvl];
             }
-            //verif argent joueur  + verif max lvl + drécrediter joueur + ajouter lvl 
+        }
+
+        public void UpgradeStorage(StorageType storageType)
+        {
+            switch (storageType)
+            {
+                case StorageType.Seed:
+                    if (FarmStorage.SeedCapacityLevel < _options.DefaultStorageMaxLevel)
+                    {
+                        farm.Money -= _options.DefaultStorageUpgradeCost * (FarmStorage.SeedCapacityLevel + 1);
+                        FarmStorage.SeedMaxCapacity *= 2;
+                        FarmStorage.SeedCapacityLevel++;
+                    }
+                    break;
+                case StorageType.Vegetable:
+                    if (FarmStorage.VegetableCapacityLevel < _options.DefaultStorageMaxLevel)
+                    {
+                        farm.Money -= _options.DefaultStorageUpgradeCost * (FarmStorage.VegetableCapacityLevel + 1);
+                        FarmStorage.VegetableMaxCapacity *= 2;
+                        FarmStorage.VegetableCapacityLevel++;
+                    }
+                    break;
+                case StorageType.Meat:
+                    if (FarmStorage.MeatCapacityLevel < _options.DefaultStorageMaxLevel)
+                    {
+                        farm.Money -= _options.DefaultStorageUpgradeCost * (FarmStorage.MeatCapacityLevel + 1);
+                        FarmStorage.MeatMaxCapacity *= 2;
+                        FarmStorage.MeatCapacityLevel++;
+                    }
+                    break;
+                case StorageType.Egg:
+                    if (FarmStorage.EggCapacityLevel < _options.DefaultStorageMaxLevel)
+                    {
+                        farm.Money -= _options.DefaultStorageUpgradeCost * (FarmStorage.EggCapacityLevel + 1);
+                        FarmStorage.EggMaxCapacity *= 2;
+                        FarmStorage.EggCapacityLevel++;
+                    }
+                    break;
+                default:
+                    throw new ArgumentException("Invalid food argument given", nameof(StorageType));
+            }
+        }
+        public void BuyFood(int amount, StorageType food)
+        {
+            switch (food)
+            {
+                case StorageType.Seed:
+                    if (farm.Money > _options.SeedPrice * amount)
+                    {
+                        farm.Money -= _options.SeedPrice * amount;
+                        FarmStorage.SeedCapacity += amount;
+                    }
+                    break;
+                case StorageType.Vegetable:
+                    if (farm.Money > _options.VegetablePrice * amount)
+                    {
+                        farm.Money -= _options.VegetablePrice * amount;
+                        FarmStorage.VegetableCapacity += amount;
+                    }
+                    break;
+                case StorageType.Meat:
+                    if (farm.Money > _options.MeatPrice * amount)
+                    {
+                        farm.Money -= _options.MeatPrice * amount;
+                        FarmStorage.MeatCapacity += amount;
+                    }
+                    break;
+                default:
+                    throw new ArgumentException("Invalid type of food given", nameof(StorageType));
+            }
         }
 
         public bool BuyChicken(Henhouse house, int amount, int breed)
         {
             for (int i = 0; i < amount; i++)
             {
-
-                if (house.Chikens.Count <= house.Chikens.Capacity && _options.DefaultChickenCost[breed] <= farm.Money)
+                if (house.Chikens.Count < house.Limit && _options.DefaultChickenCost[breed] <= farm.Money)
                 {
-
-
                     farm.Money -= _options.DefaultChickenCost[breed];
                     farm.Houses.AddChicken(house, breed);
                 }
-                else { return false; }
             }
             return true;
         }
@@ -47,10 +122,15 @@ namespace ChickenFarmer.Model
             farm.Money += money;
         }
 
-        internal void BuyHenhouse(Farm farm)
+        public void BuyHenhouse()
         {
-            farm.Houses.AddHouse();
-            int money = 2 * farm.TotalEgg;
+
+            if (farm.Money > _options.DefaultHenHouseCost && farm.Houses.Count() < _options.DefaultCapacity)
+            {
+                farm.Money -= _options.DefaultHenHouseCost;
+                farm.Houses.AddHouse();
+            }
         }
+        private Storage FarmStorage => farm.Storage;
     }
 }
