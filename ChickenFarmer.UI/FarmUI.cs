@@ -14,16 +14,23 @@ namespace ChickenFarmer.UI
         Farm farm;
         GameLoop _ctx;
         Font font;
+        henhouseUI _henhouses;
+
+
         string fontlocation = "../../../../Data/pricedown.ttf";
 
         public Farm Farm { get => farm; set => farm = value; }
+        internal henhouseUI Henhouses { get => _henhouses;}
 
         public FarmUI(GameLoop ctx)
         {
             farm = new Farm();
+
+            _henhouses = new henhouseUI(this,ctx);
+            _henhouses.CreateHouses();
+
             _ctx = ctx;
             font = new Font(fontlocation);
-            
         }
 
 

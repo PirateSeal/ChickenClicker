@@ -16,8 +16,9 @@ namespace ChickenFarmer.UI
         TimeSpan _interval = new TimeSpan(0, 0, 0, 0, 100);
         DateTime _old = DateTime.Now;
         FarmUI _farmUI;
-        GUI _gui;
-
+        HouseMenu _houseMenu;
+        
+        
 
         public GameLoop()
         {
@@ -27,12 +28,12 @@ namespace ChickenFarmer.UI
 
             _farmUI = new FarmUI(this);
             _playerInput = new InputHandler(this);
-            _gui = new GUI(this);
+            _houseMenu = new HouseMenu(this);
 
         }
 
         public RenderWindow Window { get => _window; set => _window = value; }
-        public GUI Gui { get => _gui; set => _gui = value; }
+        public HouseMenu HouseMenu { get => _houseMenu; set => _houseMenu = value; }
         internal FarmUI FarmUI { get => _farmUI; set => _farmUI = value; }
 
         public static void Init()
@@ -66,16 +67,17 @@ namespace ChickenFarmer.UI
             while (_window.IsOpen)
             {
 
-              
 
-                    
+
 
 
                 _playerInput.Handle();
                 _window.Clear();
                 _window.Draw(_square);
                 _window.Draw(background);
-                _gui.DrawGui();
+                _farmUI.Henhouses.Drawhouses();
+
+                _houseMenu.DrawGui();
                 _farmUI.DrawInfo();
                 _window.Display();
                
