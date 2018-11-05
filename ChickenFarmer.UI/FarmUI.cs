@@ -16,6 +16,7 @@ namespace ChickenFarmer.UI
         Font font;
         string fontlocation = "../../../../Data/pricedown.ttf";
 
+        public Farm Farm { get => farm; set => farm = value; }
 
         public FarmUI(GameLoop ctx)
         {

@@ -16,19 +16,24 @@ namespace ChickenFarmer.UI
         TimeSpan _interval = new TimeSpan(0, 0, 0, 0, 100);
         DateTime _old = DateTime.Now;
         FarmUI _farmUI;
+        GUI _gui;
 
 
         public GameLoop()
         {
+            _window = new RenderWindow(new VideoMode(1280, 720), "ChickenFarmer", Styles.Titlebar);
+            _window.SetFramerateLimit(60);
+
 
             _farmUI = new FarmUI(this);
-            _window = new RenderWindow(new VideoMode(800, 600), "ChickenFarmer", Styles.Titlebar);
-            _window.SetFramerateLimit(60);
-            _farmUI = new FarmUI(this);
             _playerInput = new InputHandler(this);
+            _gui = new GUI(this);
+
         }
 
         public RenderWindow Window { get => _window; set => _window = value; }
+        public GUI Gui { get => _gui; set => _gui = value; }
+        internal FarmUI FarmUI { get => _farmUI; set => _farmUI = value; }
 
         public static void Init()
         {
@@ -44,22 +49,41 @@ namespace ChickenFarmer.UI
             Init();
 
             Vector2f size = new Vector2f(800f, 600f);
+            Vector2f buttonsize = new Vector2f(80f, 60f);
+
+
             Shape _square = new RectangleShape(size);
             _square.FillColor = Color.Red;
             Texture texture = new Texture("../../../../Data/farm_background.jpg");
             Sprite background = new Sprite(texture);
-            
+
+
+            Shape _button = new RectangleShape(buttonsize);
+            _button.FillColor = Color.Blue;
+            _button.Position = size;
+
+
             while (_window.IsOpen)
             {
+
+              
+
+                    
+
+
                 _playerInput.Handle();
                 _window.Clear();
                 _window.Draw(_square);
                 _window.Draw(background);
+                _gui.DrawGui();
                 _farmUI.DrawInfo();
                 _window.Display();
                
                 Update();
-                
+
+
+
+           
 
             }
         }
