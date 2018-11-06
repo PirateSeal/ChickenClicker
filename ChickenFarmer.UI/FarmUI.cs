@@ -67,6 +67,7 @@ namespace ChickenFarmer.UI
             
             Text text = new Text(infoToPrint, font);
             _ctx.Window.Draw(text);
+            
         }
 
         public void DrawButtonSellEggs()

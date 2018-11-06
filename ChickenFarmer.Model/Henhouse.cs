@@ -15,7 +15,7 @@ namespace ChickenFarmer.Model
         {
             _options = farmOptions;
             _ctx = henhouseCollections;
-            _lvl = 0;
+            _lvl = 1;
             _limit = _options.DefaultHenHouseLimit;
             _chickens = new List<Chicken>(_limit * _lvl);
             _dyingChickens = new List<Chicken>();
@@ -25,10 +25,8 @@ namespace ChickenFarmer.Model
         {
             _lvl++;
             int newLimit;
-            newLimit = _limit * _lvl;
+            newLimit = _options.DefaultHenHouseLimit * _lvl;
             _limit = newLimit;
-
-            _chickens.Capacity = newLimit;
         }
 
         public void FeedChicken()

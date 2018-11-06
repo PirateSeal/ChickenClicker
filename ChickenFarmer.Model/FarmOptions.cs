@@ -5,7 +5,7 @@ namespace ChickenFarmer.Model
         int _defaultMoney;
         int _defaultCapacity;
         int _defaultHenhouseLimit;
-        int[] _upgradeHouseCost;
+        int _upgradeHouseCost;
         int _defaultLayByMinute;
         int[] _defaultChickenCost;
         int _defaultHenHouseCost;
@@ -28,13 +28,15 @@ namespace ChickenFarmer.Model
         readonly int _defaultVegetableMaxCapacity;
         readonly int _defaultMeatCapacity;
         readonly int _defaultMeatMaxCapacity;
+        readonly int _defaultMaxUpgrade;
 
         public FarmOptions()
         {
             _defaultMoney = 100;
             _defaultCapacity = 4;
             _defaultHenhouseLimit = 10;
-            _upgradeHouseCost = new int[] { 10, 20, 30, 40 };
+            _upgradeHouseCost = 10;
+            _defaultMaxUpgrade = 4;
             _defaultLayByMinute = 0;
             _defaultChickenCost = new int[] { 10, 20, 30, 40 };
             _defaultHenHouseCost = 150;
@@ -75,7 +77,7 @@ namespace ChickenFarmer.Model
             set => _defaultHenhouseLimit = value;
         }
 
-        public int[] UpgradeHouseCost
+        public int UpgradeHouseCost
         {
             get => _upgradeHouseCost;
             set => _upgradeHouseCost = value;
@@ -120,5 +122,7 @@ namespace ChickenFarmer.Model
 
         public int DefaultEggCapacity => _defaultEggCapacity;
         public int DefaultEggMaxCapacity => _defaultEggMaxCapacity;
+
+        public int DefaultMaxUpgrade => _defaultMaxUpgrade;
     }
 }

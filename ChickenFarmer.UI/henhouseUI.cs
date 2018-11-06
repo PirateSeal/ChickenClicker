@@ -41,7 +41,6 @@ namespace ChickenFarmer.UI
 
                 Shape house = new RectangleShape(buttonSize)
                 {
-                    FillColor = Color.Blue,
                     Position = buttonPos,
                     Texture = _houseTexture
                 };

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ChickenFarmer.Model;
 using System.Text;
 using SFML.Audio;
 using SFML.Graphics;
@@ -23,15 +24,23 @@ namespace ChickenFarmer.UI
         Shape _buttonHenHouseUpgrade;
         GameLoop _ctxGame;
 
+        
+
+
+
+
 
 
         public HouseMenu(GameLoop ctxGame)
         {
             _ctxGame = ctxGame;
+            
             drawState = false;
+
 
             _menu = new RectangleShape(_menuSize)
             {
+
                 FillColor = Color.Blue,
                 Position = _menuPos
             };
@@ -49,6 +58,9 @@ namespace ChickenFarmer.UI
             };
         }
 
+        
+
+
 
         public void DrawGui()
         {
@@ -57,6 +69,8 @@ namespace ChickenFarmer.UI
             if (drawState == true) _ctxGame.Window.Draw(_buttonHenHouseUpgrade);
 
         }
+
+
 
         public Shape Menu { get => _menu; }
         public Shape ButtonBuyChicken { get => _buttonBuyChicken; }

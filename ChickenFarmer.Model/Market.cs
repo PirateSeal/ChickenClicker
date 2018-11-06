@@ -25,11 +25,12 @@ namespace ChickenFarmer.Model
         public void UpgradeHouse(Henhouse house)
         {
             int lvl = house.Lvl;
-            if (farm.Money > _options.UpgradeHouseCost[lvl] && lvl < _options.UpgradeHouseCost.Length)
+            if (farm.Money > _options.UpgradeHouseCost * lvl && house.Lvl < _options.DefaultMaxUpgrade)
             {
                 house.Upgrade();
-                farm.Money -= _options.UpgradeHouseCost[lvl];
+                farm.Money -= _options.UpgradeHouseCost*lvl;
             }
+   
         }
 
         public void UpgradeStorage(StorageType storageType)
