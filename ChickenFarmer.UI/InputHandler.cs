@@ -23,6 +23,7 @@ namespace ChickenFarmer.UI
         {
             var Mpos = Mouse.GetPosition(_ctxGameLoop.Window);
             var _bound = _ctxGameLoop.HouseMenu.ButtonBuyChicken.GetGlobalBounds();
+
             var _houseBound = _ctxGameLoop.FarmUI.Henhouses.HousesList[0].GetGlobalBounds();
             var _buttonSellEggsBound = _ctxGameLoop.FarmUI.ButtonSellEggs.GetGlobalBounds();
             var _buttonHenHouseUpgradeBound = _ctxGameLoop.HouseMenu.ButtonHenHouseUpgrade.GetGlobalBounds();

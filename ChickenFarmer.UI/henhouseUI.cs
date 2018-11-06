@@ -12,13 +12,15 @@ namespace ChickenFarmer.UI
 {
     class henhouseUI
     {
+        
         FarmUI _ctxFarm;
         HouseMenu _menu;
-        Texture _houseTexture = new Texture("../../../../Data/house.png");
+        Texture _houseTexture = new Texture("../../../../Data/henhouse1.png");
+
         GameLoop _ctxGame;
         List<Shape> _housesList;
 
-        Vector2f buttonSize = new Vector2f(80f, 60f);
+        Vector2f buttonSize = new Vector2f(64f, 96f);
        public Vector2f buttonPos = new Vector2f(80f, 60f);
 
 
@@ -40,18 +42,26 @@ namespace ChickenFarmer.UI
                 Shape house = new RectangleShape(buttonSize)
                 {
                     FillColor = Color.Blue,
-                    Position = buttonPos
+                    Position = buttonPos,
+                    Texture = _houseTexture
                 };
+                
 
                 _housesList.Add(house);
             }
         }
 
 
+
         public void Drawhouses()
         {
             foreach (var item in _housesList)
             {
+                
+               
+
+                Texture _houseTexture = new Texture("../../../../Data/henhouse1.png");
+
                 _ctxGame.Window.Draw(item);
             }
         }

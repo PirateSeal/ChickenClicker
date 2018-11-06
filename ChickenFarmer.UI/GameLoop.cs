@@ -22,7 +22,7 @@ namespace ChickenFarmer.UI
 
         public GameLoop()
         {
-            _window = new RenderWindow(new VideoMode(1280, 720), "ChickenFarmer", Styles.Titlebar);
+            _window = new RenderWindow(new VideoMode(1280, 720), "ChickenFarmer", Styles.Default);
             _window.SetFramerateLimit(60);
 
 
