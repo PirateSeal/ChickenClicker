@@ -15,6 +15,7 @@ namespace ChickenFarmer.UI
         GameLoop _ctx;
         Font font;
         henhouseUI _henhouses;
+        Shape _buttonSellEggs;
 
 
         string fontlocation = "../../../../Data/pricedown.ttf";
@@ -28,9 +29,12 @@ namespace ChickenFarmer.UI
 
             _henhouses = new henhouseUI(this,ctx);
             _henhouses.CreateHouses();
+            
 
             _ctx = ctx;
             font = new Font(fontlocation);
+            DrawButtonSellEggs();
+
         }
 
 
@@ -60,11 +64,26 @@ namespace ChickenFarmer.UI
                     infoToPrint += "Poules : " + info[i].ToString() + "\n";
                 }
             }
-
             
             Text text = new Text(infoToPrint, font);
             _ctx.Window.Draw(text);
         }
+
+        public void DrawButtonSellEggs()
+        {
+            Vector2f buttonSize = new Vector2f(80f, 60f);
+            Vector2f buttonPos = new Vector2f(10f, 540f);
+            _buttonSellEggs = new RectangleShape(buttonSize)
+            {
+                FillColor = Color.Green,
+                Position = buttonPos
+            };
+
+            _ctx.Window.Draw(_buttonSellEggs);
+        
+        }
+
+        public Shape ButtonSellEggs { get => _buttonSellEggs; }
     }
 }
 

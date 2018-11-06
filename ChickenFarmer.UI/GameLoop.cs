@@ -76,9 +76,10 @@ namespace ChickenFarmer.UI
                 _window.Draw(_square);
                 _window.Draw(background);
                 _farmUI.Henhouses.Drawhouses();
-
+                
                 _houseMenu.DrawGui();
                 _farmUI.DrawInfo();
+                _farmUI.DrawButtonSellEggs();
                 _window.Display();
                
                 Update();

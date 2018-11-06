@@ -14,6 +14,7 @@ namespace ChickenFarmer.UI
         public InputHandler(GameLoop ctxGameLoop)
         {
             _ctxGameLoop = ctxGameLoop;
+
         }
         
 
@@ -21,8 +22,11 @@ namespace ChickenFarmer.UI
         public void Handle()
         {
             var Mpos = Mouse.GetPosition(_ctxGameLoop.Window);
-            var _bound = _ctxGameLoop.HouseMenu.SellEggButton.GetGlobalBounds();
+            var _bound = _ctxGameLoop.HouseMenu.ButtonBuyChicken.GetGlobalBounds();
             var _houseBound = _ctxGameLoop.FarmUI.Henhouses.HousesList[0].GetGlobalBounds();
+            var _buttonSellEggsBound = _ctxGameLoop.FarmUI.ButtonSellEggs.GetGlobalBounds();
+            var _buttonHenHouseUpgradeBound = _ctxGameLoop.HouseMenu.ButtonHenHouseUpgrade.GetGlobalBounds();
+            
 
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.Escape))
@@ -33,7 +37,7 @@ namespace ChickenFarmer.UI
             if(_houseBound.Contains(Mpos.X, Mpos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left))
             {
                 _ctxGameLoop.HouseMenu.DrawState = true;
-                Console.WriteLine("button clicked");
+                Console.WriteLine("button HenHouse Menu clicked");
                 Thread.Sleep(200);
 
             }
@@ -44,18 +48,27 @@ namespace ChickenFarmer.UI
                
             }
 
-          
+            if (_buttonSellEggsBound.Contains(Mpos.X, Mpos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left))
+            {
+                _ctxGameLoop.FarmUI.Farm.Market.Sellegg(_ctxGameLoop.FarmUI.Farm);
+                Console.WriteLine("button SellEggs clicked");
+            }
+
 
             if (_bound.Contains(Mpos.X, Mpos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left) && _ctxGameLoop.HouseMenu.DrawState == true )
             {
-                _ctxGameLoop.FarmUI.Farm.Market.Sellegg(_ctxGameLoop.FarmUI.Farm);
-                Console.WriteLine("button clicked");
+                _ctxGameLoop.FarmUI.Farm.Market.BuyChicken(_ctxGameLoop.FarmUI.Farm.Houses.Henhouses[0], 1, 1);
+                Console.WriteLine("button Buy Chicken clicked");
             }
 
-            if (Keyboard.IsKeyPressed(Keyboard.Key.P))
+            if(_buttonHenHouseUpgradeBound.Contains(Mpos.X, Mpos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left) && _ctxGameLoop.HouseMenu.DrawState == true)
             {
-                _ctxGameLoop.FarmUI.Farm.Market.BuyChicken(_ctxGameLoop.FarmUI.Farm.Houses.Henhouses[0], 1, 1);
+                _ctxGameLoop.FarmUI.Farm.Market.UpgradeHouse(_ctxGameLoop.FarmUI.Farm.Houses.Henhouses[0]);
+                Console.WriteLine("button HenHouse Upgrade clicked");
+
             }
+
+
 
         }
 

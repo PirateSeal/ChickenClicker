@@ -13,9 +13,11 @@ namespace ChickenFarmer.UI
         bool drawState;
 
         Vector2f buttonSize = new Vector2f(80f, 60f);
-        Vector2f buttonPos = new Vector2f(800f, 600f);
+        Vector2f _buttonBuyChickenPos = new Vector2f(700f, 60f);
+        Vector2f _buttonHenHouseUpgradePos = new Vector2f(700f, 125f);
 
-        Shape sellEggButton;
+        Shape _buttonBuyChicken;
+        Shape _buttonHenHouseUpgrade;
         GameLoop _ctxGame;
 
 
@@ -24,24 +26,30 @@ namespace ChickenFarmer.UI
         {
             _ctxGame = ctxGame;
             drawState = false;
-             sellEggButton = new RectangleShape(buttonSize)
+             _buttonBuyChicken = new RectangleShape(buttonSize)
             {
                 FillColor = Color.Red,
-                Position = buttonPos
+                Position = _buttonBuyChickenPos
             };
 
-
+            _buttonHenHouseUpgrade = new RectangleShape(buttonSize)
+            {
+                FillColor = Color.Yellow,
+                Position = _buttonHenHouseUpgradePos
+            };
         }
 
 
         public void DrawGui()
         {
 
-            if(drawState == true) _ctxGame.Window.Draw(sellEggButton);
+            if (drawState == true) _ctxGame.Window.Draw(_buttonBuyChicken);
+            if (drawState == true) _ctxGame.Window.Draw(_buttonHenHouseUpgrade);
 
         }
 
-        public Shape SellEggButton { get => sellEggButton; }
+        public Shape ButtonBuyChicken { get => _buttonBuyChicken; }
+        public Shape ButtonHenHouseUpgrade { get => _buttonHenHouseUpgrade; }
         public bool DrawState { get => drawState; set => drawState = value; }
     }
 }
