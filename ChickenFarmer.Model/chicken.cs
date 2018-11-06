@@ -2,24 +2,21 @@
 {
     class Chicken
     {
-        private int _breed;
-        private string _id;
-        private float _hunger;
-        FarmOptions _farmOptions;
-        Henhouse _ctxHouse;
+        private readonly int _breed;
+        private int _hunger;
+        Henhouse _ctxHenhouse;
+        FarmOptions _options;
 
-        public Chicken(Henhouse ctxHouse, int breed)
+        public Chicken(Henhouse henhouse, FarmOptions farmOptions, int breed)
         {
             _breed = breed;
-            _farmOptions = new FarmOptions();
-            _id = System.Guid.NewGuid().ToString();
+            _options = farmOptions;
             _hunger = 100;
-            _ctxHouse = ctxHouse;
+            _ctxHenhouse = henhouse;
         }
 
-        public int Type => _breed;
 
-        public void update()
+        public void Update()
         {
             Hunger -= 0.1f;
             Lay();
@@ -27,30 +24,19 @@
 
         public void ChickenFeed()
         {
-
-            _ctxHouse.CtxCollection.CtxFarm.FoodStock -= Type * _farmOptions.DefaultFoodConsumption;
+            CtxFarm.Storage.SeedCapacity -= Breed * _options.DefaultFoodConsumption;
             Hunger = 100;
-        }
-
-        public bool CheckIfStarving()
-        {
-            if (_hunger <= 25)
-            {
-                return true;
-            }
-            return false;
         }
 
         internal void Die()
         {
-            _ctxHouse.CtxCollection.CtxFarm = null;
+            _ctxHenhouse = null;
         }
 
-        private void Lay() => _ctxHouse.CtxCollection.CtxFarm.addEgg();
-        public float Hunger
-        {
-            get => _hunger;
-            set => _hunger = value;
-        }
+        public Farm CtxFarm => _ctxHenhouse.Collection.Farm;
+        public bool CheckIfStarving => _hunger <= 25 ? true : false;
+        private void Lay() => CtxFarm.AddEgg();
+        public int Breed => _breed;
+        public int Hunger { get => _hunger; set => _hunger = value; }
     }
 }
