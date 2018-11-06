@@ -36,7 +36,7 @@ namespace ChickenFarmer.UI
 
         public void update()
         {
-            farm.update();
+            farm.Update();
         }
 
         public void DrawInfo()
@@ -65,7 +65,6 @@ namespace ChickenFarmer.UI
             Text text = new Text(infoToPrint, font);
             _ctx.Window.Draw(text);
         }
-
     }
 }
 

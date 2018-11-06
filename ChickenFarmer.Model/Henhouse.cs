@@ -32,7 +32,7 @@ namespace ChickenFarmer.Model
 
         public void FeedChicken()
         {
-            if (Collection.Farm.Storage.SeedCapacity >= CountDyingChickens)
+            if (Collection.CtxFarm.Storage.SeedCapacity >= CountDyingChickens)
             {
                 foreach (var chicken in Chikens)
                 {

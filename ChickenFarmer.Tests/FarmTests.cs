@@ -15,7 +15,7 @@ namespace ChickenFarmer.Tests
             Assert.That(farm.Money == 100);
             Assert.That(farm.TotalEgg == 0);
             Assert.That(farm.Houses.Henhouses.Count == 1);
-            Assert.That(farm.Chickencount == 0);
+            Assert.That(farm.Chickencount == 1);
         }
 
     }

@@ -30,6 +30,8 @@ namespace ChickenFarmer.Model
             Info();
         }
 
+        public int[] UIinfo() => new int[] { Money, TotalEgg, Chickencount };
+
         public void Info() => Console.WriteLine("money : {0} , " + "egg :{1} ," + " chicken {2} ", _money, _TotalEgg, Chickencount);
 
         public FarmOptions Options => _options;

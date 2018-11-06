@@ -3,7 +3,7 @@
     class Chicken
     {
         private readonly int _breed;
-        private int _hunger;
+        private float _hunger;
         Henhouse _ctxHenhouse;
         FarmOptions _options;
 
@@ -33,10 +33,10 @@
             _ctxHenhouse = null;
         }
 
-        public Farm CtxFarm => _ctxHenhouse.Collection.Farm;
+        public Farm CtxFarm => _ctxHenhouse.Collection.CtxFarm;
         public bool CheckIfStarving => _hunger <= 25 ? true : false;
         private void Lay() => CtxFarm.AddEgg();
         public int Breed => _breed;
-        public int Hunger { get => _hunger; set => _hunger = value; }
+        public float Hunger { get => _hunger; set => _hunger = value; }
     }
 }

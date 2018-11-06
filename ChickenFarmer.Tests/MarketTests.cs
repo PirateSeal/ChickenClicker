@@ -30,10 +30,10 @@ namespace ChickenFarmer.Tests
             Henhouse henhouse = farm.Houses.Henhouses[0];
 
             farm.Money = 5000;
-            farm.Market.BuyChicken(henhouse, 10, 0);
+            farm.Market.BuyChicken(henhouse, 9, 0);
 
             Assert.That(henhouse.ChickenCount == 10);
-            Assert.That(farm.Money == (5000 - (farmOptions.DefaultChickenCost[0] * 10)));
+            Assert.That(farm.Money == (5000 - (farmOptions.DefaultChickenCost[0] * 9)));
         }
 
         [Test]

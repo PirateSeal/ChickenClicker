@@ -16,7 +16,7 @@ namespace ChickenFarmer.Tests
 
             farm.Market.BuyChicken(henhouse, 1, 0);
 
-            Assert.That(henhouse.ChickenCount == 1);
+            Assert.That(henhouse.ChickenCount == 2);
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace ChickenFarmer.Tests
             farm.Money = 5000;
 
             farm.Market.BuyChicken(henhouse, 1, 0);
-            for (int i = 0; i < 101; i++)
+            for (int i = 0; i < 2000; i++)
             {
                 farm.Update();
             }
