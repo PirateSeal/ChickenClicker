@@ -26,6 +26,7 @@ namespace ChickenFarmer.Model
             _lvl++;
             int newLimit;
             newLimit = _limit * _lvl;
+            _limit = newLimit;
 
             _chickens.Capacity = newLimit;
         }

@@ -21,13 +21,7 @@ namespace ChickenFarmer.Model
             CtxFarm = farm; 
         }
 
-        public void UpgradeHouse(Henhouse house)
-        {
-            foreach (var item in _HenHouses)
-            {
-                if (item == house) item.Upgrade();
-            }
-        }
+        
 
         public Henhouse AddHouse()
         {

@@ -27,7 +27,7 @@ namespace ChickenFarmer.Model
             int lvl = house.Lvl;
             if (farm.Money > _options.UpgradeHouseCost[lvl] && lvl < _options.UpgradeHouseCost.Length)
             {
-                farm.Houses.UpgradeHouse(house);
+                house.Upgrade();
                 farm.Money -= _options.UpgradeHouseCost[lvl];
             }
         }
