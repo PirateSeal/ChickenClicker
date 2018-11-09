@@ -16,10 +16,10 @@ namespace ChickenFarmer.Model
             Egg = 4
         }
 
-        public Market(Farm ctx, FarmOptions farmOptions)
+        public Market(Farm farm, FarmOptions options)
         {
-            _options = farmOptions;
-            farm = ctx;
+            this.farm = farm ?? throw new ArgumentNullException(nameof(farm));
+            _options = options ?? throw new ArgumentNullException(nameof(options));
         }
 
         public void UpgradeHouse(Henhouse house)
@@ -110,7 +110,7 @@ namespace ChickenFarmer.Model
                 if (house.Chikens.Count < house.Limit && _options.DefaultChickenCost[breed] <= farm.Money)
                 {
                     farm.Money -= _options.DefaultChickenCost[breed];
-                    farm.Houses.AddChicken(house, breed);
+                    house.AddChicken(breed);
                 }
             }
             return true;

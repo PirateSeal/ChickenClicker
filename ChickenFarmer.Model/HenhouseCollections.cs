@@ -12,25 +12,14 @@ namespace ChickenFarmer.Model
         private Farm _ctxFarm;
         internal FarmOptions _options;
 
-        public HenhouseCollections(Farm farm, FarmOptions farmOptions)
+        public HenhouseCollections(Farm ctxFarm, FarmOptions options)
         {
-            _options = farmOptions;
-            _HenHouses = new List<Henhouse>(_options.DefaultCapacity);
-            AddHouse();
-            AddChicken(_HenHouses[0], 0);
-            CtxFarm = farm; 
+            _ctxFarm = ctxFarm ?? throw new ArgumentNullException(nameof(ctxFarm));
+            _options = options ?? throw new ArgumentNullException(nameof(options));
+            _HenHouses = new List<Henhouse>();
         }
 
         
-
-        public Henhouse AddHouse()
-        {
-            if (_HenHouses.Count == _options.DefaultCapacity) { throw new InvalidOperationException("Can't add a new henhouse, max limit reached"); }
-
-            Henhouse newHouse = new Henhouse(this, _options, _options.DefaultHenHouseLimit);
-            _HenHouses.Add(newHouse);
-            return newHouse;
-        }
 
         public void AddChicken(Henhouse house,int breed)
         {

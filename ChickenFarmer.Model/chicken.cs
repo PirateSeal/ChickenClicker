@@ -1,30 +1,31 @@
-﻿namespace ChickenFarmer.Model
+﻿using System;
+
+namespace ChickenFarmer.Model
 {
     class Chicken
     {
-        private readonly int _breed;
-        private float _hunger;
         Henhouse _ctxHenhouse;
         FarmOptions _options;
+        private readonly int _breed;
+        private float _hunger;
 
-        public Chicken(Henhouse henhouse, FarmOptions farmOptions, int breed)
+        public Chicken(Henhouse ctxHenhouse, FarmOptions options, int breed)
         {
+            _ctxHenhouse = ctxHenhouse ?? throw new ArgumentNullException(nameof(ctxHenhouse));
+            _options = options ?? throw new ArgumentNullException(nameof(options));
             _breed = breed;
-            _options = farmOptions;
             _hunger = 100;
-            _ctxHenhouse = henhouse;
         }
-
 
         public void Update()
         {
-            Hunger -= 0.1f;
+            Hunger -= _options.DefaultFoodConsumption * _breed;
             Lay();
         }
 
         public void ChickenFeed()
         {
-            CtxFarm.Storage.SeedCapacity -= Breed * _options.DefaultFoodConsumption;
+            CtxFarm.Storage.SeedCapacity -= (int)Math.Round(Hunger);
             Hunger = 100;
         }
 

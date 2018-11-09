@@ -19,7 +19,7 @@ namespace ChickenFarmer.Tests
             farm.Market.UpgradeHouse(henhouse);
 
             Assert.That(henhouse.Lvl > Lvl);
-            Assert.That(farm.Money == (5000 - farmOptions.UpgradeHouseCost[0]));
+            Assert.That(farm.Money == (5000 - farmOptions.UpgradeHouseCost));
         }
 
         [Test]

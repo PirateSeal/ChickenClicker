@@ -3,18 +3,21 @@ namespace ChickenFarmer.Model
     public class FarmOptions
     {
         int _defaultMoney;
-        int _defaultCapacity;
+
         int _defaultHenhouseLimit;
         int _upgradeHouseCost;
         int _defaultLayByMinute;
         int[] _defaultChickenCost;
         int _defaultHenHouseCost;
-        int _defaultStorageUpgradeCost;
 
-        int _defaultEggCapacity;
+        int _defaultHenhouseBuildTime;
+
+        readonly int _defaultStorageUpgradeCost;
+        readonly int _defaultEggCapacity;
+        readonly int _defaultCapacity;
         readonly int _defaultEggMaxCapacity;
 
-        readonly int _defaultFoodConsumption;
+        readonly float _defaultFoodConsumption;
         readonly int _defaultStorageLevel;
         readonly int _defaultStorageMaxLevel;
 
@@ -33,14 +36,17 @@ namespace ChickenFarmer.Model
         public FarmOptions()
         {
             _defaultMoney = 100;
-            _defaultCapacity = 4;
+            _defaultCapacity= 4; 
             _defaultHenhouseLimit = 10;
             _upgradeHouseCost = 10;
             _defaultMaxUpgrade = 4;
             _defaultLayByMinute = 0;
             _defaultChickenCost = new int[] { 10, 20, 30, 40 };
+
             _defaultHenHouseCost = 150;
-            _defaultFoodConsumption = 2;
+            _defaultHenhouseBuildTime = 20;
+
+            _defaultFoodConsumption = 0.1f;
             _defaultStorageLevel = 0;
             _defaultStorageMaxLevel = 3;
             _defaultStorageUpgradeCost = 250;
@@ -63,12 +69,6 @@ namespace ChickenFarmer.Model
         {
             get => _defaultMoney;
             set => _defaultMoney = value;
-        }
-
-        public int DefaultCapacity
-        {
-            get => _defaultCapacity;
-            set => _defaultCapacity = value;
         }
 
         public int DefaultHenHouseLimit
@@ -106,7 +106,7 @@ namespace ChickenFarmer.Model
         public int MeatPrice => _defaultMeatPrice;
 
 
-        public int DefaultFoodConsumption => _defaultFoodConsumption;
+        public float DefaultFoodConsumption => _defaultFoodConsumption;
         public int DefaultStorageLevel => _defaultStorageLevel;
         public int DefaultStorageMaxLevel => _defaultStorageMaxLevel;
         public int DefaultStorageUpgradeCost => _defaultStorageUpgradeCost;
@@ -124,5 +124,9 @@ namespace ChickenFarmer.Model
         public int DefaultEggMaxCapacity => _defaultEggMaxCapacity;
 
         public int DefaultMaxUpgrade => _defaultMaxUpgrade;
+
+        public int DefaultCapacity => _defaultCapacity;
+
+        public int DefaultHenhouseBuildTime => _defaultHenhouseBuildTime;
     }
 }

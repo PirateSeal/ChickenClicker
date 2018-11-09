@@ -1,22 +1,30 @@
+using System;
 using System.Collections.Generic;
 
 namespace ChickenFarmer.Model
 {
-    public class Henhouse
+    public class Henhouse : Building
     {
-        HenhouseCollections _ctx;
+        BuildingCollection _ctx;
         FarmOptions _options;
+        int _xCoord;
+        int _yCoord;
+        int _buildtime;
         List<Chicken> _chickens;
         List<Chicken> _dyingChickens;
         int _lvl;
         int _limit;
 
-        public Henhouse(HenhouseCollections henhouseCollections, FarmOptions farmOptions, int limit)
+
+        public Henhouse(BuildingCollection ctx, FarmOptions options, int xCoord, int yCoord, int buildtime) : base(ctx, options, xCoord, yCoord, buildtime)
         {
-            _options = farmOptions;
-            _ctx = henhouseCollections;
-            _lvl = 1;
-            _limit = _options.DefaultHenHouseLimit;
+            _ctx = ctx ?? throw new ArgumentNullException(nameof(ctx));
+            _options = options ?? throw new ArgumentNullException(nameof(options));
+            _xCoord = xCoord;
+            _yCoord = yCoord;
+            _buildtime = buildtime;
+            _limit = _options.DefaultCapacity;
+            _lvl = 0;
             _chickens = new List<Chicken>(_limit * _lvl);
             _dyingChickens = new List<Chicken>();
         }
@@ -51,7 +59,7 @@ namespace ChickenFarmer.Model
             foreach (Chicken item in _chickens)
             {
                 item.Update();
-                if (item.CheckIfStarving&& !FindDyingChicken(item))
+                if (item.CheckIfStarving && !FindDyingChicken(item))
                 {
                     _dyingChickens.Add(item);
                 }
@@ -93,7 +101,7 @@ namespace ChickenFarmer.Model
             return false;
         }
 
-        internal HenhouseCollections Collection => _ctx;
+        internal BuildingCollection Collection => _ctx;
         internal List<Chicken> Chikens => _chickens;
         public int ChickenCount => _chickens.Count;
         public int Limit => _limit;

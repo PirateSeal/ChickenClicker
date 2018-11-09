@@ -1,4 +1,6 @@
-﻿namespace ChickenFarmer.Model
+﻿using System;
+
+namespace ChickenFarmer.Model
 {
     public class Storage
     {
@@ -17,11 +19,10 @@
         int _eggMaxCapacity;
         int _eggCapacityLevel;
 
-
-        public Storage(Farm ctx, FarmOptions farmOptions)
+        public Storage(Farm ctx, FarmOptions options)
         {
-            _ctx = ctx;
-            _options = farmOptions;
+            _ctx = ctx ?? throw new ArgumentNullException(nameof(ctx));
+            _options = options ?? throw new ArgumentNullException(nameof(options));
 
             _seedCapacity = _options.DefaultSeedCapacity;
             _seedMaxCapacity = _options.DefaultSeedMaxCapacity;
