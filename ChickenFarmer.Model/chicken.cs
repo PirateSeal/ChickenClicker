@@ -25,14 +25,11 @@ namespace ChickenFarmer.Model
 
         public void ChickenFeed()
         {
-            CtxFarm.Storage.SeedCapacity -= (int)Math.Round(Hunger);
+            CtxFarm.Buildings.SeedCapacity -= (int)Math.Round(Hunger);
             Hunger = 100;
         }
 
-        internal void Die()
-        {
-            _ctxHenhouse = null;
-        }
+        internal void Die() => _ctxHenhouse = null;
 
         public Farm CtxFarm => _ctxHenhouse.Collection.CtxFarm;
         public bool CheckIfStarving => _hunger <= 25 ? true : false;

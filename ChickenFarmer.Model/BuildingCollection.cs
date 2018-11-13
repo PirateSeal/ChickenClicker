@@ -5,26 +5,101 @@ namespace ChickenFarmer.Model
 {
     public class BuildingCollection
     {
-        Farm _ctx;
-        FarmOptions _options;
-        List<Building> _buildings;
+        private readonly FarmOptions _options;
+
+        public enum MainPurpose
+        {
+            None = 0,
+            Henhouse = 1,
+            Storage = 2
+        }
 
         public BuildingCollection(Farm ctx, FarmOptions options)
         {
-            _ctx = ctx ?? throw new ArgumentNullException(nameof(ctx));
+            CtxFarm = ctx ?? throw new ArgumentNullException(nameof(ctx));
             _options = options ?? throw new ArgumentNullException(nameof(options));
-            _buildings = new List<Building>();
+            Buildings = new List<Building>();
         }
 
-        public Henhouse AddHouse(int xCoord, int yCoord)
+        public Building Build(int xCoord, int yCoord, int buildtime, MainPurpose mainPurpose)
         {
-            if (_buildings.Count == _options.DefaultCapacity) { throw new InvalidOperationException("Can't add a new henhouse, max limit reached"); }
-
-            Henhouse newHouse = new Henhouse(this, _options, xCoord, yCoord, _options.DefaultHenhouseBuildTime);
-            _buildings.Add(newHouse);
-            return newHouse;
+            if (!CheckMaxBuildingTypeLimit<1>()) return null;
+            Building building = null;
+            if (mainPurpose == MainPurpose.Henhouse)
+                building = new Henhouse(this, _options, xCoord, yCoord, _options.DefaultHenhouseBuildTime);
+            else if (mainPurpose == MainPurpose.Storage)
+                building = new Storage(this, _options, xCoord, yCoord, _options.DefaultHenhouseBuildTime);
+            else
+                throw new ArgumentException("Wrong type of building given", nameof(mainPurpose));
+            Buildings.Add(building);
+            return building;
         }
 
-        public Farm CtxFarm => _ctx;
+        public int BuildingTypeCount<T>()
+        {
+            var count = 0;
+            foreach (var building in Buildings)
+                if (typeof(T) == building.GetType())
+                    count++;
+
+            return count;
+        }
+
+        private bool CheckMaxBuildingTypeLimit<T>()
+        {
+            var count = 0;
+            foreach (var building in Buildings)
+                if (typeof(T) == building.GetType())
+                    count++;
+            if (count == _options.DefaultHenhouseCapacity) return false;
+            throw new ArgumentException("Wrong argument given", nameof(T));
+        }
+
+        public void AddChicken(Henhouse house, int breed)
+        {
+            foreach (var item in Buildings)
+                if (item == house)
+                    house.AddChicken(breed);
+        }
+
+        public void Update()
+        {
+            foreach (var building in Buildings)
+            {
+                Henhouse item = building as Henhouse;
+                item.Update();
+            }
+        }
+
+        public int ChickenCount()
+        {
+            var count = 0;
+            foreach (var building in Buildings)
+            {
+                var item = (Henhouse) building;
+                count += item.ChickenCount;
+            }
+
+            return count;
+        }
+
+
+        public Farm CtxFarm { get; }
+
+        public List<Building> Buildings { get; }
+
+        public Storage StorageBuilding
+        {
+            get
+            {
+                foreach (var item in Buildings)
+                {
+                    var building = (Storage) item;
+                    return building;
+                }
+
+                throw new MissingFieldException("No storage found, build one");
+            }
+        }
     }
 }

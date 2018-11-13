@@ -23,7 +23,7 @@ namespace ChickenFarmer.Model
             _xCoord = xCoord;
             _yCoord = yCoord;
             _buildtime = buildtime;
-            _limit = _options.DefaultCapacity;
+            _limit = _options.DefaultHenhouseCapacity;
             _lvl = 0;
             _chickens = new List<Chicken>(_limit * _lvl);
             _dyingChickens = new List<Chicken>();

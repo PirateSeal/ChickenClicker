@@ -126,7 +126,7 @@ namespace ChickenFarmer.Model
         public void BuyHenhouse()
         {
 
-            if (farm.Money > _options.DefaultHenHouseCost && farm.Houses.Count() < _options.DefaultCapacity)
+            if (farm.Money > _options.DefaultHenHouseCost && farm.Houses.Count() < _options.DefaultHenhouseCapacity)
             {
                 farm.Money -= _options.DefaultHenHouseCost;
                 farm.Houses.AddHouse();

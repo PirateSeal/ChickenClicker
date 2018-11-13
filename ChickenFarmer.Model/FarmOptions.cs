@@ -2,131 +2,79 @@ namespace ChickenFarmer.Model
 {
     public class FarmOptions
     {
-        int _defaultMoney;
-
-        int _defaultHenhouseLimit;
-        int _upgradeHouseCost;
-        int _defaultLayByMinute;
-        int[] _defaultChickenCost;
-        int _defaultHenHouseCost;
-
-        int _defaultHenhouseBuildTime;
-
-        readonly int _defaultStorageUpgradeCost;
-        readonly int _defaultEggCapacity;
-        readonly int _defaultCapacity;
-        readonly int _defaultEggMaxCapacity;
-
-        readonly float _defaultFoodConsumption;
-        readonly int _defaultStorageLevel;
-        readonly int _defaultStorageMaxLevel;
-
-        readonly int _defaultSeedPrice;
-        readonly int _defaultVegetablePrice;
-        readonly int _defaultMeatPrice;
-
-        readonly int _defaultSeedCapacity;
-        readonly int _defaultSeedMaxCapacity;
-        readonly int _defaultVegetableCapacity;
-        readonly int _defaultVegetableMaxCapacity;
-        readonly int _defaultMeatCapacity;
-        readonly int _defaultMeatMaxCapacity;
-        readonly int _defaultMaxUpgrade;
-
         public FarmOptions()
         {
-            _defaultMoney = 100;
-            _defaultCapacity= 4; 
-            _defaultHenhouseLimit = 10;
-            _upgradeHouseCost = 10;
-            _defaultMaxUpgrade = 4;
-            _defaultLayByMinute = 0;
-            _defaultChickenCost = new int[] { 10, 20, 30, 40 };
+            DefaultMoney = 100;
+            DefaultHenhouseCapacity = 4;
+            DefaultStorageCapacity = 1;
+            DefaultHenHouseLimit = 10;
+            UpgradeHouseCost = 10;
+            DefaultMaxUpgrade = 4;
+            DefaultLayByMinute = 0;
+            DefaultChickenCost = new int[] {10, 20, 30, 40};
 
-            _defaultHenHouseCost = 150;
-            _defaultHenhouseBuildTime = 20;
+            DefaultHenHouseCost = 150;
+            DefaultHenhouseBuildTime = 20;
 
-            _defaultFoodConsumption = 0.1f;
-            _defaultStorageLevel = 0;
-            _defaultStorageMaxLevel = 3;
-            _defaultStorageUpgradeCost = 250;
+            DefaultFoodConsumption = 0.1f;
+            DefaultStorageLevel = 0;
+            DefaultStorageMaxLevel = 3;
+            DefaultStorageUpgradeCost = 250;
 
-            _defaultSeedPrice = 3;
-            _defaultVegetablePrice = 5;
-            _defaultMeatPrice = 10;
+            SeedPrice = 3;
+            VegetablePrice = 5;
+            MeatPrice = 10;
 
-            _defaultEggCapacity = 0;
-            _defaultEggMaxCapacity = 5000;
-            _defaultSeedCapacity = 1000;
-            _defaultVegetableCapacity = 0;
-            _defaultMeatCapacity = 0;
-            _defaultSeedMaxCapacity = 10000;
-            _defaultVegetableMaxCapacity = 10000;
-            _defaultMeatMaxCapacity = 10000;
+            DefaultEggCapacity = 0;
+            DefaultEggMaxCapacity = 5000;
+            DefaultSeedCapacity = 1000;
+            DefaultVegetableCapacity = 0;
+            DefaultMeatCapacity = 0;
+            DefaultSeedMaxCapacity = 10000;
+            DefaultVegetableMaxCapacity = 10000;
+            DefaultMeatMaxCapacity = 10000;
         }
 
-        public int DefaultMoney
-        {
-            get => _defaultMoney;
-            set => _defaultMoney = value;
-        }
+        public int DefaultStorageCapacity { get; }
 
-        public int DefaultHenHouseLimit
-        {
-            get => _defaultHenhouseLimit;
-            set => _defaultHenhouseLimit = value;
-        }
+        public int DefaultMoney { get; }
 
-        public int UpgradeHouseCost
-        {
-            get => _upgradeHouseCost;
-            set => _upgradeHouseCost = value;
-        }
+        public int DefaultHenHouseLimit { get; }
 
-        public int DefaultLayByMinute
-        {
-            get => _defaultLayByMinute;
-            set => _defaultLayByMinute = value;
-        }
+        public int UpgradeHouseCost { get; }
 
-        public int[] DefaultChickenCost
-        {
-            get => _defaultChickenCost;
-            set => _defaultChickenCost = value;
-        }
+        public int DefaultLayByMinute { get; }
 
-        public int DefaultHenHouseCost
-        {
-            get => _defaultHenHouseCost;
-            set => _defaultHenHouseCost = value;
-        }
+        public int[] DefaultChickenCost { get; }
 
-        public int SeedPrice => _defaultSeedPrice;
-        public int VegetablePrice => _defaultVegetablePrice;
-        public int MeatPrice => _defaultMeatPrice;
+        public int DefaultHenHouseCost { get; }
+
+        public int SeedPrice { get; }
+        public int VegetablePrice { get; }
+        public int MeatPrice { get; }
 
 
-        public float DefaultFoodConsumption => _defaultFoodConsumption;
-        public int DefaultStorageLevel => _defaultStorageLevel;
-        public int DefaultStorageMaxLevel => _defaultStorageMaxLevel;
-        public int DefaultStorageUpgradeCost => _defaultStorageUpgradeCost;
+        public float DefaultFoodConsumption { get; }
+        public int DefaultStorageLevel { get; }
+        public int DefaultStorageMaxLevel { get; }
+        public int DefaultStorageUpgradeCost { get; }
 
-        public int DefaultSeedCapacity => _defaultSeedCapacity;
-        public int DefaultSeedMaxCapacity => _defaultSeedMaxCapacity;
+        public int DefaultSeedCapacity { get; }
+        public int DefaultSeedMaxCapacity { get; }
 
-        public int DefaultVegetableCapacity => _defaultVegetableCapacity;
-        public int DefaultVegetableMaxCapacity => _defaultVegetableMaxCapacity;
+        public int DefaultVegetableCapacity { get; }
+        public int DefaultVegetableMaxCapacity { get; }
 
-        public int DefaultMeatCapacity => _defaultMeatCapacity;
-        public int DefaultMeatMaxCapacity => _defaultMeatMaxCapacity;
+        public int DefaultMeatCapacity { get; }
+        public int DefaultMeatMaxCapacity { get; }
 
-        public int DefaultEggCapacity => _defaultEggCapacity;
-        public int DefaultEggMaxCapacity => _defaultEggMaxCapacity;
+        public int DefaultEggCapacity { get; }
+        public int DefaultEggMaxCapacity { get; }
 
-        public int DefaultMaxUpgrade => _defaultMaxUpgrade;
+        public int DefaultMaxUpgrade { get; }
 
-        public int DefaultCapacity => _defaultCapacity;
+        public int DefaultHenhouseCapacity { get; }
 
-        public int DefaultHenhouseBuildTime => _defaultHenhouseBuildTime;
+        public int DefaultHenhouseBuildTime { get; }
     }
 }
