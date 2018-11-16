@@ -11,7 +11,7 @@ namespace ChickenFarmer.Model
             UpgradeHouseCost = 10;
             DefaultMaxUpgrade = 4;
             DefaultLayByMinute = 0;
-            DefaultChickenCost = new int[] {10, 20, 30, 40};
+            DefaultChickenCost = new[] { 10, 20, 30, 40 };
 
             DefaultHenHouseCost = 150;
             DefaultHenhouseBuildTime = 20;
@@ -35,7 +35,7 @@ namespace ChickenFarmer.Model
             DefaultMeatMaxCapacity = 10000;
         }
 
-        public int DefaultStorageCapacity { get; }
+        private int DefaultStorageCapacity { get; }
 
         public int DefaultMoney { get; }
 
@@ -43,7 +43,7 @@ namespace ChickenFarmer.Model
 
         public int UpgradeHouseCost { get; }
 
-        public int DefaultLayByMinute { get; }
+        private int DefaultLayByMinute { get; }
 
         public int[] DefaultChickenCost { get; }
 
@@ -52,7 +52,6 @@ namespace ChickenFarmer.Model
         public int SeedPrice { get; }
         public int VegetablePrice { get; }
         public int MeatPrice { get; }
-
 
         public float DefaultFoodConsumption { get; }
         public int DefaultStorageLevel { get; }
@@ -75,6 +74,6 @@ namespace ChickenFarmer.Model
 
         public int DefaultHenhouseCapacity { get; }
 
-        public int DefaultHenhouseBuildTime { get; }
+        private int DefaultHenhouseBuildTime { get; }
     }
 }

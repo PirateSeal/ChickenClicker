@@ -1,9 +1,7 @@
 ﻿namespace ChickenFarmer.Model
 {
-    interface IBuildingFactory
+    internal interface IBuildingFactory
     {
-        int XCoord { get; }
-        int YCoord { get; }
-        int Buildtime { get; }
+        Building Create( BuildingCollection ctx, int xCoord, int yCoord );
     }
 }

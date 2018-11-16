@@ -1,27 +1,22 @@
-﻿using System;
+﻿#region Usings
+
+using System;
+
+#endregion
 
 namespace ChickenFarmer.Model
 {
-    public abstract class Building : IBuildingFactory
+    public abstract class Building
     {
-        BuildingCollection _ctx;
-        FarmOptions _options;
-        int _xCoord;
-        int _yCoord;
-        int _buildtime;
-
-        public Building(BuildingCollection ctx, FarmOptions options, int xCoord, int yCoord, int buildtime)
+        protected Building( BuildingCollection ctx, int xCoord, int yCoord )
         {
-            _ctx = ctx ?? throw new ArgumentNullException(nameof(ctx));
-            _options = options ?? throw new ArgumentNullException(nameof(options));
-            _xCoord = xCoord;
-            _yCoord = yCoord;
-            _buildtime = buildtime;
+            Ctx = ctx ?? throw new ArgumentNullException( nameof(ctx) );
+            XCoord = xCoord;
+            YCoord = yCoord;
         }
-        
-        public int XCoord { get => _xCoord; set => _xCoord = value; }
-        public int YCoord { get => _yCoord; set => _yCoord = value; }
-        public int Buildtime { get => _buildtime; set => _buildtime = value; }
 
+        private BuildingCollection Ctx { get; }
+        public int XCoord { get; }
+        public int YCoord { get; }
     }
 }

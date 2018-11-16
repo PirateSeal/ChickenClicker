@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ChickenFarmer.Model;
 using SFML.Audio;
 using SFML.System;
 using SFML.Window;
@@ -34,8 +35,9 @@ namespace ChickenFarmer.UI
 
         public void CreateHouses()
         {         
-            foreach (var item in _ctxFarm.Farm.Houses.Henhouses)
+            foreach (var building in _ctxFarm.Farm.Buildings.Buildings)
             {
+                var item = (Henhouse) building;
                 buttonPos = new Vector2f(buttonPos.X + 50f, 60f);
 
 

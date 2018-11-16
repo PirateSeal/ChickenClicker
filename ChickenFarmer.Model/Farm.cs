@@ -1,53 +1,43 @@
-﻿using System;
+﻿#region Usings
+
+using System;
+
+#endregion
 
 namespace ChickenFarmer.Model
 {
     public class Farm
     {
-        readonly FarmOptions _options;
-        readonly Market _market;
-        BuildingCollection _buildings;
-        int _money;
-        int _totalEgg;
-
         public Farm()
         {
-            _options = new FarmOptions();
-            _market = new Market(this, _options);
-            _buildings = new BuildingCollection(this, Options);
-            _money = _options.DefaultMoney;
-            _totalEgg = 0;
+            Options = new FarmOptions();
+            Market = new Market( this );
+            Buildings = new BuildingCollection( this );
+            Money = Options.DefaultMoney;
+            TotalEgg = 0;
         }
 
-        public void AddEgg() => _totalEgg++;
+        public FarmOptions Options { get; }
+        public Market Market { get; }
+        public BuildingCollection Buildings { get; }
+        public int Money { get; set; }
+        internal int TotalEgg { get; set; }
+        private int Chickencount => Buildings.ChickenCount();
+
+        public void AddEgg() { TotalEgg ++; }
 
         public void Update()
         {
-            _buildings.Update();
+            Buildings.Update();
             Info();
         }
 
-        public int[] UIinfo() => new int[] {Money, TotalEgg, Chickencount};
+        public int[] UIinfo() { return new[] { Money, TotalEgg, Chickencount }; }
 
-        public void Info() => Console.WriteLine("money : {0} , " + "egg :{1} ," + " chicken {2} ", _money, _totalEgg,
-            Chickencount);
-
-        public FarmOptions Options => _options;
-
-        public int Money
+        private void Info()
         {
-            get => _money;
-            set => _money = value;
+            Console.WriteLine( "money : {0} , " + "egg :{1} ," + " chicken {2} ", Money, TotalEgg,
+                Chickencount );
         }
-
-        public int TotalEgg
-        {
-            get => _totalEgg;
-            set => _totalEgg = value;
-        }
-
-        public BuildingCollection Buildings => _buildings;
-        public Market Market => _market;
-        public int Chickencount => _buildings.ChickenCount();
     }
 }

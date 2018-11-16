@@ -1,23 +1,29 @@
-﻿using ChickenFarmer.Model;
+﻿#region Usings
+
+using ChickenFarmer.Model;
 using NUnit.Framework;
-using System;
+
+#endregion
 
 namespace ChickenFarmer.Tests
 {
     [TestFixture]
-    class ChickenTests
+    internal class ChickenTests
     {
         [Test]
         public void Create_Chicken()
         {
-            Farm farm = new Farm();
-            var henhouse = farm.Houses.Henhouses[0];
-            farm.Money = 5000;
+            var farm = new Farm { Money = 5000 };
+            farm.Buildings.Build<Storage>( 1, 2 );
+            farm.Market.BuyHenhouse( 1, 3 );
+            farm.Market.BuyHenhouse( 1, 4 );
 
-            farm.Market.BuyChicken(henhouse, 1, 0);
+            farm.Market.BuyChicken( 5, 0 );
 
-            Assert.That(henhouse.ChickenCount == 2);
+            Assert.That( farm.Buildings.ChickenCount(), Is.EqualTo( 5 ) );
         }
+
+/*
 
         [Test]
         public void Chicken_Starve_To_Death()
@@ -27,7 +33,7 @@ namespace ChickenFarmer.Tests
             farm.Money = 5000;
 
             farm.Market.BuyChicken(henhouse, 1, 0);
-            for (int i = 0; i < 2000; i++)
+            for (var i = 0; i < 2000; i++)
             {
                 farm.Update();
             }
@@ -56,6 +62,6 @@ namespace ChickenFarmer.Tests
             {
                 Assert.That(item.CountDyingChickens == 0);
             }
-        }
+        }*/
     }
 }

@@ -1,64 +1,71 @@
-﻿using System;
+﻿#region Usings
+
+using System;
+
+#endregion
 
 namespace ChickenFarmer.Model
 {
-    public class Storage:Building
+    public class Storage : Building
     {
-        readonly BuildingCollection _ctx;
-        FarmOptions _options;
-        private int _xCoord;
-        private int _yCoord;
-        private int _buildtime;
-
-        public Storage(BuildingCollection ctx, FarmOptions options, int xCoord, int yCoord, int buildtime) : base(ctx, options, xCoord, yCoord, buildtime)
+        public Storage( BuildingCollection ctx, int xCoord, int yCoord ) : base( ctx, xCoord,
+            yCoord )
         {
-            _ctx = ctx ?? throw new ArgumentNullException(nameof(ctx));
-            _options = options ?? throw new ArgumentNullException(nameof(options));
-            _xCoord = xCoord;
-            _yCoord = yCoord;
-            _buildtime = buildtime;
+            Ctx = ctx ?? throw new ArgumentNullException( nameof(ctx) );
+            XCoord = xCoord;
+            YCoord = yCoord;
 
-            SeedCapacity = _options.DefaultSeedCapacity;
-            SeedMaxCapacity = _options.DefaultSeedMaxCapacity;
-            SeedCapacityLevel = _options.DefaultStorageLevel;
+            SeedCapacity = ctx.CtxFarm.Options.DefaultSeedCapacity;
+            SeedMaxCapacity = ctx.CtxFarm.Options.DefaultSeedMaxCapacity;
+            SeedCapacityLevel = ctx.CtxFarm.Options.DefaultStorageLevel;
 
-            VegetableCapacity = _options.DefaultVegetableCapacity;
-            VegetableMaxCapacity = _options.DefaultVegetableMaxCapacity;
-            VegetableCapacityLevel = _options.DefaultStorageLevel;
+            VegetableCapacity = ctx.CtxFarm.Options.DefaultVegetableCapacity;
+            VegetableMaxCapacity = ctx.CtxFarm.Options.DefaultVegetableMaxCapacity;
+            VegetableCapacityLevel = ctx.CtxFarm.Options.DefaultStorageLevel;
 
-            MeatCapacity = _options.DefaultMeatCapacity;
-            MeatMaxCapacity = _options.DefaultMeatMaxCapacity;
-            MeatCapacityLevel = _options.DefaultStorageLevel;
+            MeatCapacity = ctx.CtxFarm.Options.DefaultMeatCapacity;
+            MeatMaxCapacity = ctx.CtxFarm.Options.DefaultMeatMaxCapacity;
+            MeatCapacityLevel = ctx.CtxFarm.Options.DefaultStorageLevel;
 
-            TotalEggs = _options.DefaultEggCapacity;
-            EggMaxCapacity = _options.DefaultEggMaxCapacity;
-            EggCapacityLevel = _options.DefaultStorageLevel;
+            TotalEggs = ctx.CtxFarm.Options.DefaultEggCapacity;
+            EggMaxCapacity = ctx.CtxFarm.Options.DefaultEggMaxCapacity;
+            EggCapacityLevel = ctx.CtxFarm.Options.DefaultStorageLevel;
         }
 
-        public int TotalFoodMaxCapacity => SeedMaxCapacity + VegetableMaxCapacity + MeatMaxCapacity;
+        private BuildingCollection Ctx { get; }
+        private int XCoord { get; }
+        private int YCoord { get; }
 
         #region Seed Properties
+
         public int SeedCapacity { get; set; }
         public int SeedMaxCapacity { get; set; }
         public int SeedCapacityLevel { get; set; }
+
         #endregion
 
         #region Vegetable Properties
+
         public int VegetableCapacity { get; set; }
         public int VegetableMaxCapacity { get; set; }
         public int VegetableCapacityLevel { get; set; }
+
         #endregion
 
         #region Meat Properties
+
         public int MeatCapacity { get; set; }
         public int MeatMaxCapacity { get; set; }
         public int MeatCapacityLevel { get; set; }
+
         #endregion
 
         #region Egg Properties
-        public int TotalEggs { get; }
+
+        private int TotalEggs { get; }
         public int EggMaxCapacity { get; set; }
         public int EggCapacityLevel { get; set; }
+
         #endregion
     }
 }

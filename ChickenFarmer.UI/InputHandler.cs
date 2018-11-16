@@ -1,15 +1,13 @@
-﻿using SFML.Window;
+﻿using ChickenFarmer.Model;
+using SFML.Window;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 
 namespace ChickenFarmer.UI
 {
-    class InputHandler
+    internal class InputHandler
     {
-
-        GameLoop _ctxGameLoop;
+        private readonly GameLoop _ctxGameLoop;
 
         public InputHandler(GameLoop ctxGameLoop)
         {
@@ -21,13 +19,13 @@ namespace ChickenFarmer.UI
 
         public void Handle()
         {
-            var Mpos = Mouse.GetPosition(_ctxGameLoop.Window);
+            var mpos = Mouse.GetPosition(_ctxGameLoop.Window);
 
-            var _houseBound = _ctxGameLoop.FarmUI.Henhouses.HousesList[0].GetGlobalBounds();
-            var _buttonSellEggsBound = _ctxGameLoop.FarmUI.ButtonSellEggs.GetGlobalBounds();
-            var _menuBound = _ctxGameLoop.HouseMenu.Menu.GetGlobalBounds(); ;
-            var _buttonHenHouseUpgradeBound = _ctxGameLoop.HouseMenu.ButtonHenHouseUpgrade.GetGlobalBounds();
-            var _buttonBuyChickenBound = _ctxGameLoop.HouseMenu.ButtonBuyChicken.GetGlobalBounds();
+            var houseBound = _ctxGameLoop.FarmUI.Henhouses.HousesList[0].GetGlobalBounds();
+            var buttonSellEggsBound = _ctxGameLoop.FarmUI.ButtonSellEggs.GetGlobalBounds();
+            var menuBound = _ctxGameLoop.HouseMenu.Menu.GetGlobalBounds();
+            var buttonHenHouseUpgradeBound = _ctxGameLoop.HouseMenu.ButtonHenHouseUpgrade.GetGlobalBounds();
+            var buttonBuyChickenBound = _ctxGameLoop.HouseMenu.ButtonBuyChicken.GetGlobalBounds();
 
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.Escape))
@@ -35,7 +33,7 @@ namespace ChickenFarmer.UI
                 _ctxGameLoop.Window.Close();
             }
 
-            if (_houseBound.Contains(Mpos.X, Mpos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left))
+            if (houseBound.Contains(mpos.X, mpos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left))
             {
                 _ctxGameLoop.HouseMenu.DrawState = true;
                 Console.WriteLine("button HenHouse Menu clicked");
@@ -43,31 +41,31 @@ namespace ChickenFarmer.UI
 
             }
 
-            if (!_menuBound.Contains(Mpos.X, Mpos.Y) && _ctxGameLoop.HouseMenu.DrawState == true && Mouse.IsButtonPressed(Mouse.Button.Left))
+            if (!menuBound.Contains(mpos.X, mpos.Y) && _ctxGameLoop.HouseMenu.DrawState && Mouse.IsButtonPressed(Mouse.Button.Left))
             {
                 _ctxGameLoop.HouseMenu.DrawState = false;
             }
 
 
-            if (_buttonSellEggsBound.Contains(Mpos.X, Mpos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left))
+            if (buttonSellEggsBound.Contains(mpos.X, mpos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left))
             {
-                _ctxGameLoop.FarmUI.Farm.Market.Sellegg(_ctxGameLoop.FarmUI.Farm);
+                Market.Sellegg(_ctxGameLoop.FarmUI.Farm);
                 Console.WriteLine("button SellEggs clicked");
             }
 
 
-            if (_buttonBuyChickenBound.Contains(Mpos.X, Mpos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left) && _ctxGameLoop.HouseMenu.DrawState == true)
+            if (buttonBuyChickenBound.Contains(mpos.X, mpos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left) && _ctxGameLoop.HouseMenu.DrawState)
             {
-                _ctxGameLoop.FarmUI.Farm.Market.BuyChicken(_ctxGameLoop.FarmUI.Farm.Houses.Henhouses[0], 1, 1);
+                _ctxGameLoop.FarmUI.Farm.Market.BuyChicken(_ctxGameLoop.FarmUI.Farm.Buildings.Henhouses[0], 1, 1);
                 Console.WriteLine("button Buy Chicken clicked");
             }
-            if (_buttonHenHouseUpgradeBound.Contains(Mpos.X, Mpos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left) && _ctxGameLoop.HouseMenu.DrawState == true)
+            if (buttonHenHouseUpgradeBound.Contains(mpos.X, mpos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left) && _ctxGameLoop.HouseMenu.DrawState == true)
             {
                 _ctxGameLoop.FarmUI.Farm.Market.UpgradeHouse(_ctxGameLoop.FarmUI.Farm.Houses.Henhouses[0]);
                 Console.WriteLine("button HenHouse Upgrade clicked");
                 Thread.Sleep(1000);
             }
-           
+
 
 
 

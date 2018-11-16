@@ -1,40 +1,45 @@
-﻿using System;
+﻿#region Usings
+
+using System;
+
+#endregion
 
 namespace ChickenFarmer.Model
 {
-    class Chicken
+    internal class Chicken
     {
-        Henhouse _ctxHenhouse;
-        FarmOptions _options;
-        private readonly int _breed;
-        private float _hunger;
-
-        public Chicken(Henhouse ctxHenhouse, FarmOptions options, int breed)
+        public Chicken( Henhouse ctxHenhouse, int breed )
         {
-            _ctxHenhouse = ctxHenhouse ?? throw new ArgumentNullException(nameof(ctxHenhouse));
-            _options = options ?? throw new ArgumentNullException(nameof(options));
-            _breed = breed;
-            _hunger = 100;
+            CtxHenhouse = ctxHenhouse ?? throw new ArgumentNullException( nameof(ctxHenhouse) );
+            Breed = breed;
+            Hunger = 100;
         }
+
+        public bool CheckIfStarving => Hunger <= 25;
+
+        private int Breed { get; }
+
+        public float Hunger { get; private set; }
+
+        private Henhouse CtxHenhouse { get; set; }
+        private FarmOptions Options => CtxHenhouse.CtxBuildingCollection.CtxFarm.Options;
 
         public void Update()
         {
-            Hunger -= _options.DefaultFoodConsumption * _breed;
+            Hunger -= Options.DefaultFoodConsumption * Breed;
             Lay();
         }
 
         public void ChickenFeed()
         {
-            CtxFarm.Buildings.SeedCapacity -= (int)Math.Round(Hunger);
+            if ( CtxHenhouse != null )
+                CtxHenhouse.CtxBuildingCollection.StorageBuilding.SeedCapacity -=
+                    ( int ) Math.Round( Hunger );
             Hunger = 100;
         }
 
-        internal void Die() => _ctxHenhouse = null;
+        internal void Die() { CtxHenhouse = null; }
 
-        public Farm CtxFarm => _ctxHenhouse.Collection.CtxFarm;
-        public bool CheckIfStarving => _hunger <= 25 ? true : false;
-        private void Lay() => CtxFarm.AddEgg();
-        public int Breed => _breed;
-        public float Hunger { get => _hunger; set => _hunger = value; }
+        private void Lay() { CtxHenhouse.CtxBuildingCollection.CtxFarm.AddEgg(); }
     }
 }

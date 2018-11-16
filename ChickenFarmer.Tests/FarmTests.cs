@@ -1,22 +1,22 @@
-﻿using ChickenFarmer.Model;
+﻿#region Usings
+
+using ChickenFarmer.Model;
 using NUnit.Framework;
+
+#endregion
 
 namespace ChickenFarmer.Tests
 {
     [TestFixture]
-    class FarmTests
+    internal class FarmTests
     {
         [Test]
         public void Create_Farm()
         {
-            Farm farm = new Farm();
+            var farm = new Farm();
+            farm.Buildings.Build<Storage>( 1, 2 );
 
-            Assert.That(farm.Storage.SeedCapacity == 1000);
-            Assert.That(farm.Money == 100);
-            Assert.That(farm.TotalEgg == 0);
-            Assert.That(farm.Houses.Henhouses.Count == 1);
-            Assert.That(farm.Chickencount == 1);
+            Assert.That( farm.Buildings.Buildings.Count, Is.EqualTo( 1 ) );
         }
-
     }
 }
