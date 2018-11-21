@@ -13,10 +13,10 @@ namespace ChickenFarmer.Tests
         [Test]
         public void Create_Farm()
         {
-            var farm = new Farm();
-            farm.Buildings.Build<Storage>( 1, 2 );
+            Farm farm = new Farm();
 
-            Assert.That( farm.Buildings.Buildings.Count, Is.EqualTo( 1 ) );
+            Assert.That( farm.Money, Is.EqualTo( farm.Options.DefaultMoney ) );
+            Assert.That( farm.Buildings.Buildings.Count, Is.EqualTo(0) );
         }
     }
 }

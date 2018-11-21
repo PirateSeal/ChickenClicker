@@ -2,9 +2,9 @@
 {
     public class HenhouseFactory : IBuildingFactory
     {
-        public Building Create( BuildingCollection ctx, int xCoord, int yCoord )
+        public Building Create( BuildingCollection ctx, Vector posVector )
         {
-            return new Henhouse( ctx, xCoord, yCoord );
+            return new Henhouse( ctx, posVector );
         }
     }
 }

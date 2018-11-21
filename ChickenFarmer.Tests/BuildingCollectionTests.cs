@@ -11,7 +11,7 @@ namespace ChickenFarmer.Tests
     internal class BuildingCollectionTests
     {
         [Test]
-        public void Check_HH_Default_Max_Capacity()
+        public void Check_HH_And_Storage_Creation()
         {
             Farm farm = new Farm();
             farm.Buildings.Build<Storage>( 5, 5 );
@@ -19,6 +19,13 @@ namespace ChickenFarmer.Tests
             farm.Buildings.Build<Henhouse>( 1, 1 );
 
             Assert.That( farm.Buildings.Buildings.Count, Is.EqualTo( 2 ) );
+
+            Assert.That( farm.Buildings.FindBuilding<Storage>(5,5), Is.TypeOf<Storage>() );
+            Assert.That( farm.Buildings.FindBuilding<Storage>(5,5).PosVector, Is.EqualTo(new Vector(5,5)) );
+
+            Assert.That( farm.Buildings.FindBuilding<Henhouse>(1,1), Is.TypeOf<Henhouse>() );
+            Assert.That( farm.Buildings.FindBuilding<Henhouse>(1,1).PosVector, Is.EqualTo(new Vector(1,1)) );
+
         }
 
         [Test]
@@ -35,7 +42,7 @@ namespace ChickenFarmer.Tests
             Assert.That( farm.Buildings.Buildings.Count, Is.EqualTo( 5 ) );
             Assert.That( farm.Buildings.CountNbrBuilding<Henhouse>(), Is.EqualTo( 4 ) );
 
-            var hh = farm.Buildings.Build<Henhouse>( 6, 6 );
+            Building hh = farm.Buildings.Build<Henhouse>( 6, 6 );
             Assert.That( hh, Is.Null );
         }
     }

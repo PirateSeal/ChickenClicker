@@ -6,40 +6,49 @@ using System;
 
 namespace ChickenFarmer.Model
 {
-    internal class Chicken
+    public class Chicken
     {
-        public Chicken( Henhouse ctxHenhouse, int breed )
+        public enum Breed
+        {
+            None = 0,
+            Tier1 = 1,
+            Tier2 = 2,
+            Tier3 = 3,
+            Tier4 = 4
+        }
+
+        public Chicken( Henhouse ctxHenhouse, Breed chikenBreed )
         {
             CtxHenhouse = ctxHenhouse ?? throw new ArgumentNullException( nameof(ctxHenhouse) );
-            Breed = breed;
+            ChikenBreed = chikenBreed;
             Hunger = 100;
         }
 
         public bool CheckIfStarving => Hunger <= 25;
 
-        private int Breed { get; }
+        private Breed ChikenBreed { get; }
 
         public float Hunger { get; private set; }
 
         private Henhouse CtxHenhouse { get; set; }
-        private FarmOptions Options => CtxHenhouse.CtxBuildingCollection.CtxFarm.Options;
+        private FarmOptions Options => CtxHenhouse.CtxCollection.CtxFarm.Options;
 
         public void Update()
         {
-            Hunger -= Options.DefaultFoodConsumption * Breed;
+            Hunger -= Options.DefaultFoodConsumption * ( int ) ChikenBreed;
             Lay();
         }
 
         public void ChickenFeed()
         {
             if ( CtxHenhouse != null )
-                CtxHenhouse.CtxBuildingCollection.StorageBuilding.SeedCapacity -=
+                CtxHenhouse.CtxCollection.StorageBuilding.SeedCapacity -=
                     ( int ) Math.Round( Hunger );
             Hunger = 100;
         }
 
         internal void Die() { CtxHenhouse = null; }
 
-        private void Lay() { CtxHenhouse.CtxBuildingCollection.CtxFarm.AddEgg(); }
+        private void Lay() { CtxHenhouse.CtxCollection.CtxFarm.AddEgg(); }
     }
 }

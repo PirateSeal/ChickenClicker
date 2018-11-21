@@ -8,15 +8,13 @@ namespace ChickenFarmer.Model
 {
     public abstract class Building
     {
-        protected Building( BuildingCollection ctx, int xCoord, int yCoord )
+        protected Building( BuildingCollection ctx, Vector posVector)
         {
-            Ctx = ctx ?? throw new ArgumentNullException( nameof(ctx) );
-            XCoord = xCoord;
-            YCoord = yCoord;
+            CtxCollection = ctx ?? throw new ArgumentNullException( nameof(ctx) );
+            PosVector = posVector;
         }
 
-        private BuildingCollection Ctx { get; }
-        public int XCoord { get; }
-        public int YCoord { get; }
+        internal BuildingCollection CtxCollection { get; set; }
+        public Vector PosVector { get; internal set; }
     }
 }

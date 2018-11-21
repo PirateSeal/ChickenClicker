@@ -8,18 +8,18 @@ namespace ChickenFarmer.Model
 {
     public struct Vector
     {
-        public Vector( double abs, double ord )
+        public Vector( float abs, float ord )
         {
             X = abs;
             Y = ord;
         }
 
-        private double X { get; }
+        public float X { get; }
 
-        private double Y { get; }
+        public float Y { get; }
 
-        public double Magnitude => Math.Sqrt( X * X + Y * Y );
-        public double MagnitudeInverse => Math.Sqrt( X * X + Y * Y );
+        public float Magnitude => ( float ) Math.Sqrt( X * X + Y * Y );
+        public float MagnitudeInverse => ( float ) Math.Sqrt( X * X + Y * Y );
 
         public static Vector operator +( Vector v1, Vector v2 )
         {
@@ -31,21 +31,21 @@ namespace ChickenFarmer.Model
             return new Vector( v1.X - v2.X, v1.Y - v2.Y );
         }
 
-        public static Vector operator *( Vector v1, double nb )
+        public static Vector operator *( Vector v1, float nb )
         {
             return new Vector( v1.X * nb, v1.Y * nb );
         }
 
-        public static Vector operator *( double nb, Vector v1 ) { return v1 * nb; }
+        public static Vector operator *( float nb, Vector v1 ) { return v1 * nb; }
 
-        public static Vector operator /( Vector v1, double nb )
+        public static Vector operator /( Vector v1, float nb )
         {
             return new Vector( v1.X / nb, v1.Y / nb );
         }
 
         public float Distance( Vector v1, Vector v2 )
         {
-            var distance =
+            float distance =
                 ( float ) Math.Sqrt( Math.Pow( 2, v2.X - v1.X ) + Math.Pow( 2, v2.Y - v1.Y ) );
             return distance;
         }

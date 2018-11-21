@@ -8,12 +8,10 @@ namespace ChickenFarmer.Model
 {
     public class Storage : Building
     {
-        public Storage( BuildingCollection ctx, int xCoord, int yCoord ) : base( ctx, xCoord,
-            yCoord )
+        public Storage( BuildingCollection ctx, Vector posVector ) : base( ctx, posVector )
         {
-            Ctx = ctx ?? throw new ArgumentNullException( nameof(ctx) );
-            XCoord = xCoord;
-            YCoord = yCoord;
+            CtxCollection = ctx ?? throw new ArgumentNullException( nameof(ctx) );
+            PosVector = posVector;
 
             SeedCapacity = ctx.CtxFarm.Options.DefaultSeedCapacity;
             SeedMaxCapacity = ctx.CtxFarm.Options.DefaultSeedMaxCapacity;
@@ -31,10 +29,6 @@ namespace ChickenFarmer.Model
             EggMaxCapacity = ctx.CtxFarm.Options.DefaultEggMaxCapacity;
             EggCapacityLevel = ctx.CtxFarm.Options.DefaultStorageLevel;
         }
-
-        private BuildingCollection Ctx { get; }
-        private int XCoord { get; }
-        private int YCoord { get; }
 
         #region Seed Properties
 
@@ -62,7 +56,7 @@ namespace ChickenFarmer.Model
 
         #region Egg Properties
 
-        private int TotalEggs { get; }
+        public int TotalEggs { get; set; }
         public int EggMaxCapacity { get; set; }
         public int EggCapacityLevel { get; set; }
 

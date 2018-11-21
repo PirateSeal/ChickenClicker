@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 #endregion
 
@@ -31,9 +30,9 @@ namespace ChickenFarmer.Model
         {
             get
             {
-                foreach ( var item in Buildings )
+                foreach ( Building item in Buildings )
                 {
-                    var building = ( Storage ) item;
+                    Storage building = ( Storage ) item;
                     return building;
                 }
 
@@ -41,22 +40,22 @@ namespace ChickenFarmer.Model
             }
         }
 
-        public Building Build<TBuildingType>( int xCoord, int yCoord )
+        public Building Build<TBuildingType>( float xCoord, float yCoord )
             where TBuildingType : Building
         {
             if ( xCoord <= 0 ) throw new ArgumentOutOfRangeException( nameof(xCoord) );
             if ( yCoord <= 0 ) throw new ArgumentOutOfRangeException( nameof(yCoord) );
-            foreach ( var item in Buildings )
-                if ( item.XCoord == xCoord && item.YCoord == yCoord )
+            foreach ( Building item in Buildings )
+                if ( Math.Abs( item.PosVector.X - xCoord ) < 0.1f && Math.Abs( item.PosVector.Y - yCoord ) < 0.1f )
                     throw new ArgumentException( "Invalid Coordinates, change xCoord or yCoord" );
 
             if ( !CheckMaxBuildingTypeLimit<TBuildingType>() ) return null;
 
-            _buildingFactories.TryGetValue( typeof( TBuildingType ), out var factory );
+            _buildingFactories.TryGetValue( typeof( TBuildingType ), out IBuildingFactory factory );
             if ( factory == null )
                 throw new InvalidOperationException(
                     "This building doesn't have a factory to create it" );
-            var building = factory.Create( this, xCoord, yCoord );
+            Building building = factory.Create( this, new Vector(xCoord,yCoord) );
 
             Buildings.Add( building );
             return building;
@@ -64,8 +63,8 @@ namespace ChickenFarmer.Model
 
         public bool CheckMaxBuildingTypeLimit<TBuildingType>() where TBuildingType : Building
         {
-            var count = 0;
-            foreach ( var building in Buildings )
+            int count = 0;
+            foreach ( Building building in Buildings )
                 if ( building is TBuildingType )
                     count ++;
             if ( typeof( TBuildingType ) == typeof( Storage ) && count == 1 ) return false;
@@ -74,8 +73,8 @@ namespace ChickenFarmer.Model
 
         public int CountNbrBuilding<TBuildingType>() where TBuildingType : Building
         {
-            var count = 0;
-            foreach ( var building in Buildings )
+            int count = 0;
+            foreach ( Building building in Buildings )
                 if ( building is TBuildingType )
                     count ++;
             return count;
@@ -85,15 +84,29 @@ namespace ChickenFarmer.Model
         {
             foreach ( Building building in Buildings )
             {
-                var item = building as Henhouse;
+                Henhouse item = building as Henhouse;
                 item?.Update(); // "?" = check for null
             }
         }
 
+        public TBuildingType FindBuilding<TBuildingType>( float xCoord, float yCoord ) where TBuildingType : Building
+        {
+            foreach ( Building building in Buildings )
+                if ( (Math.Abs( building.PosVector.X - xCoord ) < 0.1f &&
+                      Math.Abs( building.PosVector.Y - yCoord ) < 0.1f) &&
+                     building is TBuildingType )
+                    return ( TBuildingType ) building;
+            return null;
+        }
+
         public int ChickenCount()
         {
-            return CtxFarm.Buildings.Buildings.OfType<Henhouse>()
-                .Sum( house => house.ChickenCount );
+            int sum = 0;
+            foreach ( Building building in CtxFarm.Buildings.Buildings )
+                if ( building is Henhouse house )
+                    sum += house.ChickenCount;
+
+            return sum;
         }
     }
 }

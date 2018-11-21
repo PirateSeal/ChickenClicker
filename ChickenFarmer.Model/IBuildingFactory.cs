@@ -2,6 +2,6 @@
 {
     internal interface IBuildingFactory
     {
-        Building Create( BuildingCollection ctx, int xCoord, int yCoord );
+        Building Create( BuildingCollection ctx, Vector posVector );
     }
 }

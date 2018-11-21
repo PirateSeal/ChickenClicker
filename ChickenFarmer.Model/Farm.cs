@@ -14,17 +14,15 @@ namespace ChickenFarmer.Model
             Market = new Market( this );
             Buildings = new BuildingCollection( this );
             Money = Options.DefaultMoney;
-            TotalEgg = 0;
         }
 
         public FarmOptions Options { get; }
         public Market Market { get; }
         public BuildingCollection Buildings { get; }
         public int Money { get; set; }
-        internal int TotalEgg { get; set; }
         private int Chickencount => Buildings.ChickenCount();
 
-        public void AddEgg() { TotalEgg ++; }
+        public void AddEgg() { Buildings.StorageBuilding.TotalEggs ++; }
 
         public void Update()
         {
@@ -32,11 +30,11 @@ namespace ChickenFarmer.Model
             Info();
         }
 
-        public int[] UIinfo() { return new[] { Money, TotalEgg, Chickencount }; }
+        public int[] UIinfo() { return new[] { Money, Buildings.StorageBuilding.TotalEggs, Chickencount }; }
 
         private void Info()
         {
-            Console.WriteLine( "money : {0} , " + "egg :{1} ," + " chicken {2} ", Money, TotalEgg,
+            Console.WriteLine( "money : {0} , " + "egg :{1} ," + " chicken {2} ", Money, Buildings.StorageBuilding.TotalEggs,
                 Chickencount );
         }
     }
