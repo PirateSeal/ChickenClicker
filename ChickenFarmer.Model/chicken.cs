@@ -1,42 +1,54 @@
-﻿namespace ChickenFarmer.Model
-{
-    class Chicken
-    {
-        private readonly int _breed;
-        private float _hunger;
-        Henhouse _ctxHenhouse;
-        FarmOptions _options;
+﻿#region Usings
 
-        public Chicken(Henhouse henhouse, FarmOptions farmOptions, int breed)
+using System;
+
+#endregion
+
+namespace ChickenFarmer.Model
+{
+    public class Chicken
+    {
+        public enum Breed
         {
-            _breed = breed;
-            _options = farmOptions;
-            _hunger = 100;
-            _ctxHenhouse = henhouse;
+            None = 0,
+            Tier1 = 1,
+            Tier2 = 2,
+            Tier3 = 3,
+            Tier4 = 4
         }
 
+        public Chicken( Henhouse ctxHenhouse, Breed chikenBreed )
+        {
+            CtxHenhouse = ctxHenhouse ?? throw new ArgumentNullException( nameof(ctxHenhouse) );
+            ChikenBreed = chikenBreed;
+            Hunger = 100;
+        }
+
+        public bool CheckIfStarving => Hunger <= 25;
+
+        private Breed ChikenBreed { get; }
+
+        public float Hunger { get; private set; }
+
+        private Henhouse CtxHenhouse { get; set; }
+        private FarmOptions Options => CtxHenhouse.CtxCollection.CtxFarm.Options;
 
         public void Update()
         {
-            Hunger -= 0.1f;
+            Hunger -= Options.DefaultFoodConsumption * ( int ) ChikenBreed;
             Lay();
         }
 
         public void ChickenFeed()
         {
-            CtxFarm.Storage.SeedCapacity -= Breed * _options.DefaultFoodConsumption;
+            if ( CtxHenhouse != null )
+                CtxHenhouse.CtxCollection.StorageBuilding.SeedCapacity -=
+                    ( int ) Math.Round( Hunger );
             Hunger = 100;
         }
 
-        internal void Die()
-        {
-            _ctxHenhouse = null;
-        }
+        internal void Die() { CtxHenhouse = null; }
 
-        public Farm CtxFarm => _ctxHenhouse.Collection.CtxFarm;
-        public bool CheckIfStarving => _hunger <= 25 ? true : false;
-        private void Lay() => CtxFarm.AddEgg();
-        public int Breed => _breed;
-        public float Hunger { get => _hunger; set => _hunger = value; }
+        private void Lay() { CtxHenhouse.CtxCollection.CtxFarm.AddEgg(); }
     }
 }

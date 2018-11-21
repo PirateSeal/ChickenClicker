@@ -1,111 +1,103 @@
-﻿using ChickenFarmer.Model;
+﻿#region Usings
+
+using ChickenFarmer.Model;
 using NUnit.Framework;
-using System;
+
+#endregion
 
 namespace ChickenFarmer.Tests
 {
     [TestFixture]
-    class MarketTests
+    internal class MarketTests
     {
-        [Test]
-        public void Upgrade_Henhouse()
-        {
-            Farm farm = new Farm();
-            FarmOptions farmOptions = new FarmOptions();
-            Henhouse henhouse = farm.Houses.Henhouses[0];
-            int Lvl = henhouse.Lvl;
-
-            farm.Money = 5000;
-            farm.Market.UpgradeHouse(henhouse);
-
-            Assert.That(henhouse.Lvl > Lvl);
-            Assert.That(farm.Money == (5000 - farmOptions.UpgradeHouseCost[0]));
-        }
-
         [Test]
         public void Buy_Chicken()
         {
-            Farm farm = new Farm();
-            FarmOptions farmOptions = new FarmOptions();
-            Henhouse henhouse = farm.Houses.Henhouses[0];
+            Farm farm = new Farm { Money = 50000 };
+            farm.Buildings.Build<Henhouse>( 1, 1 );
+            Henhouse house = farm.Buildings.FindBuilding<Henhouse>( 1, 1 );
 
-            farm.Money = 5000;
-            farm.Market.BuyChicken(henhouse, 9, 0);
+            farm.Market.BuyChicken( 9, Chicken.Breed.Tier1 );
 
-            Assert.That(henhouse.ChickenCount == 10);
-            Assert.That(farm.Money == (5000 - (farmOptions.DefaultChickenCost[0] * 9)));
+            Assert.That( house.ChickenCount, Is.EqualTo( 9 ) );
+            Assert.That( farm.Money ==
+                         50000 - farm.Options.DefaultChickenCost[( int ) Chicken.Breed.Tier1 - 1] *
+                         9 );
         }
 
         [Test]
         public void Buy_Chicken_Without_Enough_Money()
         {
-            Farm farm = new Farm();
-            Henhouse henhouse = farm.Houses.Henhouses[0];
-            int initChicken = farm.Houses.Henhouses[0].ChickenCount;
+            Farm farm = new Farm { Money = 2 };
+            farm.Buildings.Build<Henhouse>( 1, 1 );
 
-            farm.Money = 2;
-            farm.Market.BuyChicken(henhouse, 5, 0);
+            farm.Market.BuyChicken( 5, Chicken.Breed.Tier1 );
 
-            Assert.That(farm.Houses.Henhouses[0].ChickenCount == initChicken);
+            Assert.That( farm.Buildings.ChickenCount(), Is.EqualTo( 0 ) );
+        }
+
+        [Test]
+        public void Buy_Henhouse()
+        {
+            Farm farm = new Farm { Money = 5000 };
+            farm.Market.BuyHenhouse( 1, 1 );
+
+            Assert.That( farm.Money, Is.EqualTo( 5000 - farm.Options.DefaultHenHouseCost ) );
+            Assert.That( farm.Buildings.Buildings.Count, Is.EqualTo( 1 ) );
+            Assert.That( farm.Buildings.CountNbrBuilding<Henhouse>(), Is.EqualTo( 1 ) );
         }
 
         [Test]
         public void Buy_Too_Much_Chicken()
         {
-            Farm farm = new Farm();
-            FarmOptions farmOptions = new FarmOptions();
-            var henhouse = farm.Houses.Henhouses[0];
-            int initChicken = henhouse.ChickenCount;
+            Farm farm = new Farm { Money = 5000 };
+            farm.Buildings.Build<Henhouse>( 1, 1 );
 
-            farm.Money = 5000;
-            farm.Market.BuyChicken(henhouse, 20, 0);
-            int endChicken = henhouse.ChickenCount;
+            farm.Market.BuyChicken( 15, Chicken.Breed.Tier1 );
 
-            Assert.That(henhouse.ChickenCount == henhouse.Limit);
-            Assert.That(farm.Money == (5000 - (farmOptions.DefaultChickenCost[0] * (endChicken - initChicken) ) ) );
+            Assert.That( farm.Buildings.ChickenCount(), Is.EqualTo( 10 ) );
+            Assert.That( farm.Money,
+                Is.EqualTo( 5000 - 10 *
+                            farm.Options.DefaultChickenCost[( int ) Chicken.Breed.Tier1 - 1] ) );
+        }
+
+        [Test]
+        public void Cant_Buy_Henhouse_With_NoMoney()
+        {
+            Farm farm = new Farm { Money = 15 };
+
+            farm.Market.BuyHenhouse( 1, 1 );
+
+            Assert.That(farm.Money,Is.EqualTo(15));
+            Assert.That(farm.Buildings.Buildings.Count, Is.EqualTo(0));
         }
 
         [Test]
         public void Sell_Eggs()
         {
             Farm farm = new Farm();
-            FarmOptions farmOptions = new FarmOptions();
+            farm.Buildings.Build<Storage>( 1, 1 );
+            farm.Buildings.StorageBuilding.TotalEggs = 500;
 
-            farm.TotalEgg = 5000;
-            farm.Money = 0;
-            farm.Market.Sellegg(farm);
+            Market.Sellegg(farm);
 
-            Assert.That(farm.Money == 10000);
-            Assert.That(farm.TotalEgg == 0);
-        }
-        
-        [Test]
-        public void Buy_Henhouse()
-        {
-            Farm farm = new Farm();
-            FarmOptions farmOptions = new FarmOptions();
-            int nbrHenhouse = farm.Houses.Count();
-
-            farm.Money = 5000;
-            farm.Market.BuyHenhouse();
-
-            Assert.That(farm.Money == (5000 - farmOptions.DefaultHenHouseCost));
-            Assert.That(farm.Houses.Count() > nbrHenhouse);
-            Assert.That(farm.Houses.Count() == 2);
+            Assert.That(farm.Buildings.StorageBuilding.TotalEggs,Is.EqualTo(0));
+            Assert.That(farm.Money,Is.EqualTo(1100));
         }
 
         [Test]
-        public void Cant_Buy_Henhouse_With_NoMoney()
+        public void Upgrade_Henhouse()
         {
-            Farm farm = new Farm();
-            FarmOptions farmOptions = new FarmOptions();
-            int nbrHenhouse = farm.Houses.Count();
+            Farm farm = new Farm { Money = 50000 };
+            farm.Buildings.Build<Henhouse>(1, 1);
+            Henhouse house = farm.Buildings.FindBuilding<Henhouse>(1, 1);
+            int lvl = farm.Buildings.FindBuilding<Henhouse>(1, 1).Lvl;
 
-            farm.Money = 125;
-            farm.Market.BuyHenhouse();
+            farm.Market.UpgradeHouse(house);
 
-            Assert.That(farm.Money == 125);
-            Assert.That(farm.Houses.Count() == nbrHenhouse);
+            Assert.That(farm.Buildings.FindBuilding<Henhouse>(1, 1).Lvl > lvl);
+            Assert.That(farm.Money,
+                Is.EqualTo(50000 - farm.Options.UpgradeHouseCost * house.Lvl));
         }
     }
 }
