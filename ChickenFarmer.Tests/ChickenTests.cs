@@ -1,61 +1,80 @@
-﻿using ChickenFarmer.Model;
+﻿#region Usings
+
+using ChickenFarmer.Model;
 using NUnit.Framework;
-using System;
+
+#endregion
 
 namespace ChickenFarmer.Tests
 {
     [TestFixture]
-    class ChickenTests
+    internal class ChickenTests
     {
-        [Test]
-        public void Create_Chicken()
-        {
-            Farm farm = new Farm();
-            var henhouse = farm.Houses.Henhouses[0];
-            farm.Money = 5000;
-
-            farm.Market.BuyChicken(henhouse, 1, 0);
-
-            Assert.That(henhouse.ChickenCount == 1);
-        }
-
         [Test]
         public void Chicken_Starve_To_Death()
         {
-            Farm farm = new Farm();
-            var henhouse = farm.Houses.Henhouses[0];
-            farm.Money = 5000;
+            Farm farm = new Farm { Money = 5000 };
+            farm.Buildings.Build<Storage>( 1, 1 );
+            farm.Market.BuyHenhouse( 1, 2 );
 
-            farm.Market.BuyChicken(henhouse, 1, 0);
-            for (int i = 0; i < 101; i++)
-            {
-                farm.Update();
-            }
+            farm.Market.BuyChicken( 1, Chicken.Breed.Tier1 );
+            for (int i = 0; i < 2000; i ++) farm.Update();
 
-            Assert.That(henhouse.ChickenCount == 0);
+            Assert.That( farm.Buildings.ChickenCount(), Is.EqualTo( 0 ) );
         }
 
         [Test]
-        public void Feed_All_chicken_In_One_Henhouse()
+        public void Create_Chicken()
         {
-            Farm farm = new Farm();
-            var henhouse = farm.Houses.Henhouses[0];
-            farm.Money = 5000;
+            Farm farm = new Farm { Money = 5000 };
+            farm.Buildings.Build<Storage>( 1, 2 );
+            farm.Market.BuyHenhouse( 1, 4 );
 
-            farm.Market.BuyChicken(henhouse, 5, 0);
-            for (int i = 0; i < 85; i++)
-            {
-                farm.Update();
-            }
+            farm.Market.BuyChicken( 5, Chicken.Breed.Tier1 );
 
-            farm.Market.BuyFood(60,Market.StorageType.Seed);
-            henhouse.FeedChicken();
+            Assert.That( farm.Buildings.ChickenCount(), Is.EqualTo( 5 ) );
+            Assert.That( farm.Money,
+                Is.EqualTo( 5000 - (farm.Options.DefaultChickenCost[0] * 5 +
+                                    farm.Options.DefaultHenHouseCost) ) );
+        }
 
-            farm.Update();
-            foreach (var item in farm.Houses.Henhouses)
-            {
-                Assert.That(item.CountDyingChickens == 0);
-            }
+        [Test]
+        public void Feed_All_Chicken_In_One_Henhouse()
+        {
+            Farm farm = new Farm { Money = 5000 };
+            farm.Buildings.Build<Storage>( 1, 1 );
+            farm.Buildings.Build<Henhouse>( 1, 2 );
+            Henhouse house = farm.Buildings.FindBuilding<Henhouse>( 1, 2 );
+
+            farm.Market.BuyFood( 500, Market.StorageType.Seed );
+            farm.Market.BuyChicken( 5, Chicken.Breed.Tier1 );
+            for (int i = 0; i < 85; i ++) farm.Update();
+
+            house.FeedAllChicken();
+
+            foreach ( Chicken chicken in house.Chikens )
+                Assert.That( chicken.Hunger, Is.EqualTo( 100f ) );
+            Assert.That( farm.Buildings.StorageBuilding.SeedCapacity, Is.Not.EqualTo( 500 ) );
+        }
+
+        [Test]
+        public void Feed_All_Dying_Chicken_In_One_Henhouse()
+        {
+            Farm farm = new Farm { Money = 5000 };
+            farm.Buildings.Build<Storage>( 1, 1 );
+            farm.Buildings.Build<Henhouse>( 1, 2 );
+            Henhouse house = farm.Buildings.FindBuilding<Henhouse>( 1, 2 );
+
+            farm.Market.BuyFood( 500, Market.StorageType.Seed );
+            farm.Market.BuyChicken( 1, Chicken.Breed.Tier1 );
+            for (int i = 0; i < 850; i ++) farm.Update();
+
+            house.FeedAllDyingChicken();
+
+            foreach ( Chicken chicken in house.Chikens )
+                Assert.That( chicken.Hunger, Is.EqualTo( 100f ) );
+            Assert.That( house.CountDyingChickens, Is.EqualTo( 0 ) );
+            Assert.That( farm.Buildings.StorageBuilding.SeedCapacity, Is.Not.EqualTo( 500 ) );
         }
     }
 }

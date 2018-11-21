@@ -6,7 +6,7 @@ namespace ChickenFarmer.UI
     {
         static void Main(string[] args)
         {
-            Game game = new Game(AppContext.BaseDirectory);
+            GameLoop game = new GameLoop();
             game.Run();
         }
     }

@@ -1,104 +1,106 @@
+#region Usings
+
+using System;
 using System.Collections.Generic;
+using System.Linq;
+
+#endregion
 
 namespace ChickenFarmer.Model
 {
-    public class Henhouse
+    public class Henhouse : Building
     {
-        HenhouseCollections _ctx;
-        FarmOptions _options;
-        List<Chicken> _chickens;
-        List<Chicken> _dyingChickens;
-        int _lvl;
-        int _limit;
-
-        public Henhouse(HenhouseCollections henhouseCollections, FarmOptions farmOptions, int limit)
+        public Henhouse( BuildingCollection ctx, Vector posVector ) : base( ctx, posVector )
         {
-            _options = farmOptions;
-            _ctx = henhouseCollections;
-            _lvl = 0;
-            _limit = _options.DefaultHenHouseLimit;
-            _chickens = new List<Chicken>(_limit * _lvl);
-            _dyingChickens = new List<Chicken>();
+            CtxCollection = ctx ?? throw new ArgumentNullException( nameof(ctx) );
+            PosVector = posVector;
+            Capacity = ctx.CtxFarm.Options.DefaultHenHouseLimit;
+            Lvl = 0;
+            Chikens = new List<Chicken>( Capacity * Lvl );
+            DyingChickens = new List<Chicken>();
         }
+
+        private FarmOptions Options => CtxCollection.CtxFarm.Options;
+        public List<Chicken> Chikens { get; }
+        private List<Chicken> DyingChickens { get; }
+
+        public int ChickenCount => Chikens.Count;
+        private int Capacity { get; set; }
+
+        public bool IsFull => ChickenCount == Capacity;
+
+        public int Lvl { get; private set; }
+
+        public int CountDyingChickens => DyingChickens.Count;
 
         public void Upgrade()
         {
-            _lvl++;
-            int newLimit;
-            newLimit = _limit * _lvl;
-
-            _chickens.Capacity = newLimit;
+            Lvl ++;
+            int newLimit = Options.DefaultHenHouseLimit * Lvl;
+            Capacity = newLimit;
         }
 
-        public void FeedChicken()
+        private static float ToFeed( IEnumerable<Chicken> collection )
         {
-            if (Collection.Farm.Storage.SeedCapacity >= CountDyingChickens)
+            return collection.Sum( chicken =>
             {
-                foreach (var chicken in Chikens)
-                {
-                    chicken.ChickenFeed();
-                }
-            }
+                if ( chicken == null ) throw new ArgumentNullException( nameof(chicken) );
+
+                return 100f - chicken.Hunger;
+            } );
         }
 
-        public void AddChicken(int breed)
+        public void FeedAllChicken()
         {
-            Chicken newchiken = new Chicken(this, _options, breed);
-            _chickens.Add(newchiken);
+            if ( CtxCollection.StorageBuilding.SeedCapacity < ToFeed( Chikens ) ) return;
+            foreach ( Chicken chicken in Chikens ) chicken.ChickenFeed();
         }
+
+        public void FeedAllDyingChicken()
+        {
+            if ( CtxCollection.StorageBuilding.SeedCapacity < ToFeed( DyingChickens ) ) return;
+            foreach ( Chicken chicken in DyingChickens ) chicken.ChickenFeed();
+            DyingChickens.Clear();
+        }
+
+        public void AddChicken( Chicken.Breed breed ) { Chikens.Add( new Chicken( this, breed ) ); }
 
         public void Update()
         {
-            foreach (Chicken item in _chickens)
+            foreach ( Chicken chicken in Chikens )
             {
-                item.Update();
-                if (item.CheckIfStarving&& !FindDyingChicken(item))
-                {
-                    _dyingChickens.Add(item);
-                }
+                chicken.Update();
+                if ( chicken.CheckIfStarving && !FindDyingChicken( chicken ) )
+                    DyingChickens.Add( chicken );
             }
-            if (!CheckIfAllDyingAreFed())
-            {
-                KillStarvingChicken();
-            }
+
+            if ( !CheckIfAllDyingAreFed() ) KillStarvingChicken();
         }
 
-        internal bool CheckIfAllDyingAreFed()
+        private bool CheckIfAllDyingAreFed()
         {
-            foreach (Chicken chicken in _dyingChickens)
-            {
-                if (chicken.Hunger <= 25) return false;
-            }
+            foreach ( Chicken chicken in DyingChickens )
+                if ( chicken.Hunger <= 25 )
+                    return false;
             return true;
         }
 
-        internal void KillStarvingChicken()
+        private void KillStarvingChicken()
         {
-            foreach (var chicken in _dyingChickens)
-            {
-                if (chicken.Hunger <= 0)
+            foreach ( Chicken chicken in DyingChickens )
+                if ( chicken.Hunger <= 0 )
                 {
                     chicken.Die();
-                    _chickens.Remove(chicken);
+                    Chikens.Remove( chicken );
                 }
-            }
-            _dyingChickens.Clear();
         }
 
-        internal bool FindDyingChicken(Chicken chickenParam)
+        private bool FindDyingChicken( Chicken chickenParam )
         {
-            foreach (Chicken chicken in _dyingChickens)
-            {
-                if (chickenParam == chicken) return true;
-            }
+            foreach ( Chicken chicken in DyingChickens )
+                if ( chickenParam == chicken )
+                    return true;
             return false;
         }
-
-        internal HenhouseCollections Collection => _ctx;
-        internal List<Chicken> Chikens => _chickens;
-        public int ChickenCount => _chickens.Count;
-        public int Limit => _limit;
-        public int Lvl => _lvl;
-        public int CountDyingChickens => _dyingChickens.Count;
     }
 }
