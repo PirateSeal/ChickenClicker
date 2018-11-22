@@ -1,23 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 
+
 namespace ChickenFarmer.Model
 {
-    internal class Player
+    public class Player
     {
-        public int Life { get; }
-        public float MaxSpeed { get; }
-        public float Speed { get; }
-        public Vector PosVector { get; }
-        public List<Type> Inventory { get; }
-        public Farm CtxFarm { get; }
+        public int _life;
+        public float _speed;
+        public Vector _position;
+        public List<Building> _inventory;
+        public Farm _ctxFarm;
+        public Vector _direction;
 
-        public Player(Farm ctxFarm, Vector posVector)
+        public Player(Farm ctxFarm)
         {
-            CtxFarm = ctxFarm ?? throw new ArgumentNullException(nameof(ctxFarm));
-            PosVector = posVector;
-            Life = 10;
-            MaxSpeed = ctxFarm.Options.DefaultPlayerMaxSpeed;
+            _ctxFarm = ctxFarm ?? throw new ArgumentNullException(nameof(ctxFarm));
+            _position = new Vector(200, 200);
+            _life = ctxFarm.Options.DefaultPlayerLife;
+            _speed = ctxFarm.Options.DefaultPlayerMaxSpeed;
+            _inventory = new List<Building>();
         }
+
+        public Vector Position
+        {
+            get { return _position; }
+            set { _position = value; }
+        }
+        
+        
+
+
+        
+        
+
+        
+
+             
+    
     }
 }

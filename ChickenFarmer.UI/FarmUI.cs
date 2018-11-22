@@ -16,14 +16,14 @@ namespace ChickenFarmer.UI
         private readonly Vector2f _buttonSize = new Vector2f( 80f, 60f );
         private readonly Vector2f _buttonPos = new Vector2f( 10f, 540f );
         private Text _text;
-
+        public PlayerUI _playerUI;
         public Farm Farm { get; private set; }
 
         public FarmUI( GameLoop ctx )
         {
             Farm = new Farm();
-
             CtxGame = ctx;
+            _playerUI = new PlayerUI(this, Farm.Player, new Vector2f(Farm.Player.Position.X, Farm.Player.Position.Y));
             HenhouseCollection = new HenhouseCollectionUi( this );
 
             Font font = new Font( FontLocation );

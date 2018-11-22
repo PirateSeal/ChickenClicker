@@ -10,7 +10,7 @@ namespace ChickenFarmer.UI
         private readonly FarmUI _ctxfarmUi;
         private Vector2f _housePos = new Vector2f(100f, 100f);
 
-
+        
         public HenhouseCollectionUi(FarmUI farmUi)
         {
             _ctxfarmUi = farmUi;

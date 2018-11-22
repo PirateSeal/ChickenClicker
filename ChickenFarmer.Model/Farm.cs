@@ -8,14 +8,18 @@ namespace ChickenFarmer.Model
 {
     public class Farm
     {
+        
+
         public Farm()
         {
             Options = new FarmOptions();
-            Market = new Market( this );
-            Buildings = new BuildingCollection( this );
+            Market = new Market(this);
+            Buildings = new BuildingCollection(this);
             Money = Options.DefaultMoney;
+            Player = new Player(this);
         }
 
+        public Player Player { get; } 
         public FarmOptions Options { get; }
         public Market Market { get; }
         public BuildingCollection Buildings { get; }

@@ -22,6 +22,8 @@ namespace ChickenFarmer.UI
             Window.SetFramerateLimit( 60 );
 
             FarmUI = new FarmUI( this );
+            
+            
             _playerInput = new InputHandler( this );
 
             _mapTest = new MapTest( "../../../../Data/map/3Layers.tmx", this );
@@ -65,10 +67,12 @@ namespace ChickenFarmer.UI
                 Window.View = View;
                 Window.Clear( new Color( 255, 0, 255 ) );
                 Window.Draw( square );
+                
                 //   _window.Draw(background);
                 FarmUI.DrawInfo();
                 FarmUI.HenhouseCollection.DrawHouses();
                 Window.Draw(_mapTest);
+                FarmUI._playerUI.DrawPlayer();
                 Window.Display();
                 Update();
             }
