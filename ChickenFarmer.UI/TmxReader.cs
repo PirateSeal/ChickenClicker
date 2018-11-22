@@ -2,88 +2,77 @@
 using System.Collections.Generic;
 using System.Text;
 using TiledSharp;
-
 using SFML.System;
 using SFML.Graphics;
 
 namespace ChickenFarmer.UI
 {
-    class TmxReader
+    internal class TmxReader
     {
+        TmxMap _map;
 
-        TmxMap map;
-
-        public TmxReader(string file)
+        public TmxReader( string file )
         {
+            _map = new TmxMap( file );
+            Dictionary<Vector2i, IntRect> layers = new Dictionary<Vector2i, IntRect>();
+            VertexMap[] vertexMap;
 
-            map = new TmxMap(file);
-            var layers = new Dictionary<Vector2i, IntRect>();
-            VertexMap[] _VertexMap;
-           
-
-            foreach (var item in map.Tilesets)
+            foreach ( TmxTileset item in _map.Tilesets )
             {
-                Texture texture = new Texture(item.Image.Source);
-                Console.WriteLine(item.Image.Source);
+                Texture texture = new Texture( item.Image.Source );
+                Console.WriteLine( item.Image.Source );
             }
 
-
-            foreach (var layer in map.Layers)
+            foreach ( TmxLayer layer in _map.Layers )
             {
+                int tileHeight = _map.TileHeight;
+                int tileWidth = _map.TileWidth;
 
-                var tileHeight = map.TileHeight;
-                var tileWidth = map.TileWidth;
-                
-
-                foreach (var tile in layer.Tiles)
+                foreach ( TmxLayerTile tile in layer.Tiles )
                 {
-                    var tiled = new Vector2i(tile.X*16, tile.Y*16);
-                    var VectorSize = new Vector2i(tileHeight,tileWidth);
-                    var rect = new IntRect(tiled, VectorSize);
+                    Vector2i tiled = new Vector2i( tile.X * 16, tile.Y * 16 );
+                    Vector2i vectorSize = new Vector2i( tileHeight, tileWidth );
+                    IntRect rect = new IntRect( tiled, vectorSize );
 
-
-                    Console.WriteLine("gid:{0}  , posX:{1} , posY:{2}", tile.Gid, tile.X*16,tile.Y*16);
-
+                    Console.WriteLine( "gid:{0}  , posX:{1} , posY:{2}", tile.Gid, tile.X * 16,
+                        tile.Y * 16 );
                 }
-               
-
             }
-          
-
         }
+
         private void Map()
         {
-            Dictionary<int, KeyValuePair<IntRect, Texture>> gidDict = ConvertGidDict(map.Tilesets);
-
+            Dictionary<int, KeyValuePair<IntRect, Texture>> gidDict =
+                ConvertGidDict( _map.Tilesets );
         }
 
-
-
-        private Dictionary<int, KeyValuePair<IntRect, Texture>> ConvertGidDict(IEnumerable<TmxTileset> tilesets)
+        private Dictionary<int, KeyValuePair<IntRect, Texture>> ConvertGidDict(
+            IEnumerable<TmxTileset> tilesets )
         {
-            var gidDict = new Dictionary<int, KeyValuePair<IntRect, Texture>>();
+            Dictionary<int, KeyValuePair<IntRect, Texture>> gidDict =
+                new Dictionary<int, KeyValuePair<IntRect, Texture>>();
 
-            foreach (var ts in tilesets)
+            foreach ( TmxTileset ts in tilesets )
             {
-                var sheet = new Texture(ts.Image.Source);
+                Texture sheet = new Texture( ts.Image.Source );
 
                 // Loop hoisting
-                var wStart = ts.Margin;
-                var wInc = ts.TileWidth + ts.Spacing;
-                var wEnd = ts.Image.Width;
+                int wStart = ts.Margin;
+                int wInc = ts.TileWidth + ts.Spacing;
+                int? wEnd = ts.Image.Width;
 
-                var hStart = ts.Margin;
-                var hInc = ts.TileHeight + ts.Spacing;
-                var hEnd = ts.Image.Height;
+                int hStart = ts.Margin;
+                int hInc = ts.TileHeight + ts.Spacing;
+                int? hEnd = ts.Image.Height;
 
                 // Pre-compute tileset rectangles
-                var id = ts.FirstGid;
-                for (var h = hStart; h < hEnd; h += hInc)
+                int id = ts.FirstGid;
+                for (int h = hStart; h < hEnd; h += hInc)
                 {
-                    for (var w = wStart; w < wEnd; w += wInc)
+                    for (int w = wStart; w < wEnd; w += wInc)
                     {
-                        var rect = new IntRect(w, h, ts.TileWidth, ts.TileHeight);
-                        gidDict.Add(id, new KeyValuePair<IntRect, Texture>(rect, sheet));
+                        IntRect rect = new IntRect( w, h, ts.TileWidth, ts.TileHeight );
+                        gidDict.Add( id, new KeyValuePair<IntRect, Texture>( rect, sheet ) );
                         id += 1;
                     }
                 }
@@ -91,6 +80,5 @@ namespace ChickenFarmer.UI
 
             return gidDict;
         }
-
     }
 }

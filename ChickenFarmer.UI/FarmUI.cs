@@ -9,84 +9,64 @@ using SFML.Window;
 
 namespace ChickenFarmer.UI
 {
-    class FarmUI
+    internal class FarmUI
     {
-        string FontLocation = "../../../../Data/pricedown.ttf";
-        
-        Farm farm;
-        GameLoop _ctxGame;
-        Font font;
-        Shape _buttonSellEggs;
-        HenhouseCollectionUI henhouseCollection;
+        private const string FontLocation = "../../../../Data/pricedown.ttf";
 
-        Vector2f buttonSize = new Vector2f(80f, 60f);
-        Vector2f buttonPos = new Vector2f(10f, 540f);
-        Text text = new Text();
+        private readonly Vector2f _buttonSize = new Vector2f( 80f, 60f );
+        private readonly Vector2f _buttonPos = new Vector2f( 10f, 540f );
+        private Text _text;
 
+        public Farm Farm { get; private set; }
 
-
-
-        public Farm Farm { get => farm; set => farm = value; }
-
-        public FarmUI(GameLoop ctx)
+        public FarmUI( GameLoop ctx )
         {
-            farm = new Farm();
+            Farm = new Farm();
 
-            _ctxGame = ctx;
-            henhouseCollection = new HenhouseCollectionUI(this);
+            CtxGame = ctx;
+            HenhouseCollection = new HenhouseCollectionUi( this );
 
-            font = new Font(FontLocation);
-            text = new Text("",font);
+            Font font = new Font( FontLocation );
+            _text = new Text( "", font );
 
-            _buttonSellEggs = new RectangleShape(buttonSize)
-            {
-                Position = buttonPos,
-            };
-
-            
-            
-
+            ButtonSellEggs = new RectangleShape( _buttonSize ) { Position = _buttonPos, };
         }
 
-
-        public void update()
-        {
-            farm.Update();
-        }
+        public void Update() { Farm.Update(); }
 
         public void DrawInfo()
         {
-            int[] info = farm.UIinfo();
+            int[] info = Farm.UIinfo();
             string infoToPrint = "";
 
             int i;
-            for (i = 0; i < 3; i++)
+            for (i = 0; i < 3; i ++)
             {
-                if (i == 0)
+                switch (i)
                 {
-                    infoToPrint += "Argent : " + info[i].ToString() + "\n";
-                }
-                else if (i == 1)
-                {
-                    infoToPrint += "Oeufs : " + info[i].ToString() + "\n";
-                }
-                else if ( i == 2 )
-                {
-                    infoToPrint += "Poules : " + info[i].ToString() + "\n";
+                    case 0:
+                        infoToPrint += "Argent : " + info[i].ToString() + "\n";
+                        break;
+                    case 1:
+                        infoToPrint += "Oeufs : " + info[i].ToString() + "\n";
+                        break;
+                    case 2:
+                        infoToPrint += "Poules : " + info[i].ToString() + "\n";
+                        break;
+                    default:
+                        break;
                 }
             }
 
-            text.DisplayedString = infoToPrint;
-            _ctxGame.Window.Draw(text);
+            _text.DisplayedString = infoToPrint;
+            CtxGame.Window.Draw( _text );
 
-            _ctxGame.Window.Draw(_buttonSellEggs);
-
+            CtxGame.Window.Draw( ButtonSellEggs );
         }
 
-
-        public Shape ButtonSellEggs { get => _buttonSellEggs; }
-        public GameLoop CtxGame { get => _ctxGame; set => _ctxGame = value; }
-        internal HenhouseCollectionUI HenhouseCollection { get => henhouseCollection; set => henhouseCollection = value; }
+        public Shape ButtonSellEggs { get; }
+        public GameLoop CtxGame { get; private set; }
+        internal HenhouseCollectionUi HenhouseCollection { get; set; }
     }
 }
 

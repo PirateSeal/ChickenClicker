@@ -11,136 +11,102 @@ namespace ChickenFarmer.UI
 {
     public class HouseMenu
     {
-        bool drawState;
+        private readonly Vector2f _buttonSize = new Vector2f( 80f, 60f );
 
-        Vector2f buttonSize = new Vector2f(80f, 60f);
-        Vector2f _menuSize = new Vector2f(200f, 200f);
+        private readonly Vector2f _menuSize = new Vector2f( 200f, 200f );
+
         //convert vector for relative position of sprite 
-        Vector2f _menuPos;
-        Vector2f _buttonBuyChickenPos;
-        Vector2f _buttonHenHouseUpgradePos;
-        Vector2f _textBuychickenPos;
-        Vector2f _textUpgardeHousePos;
+        private Vector2f TextBuychickenPos { get; }
+        private Vector2f _textUpgradeHousePos;
+        private GameLoop _ctxGame;
+        private HenhouseUi _ctxHouseUI;
 
-        Shape _menu;
-        Shape _buttonBuyChicken;
-        Shape _buttonHenHouseUpgrade;
+        private Texture ButtonTexture { get; } =
+            new Texture( "../../../../Data/UI/button/button.png" );
 
-        GameLoop _ctxGame;
-        HenhouseUI _ctxHouseUI;
-        Henhouse _ctxHouse;
+        public Texture ClickedbuttonTexture { get; } =
+            new Texture( "../../../../Data/UI/button/button.png" );
 
+        private readonly Font _font = new Font( "../../../../Data/pricedown.ttf" );
+        private readonly Text _text = new Text();
+        private Text _textBuychicken;
+        private Text _textUpgradeHouse;
 
-        Texture _buttonTexture = new Texture("../../../../Data/UI/button/button.png");
-        Texture _clickedbuttonTexture = new Texture("../../../../Data/UI/button/button.png");
-
-        Font font = new Font("../../../../Data/pricedown.ttf");
-        Text _text = new Text();
-        Text _textBuychicken;
-        Text _textUpgardeHouse;
-
-
-
-        internal HouseMenu(GameLoop ctxGame,Henhouse ctxHouse,HenhouseUI ctxHouseUI )
+        internal HouseMenu( GameLoop ctxGame, HenhouseUi ctxHouseUI )
         {
-            _ctxHouse = ctxHouse;
             _ctxGame = ctxGame;
-            drawState = false;
+            DrawState = false;
             _ctxHouseUI = ctxHouseUI;
 
-            _menuPos = new Vector2f(_ctxHouseUI.HousePos1.X, _ctxHouseUI.HousePos1.Y + 100f);
-            _buttonBuyChickenPos = new Vector2f(_menuPos.X+50f,_menuPos.Y+80);
-            _buttonHenHouseUpgradePos = new Vector2f(_buttonBuyChickenPos.X , _buttonBuyChickenPos.Y+60f);
-            _textBuychickenPos = new Vector2f(_textUpgardeHousePos.X, _buttonHenHouseUpgradePos.Y + 20);
-            _textUpgardeHousePos = new Vector2f(_buttonHenHouseUpgradePos.X+15,_buttonHenHouseUpgradePos.Y+20);
+            Vector2f menuPos =
+                new Vector2f( _ctxHouseUI.HousePos1.X, _ctxHouseUI.HousePos1.Y + 100f );
+            Vector2f buttonBuyChickenPos = new Vector2f( menuPos.X + 50f, menuPos.Y + 80 );
+            Vector2f buttonHenHouseUpgradePos =
+                new Vector2f( buttonBuyChickenPos.X, buttonBuyChickenPos.Y + 60f );
+            TextBuychickenPos =
+                new Vector2f( _textUpgradeHousePos.X, buttonHenHouseUpgradePos.Y + 20 );
+            _textUpgradeHousePos = new Vector2f( buttonHenHouseUpgradePos.X + 15,
+                buttonHenHouseUpgradePos.Y + 20 );
 
-
-
-            _menu = new RectangleShape(_menuSize)
+            Menu = new RectangleShape( _menuSize )
             {
-
                 FillColor = Color.Blue,
-                Position = _menuPos, 
+                Position = menuPos,
                 OutlineThickness = 2f,
                 OutlineColor = Color.Black
-                
-            };
-            
-            
-
-            _buttonBuyChicken = new RectangleShape(buttonSize)
-            {
-            Texture = _buttonTexture,
-            Position = _buttonBuyChickenPos
-              
             };
 
-            _textBuychicken = new Text("buy chicken", font,13)
+            ButtonBuyChicken = new RectangleShape( _buttonSize )
             {
-                Position =_buttonBuyChickenPos
+                Texture = ButtonTexture, Position = buttonBuyChickenPos
             };
 
-
-
-
-
-            _buttonHenHouseUpgrade = new RectangleShape(buttonSize)
+            _textBuychicken = new Text( "buy chicken", _font, 13 )
             {
-                Texture = _buttonTexture,
+                Position = buttonBuyChickenPos
+            };
+
+            ButtonHenHouseUpgrade = new RectangleShape( _buttonSize )
+            {
+                Texture = ButtonTexture,
                 FillColor = Color.Green,
-                Position = _buttonHenHouseUpgradePos
+                Position = buttonHenHouseUpgradePos
             };
 
-
-
-            _textUpgardeHouse = new Text("Upgrade", font,13)
+            _textUpgradeHouse = new Text( "Upgrade", _font, 13 )
             {
-                Position = _textUpgardeHousePos
+                Position = _textUpgradeHousePos
             };
 
-            _text.Font = font;
-            _text.Position = _menuPos;
+            _text.Font = _font;
+            _text.Position = menuPos;
             _text.CharacterSize = 20;
-
-
         }
-
-
-
-
-
 
         public void DrawGui()
         {
-            if (drawState)
+            if ( DrawState )
             {
-                
-                _ctxGame.Window.Draw(_menu);
-                _ctxGame.Window.Draw(_buttonBuyChicken);
-                _ctxGame.Window.Draw(_buttonHenHouseUpgrade);
-                _ctxGame.Window.Draw(_textBuychicken);
-                _ctxGame.Window.Draw(_textUpgardeHouse);
+                _ctxGame.Window.Draw( Menu );
+                _ctxGame.Window.Draw( ButtonBuyChicken );
+                _ctxGame.Window.Draw( ButtonHenHouseUpgrade );
+                _ctxGame.Window.Draw( _textBuychicken );
+                _ctxGame.Window.Draw( _textUpgradeHouse );
 
-
-
-                string infoLvl = "Lvl :" + _ctxHouse.Lvl.ToString();
-                string infoLimit = "limit :" + _ctxHouse.Limit.ToString();
-                string infoChicken = "chicken Count :" + _ctxHouse.ChickenCount.ToString();
-
+                string infoLvl = "Lvl :" + _ctxHouseUI.Ctxhouse.Lvl;
+                string infoLimit = "limit :" + _ctxHouseUI.Ctxhouse.MaxCapacity;
+                string infoChicken = "chicken Count :" + _ctxHouseUI.Ctxhouse.ChickenCount;
 
                 _text.DisplayedString = infoLvl + " " + infoLimit + " " + infoChicken;
-                
 
-                _ctxGame.Window.Draw(_text);
+                _ctxGame.Window.Draw( _text );
             }
         }
 
+        public Shape Menu { get; }
+        public Shape ButtonBuyChicken { get; }
+        public Shape ButtonHenHouseUpgrade { get; }
 
-
-        public Shape Menu { get => _menu; }
-        public Shape ButtonBuyChicken { get => _buttonBuyChicken; }
-        public Shape ButtonHenHouseUpgrade { get => _buttonHenHouseUpgrade; }
-
-        public bool DrawState { get => drawState; set => drawState = value; }
+        public bool DrawState { get; set; }
     }
 }

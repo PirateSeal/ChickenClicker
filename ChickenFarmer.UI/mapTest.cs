@@ -7,76 +7,70 @@ using SFML.System;
 
 namespace ChickenFarmer.UI
 {
-    class mapTest : IDrawable 
+    internal class MapTest : IDrawable
     {
-        static readonly Vector2f[] Direction = { new Vector2f(0, 0), new Vector2f(16, 0), new Vector2f(16, 16), new Vector2f(0, 16) };
+        private static readonly Vector2f[] Direction =
+        {
+            new Vector2f( 0, 0 ), new Vector2f( 16, 0 ), new Vector2f( 16, 16 ),
+            new Vector2f( 0, 16 )
+        };
 
-        TmxMap _map;
-        VertexArray _vertexMap;
-        VertexArray _vertexArray;
+        private TmxMap _map;
+        public VertexArray Map { get; }
+        private VertexArray _vertexArray;
 
-        Texture[] _texturesArray;
-        GameLoop _gameCtx;
+        private Texture[] _texturesArray;
+        private GameLoop _gameCtx;
+
         private bool _disposed;
-      //  Color color = new Color(255, 255, );
-        int _tileSize;
-        int _mapSize;
-        int _tileSetSize;
 
-        public mapTest(string file, GameLoop gameCtx)
+        //  Color color = new Color(255, 255, );
+        public int TileSize { get; }
+        public int MapSize { get; }
+        public int TileSetSize { get; }
+
+        public MapTest( string file, GameLoop gameCtx )
         {
             _gameCtx = gameCtx;
-            _map = new TmxMap(file);
-            _vertexArray = new VertexArray(PrimitiveType.Quads, 4 *(uint)(_map.Width*_map.Height));
-            _mapSize = _map.Height;
-            _tileSize = _map.TileHeight;
-            Console.WriteLine(file);   
+            _map = new TmxMap( file );
+            _vertexArray = new VertexArray( PrimitiveType.Quads,
+                4 * ( uint ) (_map.Width * _map.Height) );
+            MapSize = _map.Height;
+            TileSize = _map.TileHeight;
+            Console.WriteLine( file );
             LoadTexture();
-            _tileSetSize = (int)_map.Tilesets[0].Image.Width;
-          
-            ConvertLayer(_map.Layers[0]);
-            Console.WriteLine();
-         
+            int? imageWidth = _map.Tilesets[0].Image.Width; //check for null expression
+            if ( imageWidth != null ) TileSetSize = ( int ) imageWidth;
 
+            ConvertLayer( _map.Layers[0] );
+            Console.WriteLine();
         }
 
-        public void LoadTexture()
+        private void LoadTexture()
         {
             _texturesArray = new Texture[_map.Tilesets.Count];
-            for (int i = 0; i < _map.Tilesets.Count; i++)
+            for (int i = 0; i < _map.Tilesets.Count; i ++)
             {
-                _texturesArray[i] = new Texture(_map.Tilesets[i].Image.Source);
-
-            }        
-
+                _texturesArray[i] = new Texture( _map.Tilesets[i].Image.Source );
+            }
         }
 
-        public void ConvertLayer(TmxLayer layer)
+        private void ConvertLayer( TmxLayer layer )
         {
-            
-         
-                
-                for (int index = 0; index < layer.Tiles.Count; index++)
+            for (int index = 0; index < layer.Tiles.Count; index ++)
+            {
+                Console.WriteLine( "i   {0}", index );
+
+                int gid = layer.Tiles[index].Gid;
+                if ( gid != 0 )
                 {
-
-                        Console.WriteLine("i   {0}",index);
-
-                    var gid = layer.Tiles[index].Gid;
-                    if (gid != 0)
-                    {
-
-                        var pos = new Vector2i(layer.Tiles[index].X * 16, layer.Tiles[index].Y * 16);
-                        Console.WriteLine("x:{0} , y:{1} gid:{2}  ", pos.X, pos.Y, gid);
-                        Add(pos, gid);
-                    }
-
-                    
-
-
+                    Vector2i pos = new Vector2i( layer.Tiles[index].X * 16,
+                        layer.Tiles[index].Y * 16 );
+                    Console.WriteLine( "x:{0} , y:{1} gid:{2}  ", pos.X, pos.Y, gid );
+                    Add( pos, gid );
                 }
-
+            }
         }
-
 
         public void Dispose()
         {
@@ -84,46 +78,35 @@ namespace ChickenFarmer.UI
             _disposed = true;
         }
 
-        public void Draw(IRenderTarget target, in RenderStates states)
+        public void Draw( IRenderTarget target, in RenderStates states )
         {
-            
-            if (_disposed) throw new ObjectDisposedException(typeof(VertexMap).Name);
-            var state = new RenderStates(_texturesArray[0]);
-           
-            target.Draw(_vertexArray,state);
+            if ( _disposed ) throw new ObjectDisposedException( typeof( VertexMap ).Name );
+            RenderStates state = new RenderStates( _texturesArray[0] );
+
+            target.Draw( _vertexArray, state );
         }
 
-
-
-        void Add( Vector2i vertexPos,int gid)
+        private void Add( Vector2i vertexPos, int gid )
         {
-            
-
-            int tu = gid % (_tileSetSize / _tileSize)-1;
-            int tv = gid / (_tileSetSize / _tileSize);
-            if (tu < 0)
+            int tu = gid % (TileSetSize / TileSize) - 1;
+            int tv = gid / (TileSetSize / TileSize);
+            if ( tu < 0 )
             {
-                tu = _tileSetSize / _tileSize - 1;
-                tv--;
-
+                tu = TileSetSize / TileSize - 1;
+                tv --;
             }
 
+            _vertexArray.Append( new Vertex( Direction[0] + ( Vector2f ) vertexPos,
+                new Vector2f( tu * TileSize, tv * TileSize ) ) );
 
-            _vertexArray.Append(
-                new Vertex(Direction[0] + (Vector2f)vertexPos, new Vector2f(tu * _tileSize, tv * _tileSize))
-                );
+            _vertexArray.Append( new Vertex( Direction[1] + ( Vector2f ) vertexPos,
+                new Vector2f( (tu + 1) * TileSize, tv * TileSize ) ) );
 
-            _vertexArray.Append(
-                new Vertex(Direction[1] + (Vector2f)vertexPos ,  new Vector2f((tu+1) * _tileSize, tv * _tileSize))
-                );
+            _vertexArray.Append( new Vertex( Direction[2] + ( Vector2f ) vertexPos,
+                new Vector2f( (tu + 1) * TileSize, (tv + 1) * TileSize ) ) );
 
-            _vertexArray.Append(
-                new Vertex(Direction[2] + (Vector2f)vertexPos ,  new Vector2f((tu+1) * _tileSize, (tv+1) * _tileSize))
-                );
-
-            _vertexArray.Append(
-               new Vertex(Direction[3] + (Vector2f)vertexPos ,  new Vector2f(tu * _tileSize, (tv+1) * _tileSize))
-               );
+            _vertexArray.Append( new Vertex( Direction[3] + ( Vector2f ) vertexPos,
+                new Vector2f( tu * TileSize, (tv + 1) * TileSize ) ) );
         }
     }
 }

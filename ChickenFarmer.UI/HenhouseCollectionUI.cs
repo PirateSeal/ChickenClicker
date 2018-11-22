@@ -10,43 +10,37 @@ using SFML.Window;
 
 namespace ChickenFarmer.UI
 {
-    class HenhouseCollectionUI
+    internal class HenhouseCollectionUi
     {
-        private FarmUI _ctxfarmUI;
-        private List<HenhouseUI> _henhousesUI;
-        Vector2f HousePos = new Vector2f(100f, 100f);
+        private readonly FarmUI _ctxfarmUi;
+        private Vector2f _housePos = new Vector2f(100f, 100f);
 
 
-        public HenhouseCollectionUI(FarmUI farmUI)
+        public HenhouseCollectionUi(FarmUI farmUi)
         {
-            this._ctxfarmUI = farmUI;
-            _henhousesUI = new List<HenhouseUI>();
-            addHouses();
+            _ctxfarmUi = farmUi;
+            Henhouses = new List<HenhouseUi>();
+            AddHouses();
         }
 
-
-        public void addHouses()
+        private void AddHouses()
         {
-            foreach (var item in _ctxfarmUI.Farm.Houses.Henhouses)
+            foreach (Building building in _ctxfarmUi.Farm.Buildings.Buildings)
             {
-                _henhousesUI.Add(new HenhouseUI(_ctxfarmUI, item, HousePos));
-                HousePos = new Vector2f(HousePos.X + 100f, HousePos.Y);
-
+                Henhouse item = ( Henhouse ) building;
+                Henhouses.Add(new HenhouseUi(_ctxfarmUi, item, _housePos));
+                _housePos = new Vector2f(_housePos.X + 100f, _housePos.Y);
             }
         }
 
         public void DrawHouses()
         {
-            foreach (var item in _henhousesUI)
+            foreach (HenhouseUi item in Henhouses)
             {
                 item.Drawhouses();
             }
         }
-
         
-        internal List<HenhouseUI> Henhouses{ get => _henhousesUI; set => _henhousesUI = value; }
-
-
-
+        internal List<HenhouseUi> Henhouses { get; }
     }
 }

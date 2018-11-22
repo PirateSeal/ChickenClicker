@@ -14,9 +14,9 @@ namespace ChickenFarmer.Model
         {
             CtxCollection = ctx ?? throw new ArgumentNullException( nameof(ctx) );
             PosVector = posVector;
-            Capacity = ctx.CtxFarm.Options.DefaultHenHouseLimit;
+            MaxCapacity = ctx.CtxFarm.Options.DefaultHenHouseLimit;
             Lvl = 0;
-            Chikens = new List<Chicken>( Capacity * Lvl );
+            Chikens = new List<Chicken>( MaxCapacity * Lvl );
             DyingChickens = new List<Chicken>();
         }
 
@@ -25,9 +25,9 @@ namespace ChickenFarmer.Model
         private List<Chicken> DyingChickens { get; }
 
         public int ChickenCount => Chikens.Count;
-        private int Capacity { get; set; }
+        public int MaxCapacity { get; set; }
 
-        public bool IsFull => ChickenCount == Capacity;
+        public bool IsFull => ChickenCount == MaxCapacity;
 
         public int Lvl { get; private set; }
 
@@ -37,7 +37,7 @@ namespace ChickenFarmer.Model
         {
             Lvl ++;
             int newLimit = Options.DefaultHenHouseLimit * Lvl;
-            Capacity = newLimit;
+            MaxCapacity = newLimit;
         }
 
         private static float ToFeed( IEnumerable<Chicken> collection )

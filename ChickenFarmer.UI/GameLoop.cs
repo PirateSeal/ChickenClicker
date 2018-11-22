@@ -4,101 +4,85 @@ using SFML.System;
 using SFML.Window;
 using SFML.Graphics;
 
-
 namespace ChickenFarmer.UI
 {
-
     public class GameLoop
     {
-        InputHandler _playerInput;
-        RenderWindow _window;
-        TimeSpan _intervalUpdate = new TimeSpan(0, 0, 0, 0, 100);
-        DateTime _oldUpdate = DateTime.Now;
-        FarmUI _farmUI;
-        RenderStates _state;
+        private InputHandler _playerInput;
+        private TimeSpan _intervalUpdate = new TimeSpan( 0, 0, 0, 0, 100 );
+        private DateTime _oldUpdate = DateTime.Now;
+        View _view;
 
-        View view;
-
-        mapTest  _mapTest;
+        private MapTest _mapTest;
 
         public GameLoop()
         {
-            _window = new RenderWindow(new VideoMode(1280, 720), "ChickenFarmer", Styles.Default);
-            _window.SetFramerateLimit(60);
-           
+            Window = new RenderWindow( new VideoMode( 1280, 720 ), "ChickenFarmer",
+                Styles.Default );
+            Window.SetFramerateLimit( 60 );
 
-            _farmUI = new FarmUI(this);
-            _playerInput = new InputHandler(this);
-           
+            FarmUI = new FarmUI( this );
+            _playerInput = new InputHandler( this );
 
-            _mapTest = new mapTest("../../../../Data/map/2Layer.tmx",this);
-
-            
-
+            _mapTest = new MapTest( "../../../../Data/map/2Layer.tmx", this );
         }
 
-        public RenderWindow Window { get => _window; set => _window = value; }
-        public RenderStates State { get => _state; set => _state = value; }
-        internal FarmUI FarmUI { get => _farmUI; set => _farmUI = value; }
+        public RenderWindow Window { get; private set; }
 
-        public static void Init()
+        public RenderStates State { get; set; }
+        internal FarmUI FarmUI { get; set; }
+
+        private static void Init()
         {
             SFML.SystemNative.Load();
             SFML.WindowNative.Load();
             SFML.GraphicsNative.Load();
             SFML.AudioNative.Load();
-
         }
 
         public void Run()
         {
             Init();
-            
 
-            Vector2f size = new Vector2f(800f, 600f);
-            Vector2f buttonsize = new Vector2f(80f, 60f);
-            
+            Vector2f size = new Vector2f( 800f, 600f );
+            Vector2f buttonsize = new Vector2f( 80f, 60f );
 
-            Shape _square = new RectangleShape(size);
-            _square.FillColor = Color.Red;
+            Shape square = new RectangleShape( size ) { FillColor = Color.Red };
             //Texture texture = new Texture("../../../../Data/farm_background.jpg");
-           // Sprite background = new Sprite(texture);
+            // Sprite background = new Sprite(texture);
 
-            view = new View(new FloatRect(new Vector2f(0f,0f), new Vector2f(1280, 720)));
+            _view = new View( new FloatRect( new Vector2f( 0f, 0f ), new Vector2f( 1280, 720 ) ) );
 
-            Shape _button = new RectangleShape(buttonsize);
-            _button.FillColor = Color.Blue;
-            _button.Position = size;
-            _window.View = view;
-           
-            
-            while (_window.IsOpen)
+            Shape button = new RectangleShape( buttonsize )
             {
-                _window.Clear(new Color(255, 0, 255));
-                _window.Draw(_square);
-             //   _window.Draw(background);
-                _farmUI.DrawInfo();
-                _farmUI.HenhouseCollection.DrawHouses();
-               _window.Draw(_mapTest);
-                _window.Display();         
+                FillColor = Color.Blue, Position = size
+            };
+            Window.View = _view;
+
+            while (Window.IsOpen)
+            {
+                Window.Clear( new Color( 255, 0, 255 ) );
+                Window.Draw( square );
+                //   _window.Draw(background);
+                FarmUI.DrawInfo();
+                FarmUI.HenhouseCollection.DrawHouses();
+                Window.Draw( _mapTest );
+                Window.Display();
                 Update();
             }
         }
 
-
-        public void Update()
+        private void Update()
         {
             DateTime current = DateTime.Now;
 
-            if (_oldUpdate.Add(_intervalUpdate) < current)
+            if ( _oldUpdate.Add( _intervalUpdate ) < current )
             {
-                _farmUI.update();
+                FarmUI.Update();
                 _playerInput.Handle();
 
                 _oldUpdate = current;
             }
         }
-
-       
     }
 }
