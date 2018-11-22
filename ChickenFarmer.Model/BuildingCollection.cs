@@ -40,13 +40,24 @@ namespace ChickenFarmer.Model
             }
         }
 
+        public List<TBuildingType> GetBuildingInList<TBuildingType>() where TBuildingType : Building
+        {
+            List<TBuildingType> buildingList = new List<TBuildingType>();
+            foreach ( Building building in Buildings )
+                if ( building.GetType() == typeof( TBuildingType ) )
+                    buildingList.Add( building as TBuildingType );
+
+            return buildingList;
+        }
+
         public Building Build<TBuildingType>( float xCoord, float yCoord )
             where TBuildingType : Building
         {
             if ( xCoord <= 0 ) throw new ArgumentOutOfRangeException( nameof(xCoord) );
             if ( yCoord <= 0 ) throw new ArgumentOutOfRangeException( nameof(yCoord) );
             foreach ( Building item in Buildings )
-                if ( Math.Abs( item.PosVector.X - xCoord ) < 0.1f && Math.Abs( item.PosVector.Y - yCoord ) < 0.1f )
+                if ( Math.Abs( item.PosVector.X - xCoord ) < 0.1f &&
+                     Math.Abs( item.PosVector.Y - yCoord ) < 0.1f )
                     throw new ArgumentException( "Invalid Coordinates, change xCoord or yCoord" );
 
             if ( !CheckMaxBuildingTypeLimit<TBuildingType>() ) return null;
@@ -55,7 +66,7 @@ namespace ChickenFarmer.Model
             if ( factory == null )
                 throw new InvalidOperationException(
                     "This building doesn't have a factory to create it" );
-            Building building = factory.Create( this, new Vector(xCoord,yCoord) );
+            Building building = factory.Create( this, new Vector( xCoord, yCoord ) );
 
             Buildings.Add( building );
             return building;
@@ -89,12 +100,12 @@ namespace ChickenFarmer.Model
             }
         }
 
-        public TBuildingType FindBuilding<TBuildingType>( float xCoord, float yCoord ) where TBuildingType : Building
+        public TBuildingType FindBuilding<TBuildingType>( float xCoord, float yCoord )
+            where TBuildingType : Building
         {
             foreach ( Building building in Buildings )
-                if ( (Math.Abs( building.PosVector.X - xCoord ) < 0.1f &&
-                      Math.Abs( building.PosVector.Y - yCoord ) < 0.1f) &&
-                     building is TBuildingType )
+                if ( Math.Abs( building.PosVector.X - xCoord ) < 0.1f &&
+                     Math.Abs( building.PosVector.Y - yCoord ) < 0.1f && building is TBuildingType )
                     return ( TBuildingType ) building;
             return null;
         }

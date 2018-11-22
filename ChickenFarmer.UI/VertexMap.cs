@@ -6,7 +6,7 @@ using TiledSharp;
 
 namespace ChickenFarmer.UI
 {
-    class VertexMap : IDrawable, IDisposable
+    internal class VertexMap : IDrawable, IDisposable
     {
         private VertexArray VertexArray1 { get; }
         private Texture Texture1 { get; }

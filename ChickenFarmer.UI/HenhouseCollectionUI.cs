@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ChickenFarmer.Model;
-using SFML.Audio;
-using SFML.Graphics;
+﻿using ChickenFarmer.Model;
 using SFML.System;
-using SFML.Window;
+using System.Collections.Generic;
 
 
 namespace ChickenFarmer.UI
@@ -20,16 +15,18 @@ namespace ChickenFarmer.UI
         {
             _ctxfarmUi = farmUi;
             Henhouses = new List<HenhouseUi>();
-            AddHouses();
+            LoadHouses();
         }
 
-        private void AddHouses()
+        private void LoadHouses()
         {
-            foreach (Building building in _ctxfarmUi.Farm.Buildings.Buildings)
+            List<Henhouse> housesList = _ctxfarmUi.Farm.Buildings.GetBuildingInList<Henhouse>();
             {
-                Henhouse item = ( Henhouse ) building;
-                Henhouses.Add(new HenhouseUi(_ctxfarmUi, item, _housePos));
-                _housePos = new Vector2f(_housePos.X + 100f, _housePos.Y);
+                foreach (Henhouse item in housesList)
+                {
+                    _housePos = new Vector2f(_housePos.X + 100f, _housePos.Y);
+                    Henhouses.Add(new HenhouseUi(_ctxfarmUi, item, _housePos));
+                }
             }
         }
 
@@ -40,7 +37,7 @@ namespace ChickenFarmer.UI
                 item.Drawhouses();
             }
         }
-        
+
         internal List<HenhouseUi> Henhouses { get; }
     }
 }
