@@ -11,6 +11,13 @@ namespace ChickenFarmer.UI
     {
         GameLoop _ctxGameLoop;
 
+        private static readonly Vector2f[] Direction = {
+            new Vector2f( 5, 0),
+            new Vector2f( -5, 0 ),
+            new Vector2f(0, 5 ),
+            new Vector2f( 0, -5 )
+        };
+
         public InputHandler( GameLoop ctxGameLoop ) { _ctxGameLoop = ctxGameLoop; }
 
         public void Handle()
@@ -31,6 +38,37 @@ namespace ChickenFarmer.UI
             {
                 _ctxGameLoop.Window.Close();
             }
+
+
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Z))
+            {
+                
+                _ctxGameLoop.View.Move(Direction[3]);
+
+            }
+
+            if (Keyboard.IsKeyPressed(Keyboard.Key.S))
+            {
+
+                _ctxGameLoop.View.Move(Direction[2]);
+
+            }
+
+
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
+            {
+
+                _ctxGameLoop.View.Move(Direction[1]);
+
+            }
+            if (Keyboard.IsKeyPressed(Keyboard.Key.D))
+            {
+
+                _ctxGameLoop.View.Move(Direction[0]);
+
+            }
+
+
 
             foreach ( HenhouseUi house in _ctxGameLoop.FarmUI.HenhouseCollection.Henhouses )
             {

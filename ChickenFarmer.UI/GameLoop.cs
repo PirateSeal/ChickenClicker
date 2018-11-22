@@ -24,12 +24,13 @@ namespace ChickenFarmer.UI
             FarmUI = new FarmUI( this );
             _playerInput = new InputHandler( this );
 
-            _mapTest = new MapTest( "../../../../Data/map/2Layer.tmx", this );
+            _mapTest = new MapTest( "../../../../Data/map/3Layers.tmx", this );
         }
 
         public RenderWindow Window { get; private set; }
 
         public RenderStates State { get; set; }
+        public View View { get => _view; set => _view = value; }
         internal FarmUI FarmUI { get; set; }
 
         private static void Init()
@@ -51,16 +52,17 @@ namespace ChickenFarmer.UI
             //Texture texture = new Texture("../../../../Data/farm_background.jpg");
             // Sprite background = new Sprite(texture);
 
-            _view = new View( new FloatRect( new Vector2f( 0f, 0f ), new Vector2f( 1280, 720 ) ) );
+            View = new View( new FloatRect( new Vector2f( 0f, 0f ), new Vector2f( 1280, 720 ) ) );
 
             Shape button = new RectangleShape( buttonsize )
             {
                 FillColor = Color.Blue, Position = size
             };
-            Window.View = _view;
+           
 
             while (Window.IsOpen)
             {
+                Window.View = View;
                 Window.Clear( new Color( 255, 0, 255 ) );
                 Window.Draw( square );
                 //   _window.Draw(background);
