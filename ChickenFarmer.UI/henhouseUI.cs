@@ -37,9 +37,7 @@ namespace ChickenFarmer.UI
 
         public void Drawhouses()
         {
-            const string houseTexturePath = "../../../../Data/henhouse1.png";
-            string texturePath = houseTexturePath;
-            //Texture _houseTexture = new Texture(texturePath);
+        
             HouseSprite.Texture = _textures[Ctxhouse.Lvl];
 
             _ctxGame.Window.Draw( HouseSprite );

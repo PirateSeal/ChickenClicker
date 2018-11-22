@@ -20,6 +20,8 @@ namespace ChickenFarmer.Model
                 { typeof( Storage ), new StorageFactory() },
                 { typeof( Henhouse ), new HenhouseFactory() }
             };
+            this.Build<Henhouse>(150f, 250f);
+            this.Build<Storage>(250f, 250f);
         }
 
         public Farm CtxFarm { get; }
@@ -32,13 +34,17 @@ namespace ChickenFarmer.Model
             {
                 foreach ( Building item in Buildings )
                 {
-                    Storage building = ( Storage ) item;
-                    return building;
+                    if (item.GetType() == typeof(Storage))
+                    {
+                        Storage building = (Storage)item;
+                        return building;
+                    }
                 }
-
-                throw new InvalidOperationException( "No storage found, build one" );
+              
+                 throw new InvalidOperationException( "No storage found, build one" );
             }
         }
+
 
         public List<TBuildingType> GetBuildingInList<TBuildingType>() where TBuildingType : Building
         {

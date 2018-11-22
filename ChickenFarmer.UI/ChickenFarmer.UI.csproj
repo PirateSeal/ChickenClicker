@@ -17,11 +17,5 @@
     <ProjectReference Include="..\ChickenFarmer.Model\ChickenFarmer.Model.csproj" />
     <ProjectReference Include="..\TiledSharp2\TiledSharp2.csproj" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <Compile Update="VertexMap.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
 
 </Project>

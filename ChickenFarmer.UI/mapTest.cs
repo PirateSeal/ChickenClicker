@@ -9,15 +9,16 @@ namespace ChickenFarmer.UI
 {
     internal class MapTest : IDrawable
     {
-        private static readonly Vector2f[] Direction =
-        {
-            new Vector2f( 0, 0 ), new Vector2f( 16, 0 ), new Vector2f( 16, 16 ),
+        private static readonly Vector2f[] Direction = {
+            new Vector2f( 0, 0 ),
+            new Vector2f( 16, 0 ),
+            new Vector2f( 16, 16 ),
             new Vector2f( 0, 16 )
         };
 
         private TmxMap _map;
-        public VertexArray Map { get; }
-        private VertexArray _vertexArray;
+        public VertexArray[] _TotalMap{ get; }
+       
 
         private Texture[] _texturesArray;
         private GameLoop _gameCtx;
@@ -33,17 +34,17 @@ namespace ChickenFarmer.UI
         {
             _gameCtx = gameCtx;
             _map = new TmxMap( file );
-            _vertexArray = new VertexArray( PrimitiveType.Quads,
-                4 * ( uint ) (_map.Width * _map.Height) );
+            _TotalMap = new VertexArray[_map.Layers.Count];
+           
             MapSize = _map.Height;
             TileSize = _map.TileHeight;
             Console.WriteLine( file );
             LoadTexture();
             int? imageWidth = _map.Tilesets[0].Image.Width; //check for null expression
             if ( imageWidth != null ) TileSetSize = ( int ) imageWidth;
+            ConvertLayer();
 
-            ConvertLayer( _map.Layers[0] );
-            Console.WriteLine();
+
         }
 
         private void LoadTexture()
@@ -55,39 +56,55 @@ namespace ChickenFarmer.UI
             }
         }
 
-        private void ConvertLayer( TmxLayer layer )
+        private void ConvertLayer()
         {
-            for (int index = 0; index < layer.Tiles.Count; index ++)
-            {
-                Console.WriteLine( "i   {0}", index );
-
-                int gid = layer.Tiles[index].Gid;
-                if ( gid != 0 )
+            int idx = 0;
+            foreach (var layer in _map.Layers)
+            {              
+                VertexArray _vertexArray = new VertexArray(PrimitiveType.Quads, 4 * (uint)(_map.Width * _map.Height));
+                for (int index = 0; index < layer.Tiles.Count; index++)
                 {
-                    Vector2i pos = new Vector2i( layer.Tiles[index].X * 16,
-                        layer.Tiles[index].Y * 16 );
-                    Console.WriteLine( "x:{0} , y:{1} gid:{2}  ", pos.X, pos.Y, gid );
-                    Add( pos, gid );
+                    int gid = layer.Tiles[index].Gid;
+                    if (gid != 0)
+                    {
+                        Vector2i pos = new Vector2i(layer.Tiles[index].X * TileSize, layer.Tiles[index].Y * TileSize);
+                        Console.WriteLine("x:{0} , y:{1} gid:{2}  ", pos.X, pos.Y, gid);
+                        Add(pos, gid,_vertexArray);
+                    }
+                    
                 }
+                _TotalMap[idx++] = _vertexArray;
             }
+           
         }
 
         public void Dispose()
         {
-            _vertexArray?.Dispose();
-            _disposed = true;
+            foreach (var item in _TotalMap)
+            {
+                item?.Dispose();
+                _disposed = true;
+            }         
+            
         }
+
 
         public void Draw( IRenderTarget target, in RenderStates states )
         {
-            if ( _disposed ) throw new ObjectDisposedException( typeof( VertexMap ).Name );
-            RenderStates state = new RenderStates( _texturesArray[0] );
+            if ( _disposed ) throw new ObjectDisposedException( typeof( Vertex ).Name );
+            RenderStates state = new RenderStates(_texturesArray[0]);
 
-            target.Draw( _vertexArray, state );
+            foreach (var item in _TotalMap)
+            {
+                item.Draw(target, state);
+            }
+                    
         }
 
-        private void Add( Vector2i vertexPos, int gid )
+
+        private void Add( Vector2i vertexPos, int gid,VertexArray vertexArray )
         {
+            
             int tu = gid % (TileSetSize / TileSize) - 1;
             int tv = gid / (TileSetSize / TileSize);
             if ( tu < 0 )
@@ -96,16 +113,16 @@ namespace ChickenFarmer.UI
                 tv --;
             }
 
-            _vertexArray.Append( new Vertex( Direction[0] + ( Vector2f ) vertexPos,
+            vertexArray.Append( new Vertex( Direction[0] + ( Vector2f ) vertexPos,
                 new Vector2f( tu * TileSize, tv * TileSize ) ) );
 
-            _vertexArray.Append( new Vertex( Direction[1] + ( Vector2f ) vertexPos,
+            vertexArray.Append( new Vertex( Direction[1] + ( Vector2f ) vertexPos,
                 new Vector2f( (tu + 1) * TileSize, tv * TileSize ) ) );
 
-            _vertexArray.Append( new Vertex( Direction[2] + ( Vector2f ) vertexPos,
+            vertexArray.Append( new Vertex( Direction[2] + ( Vector2f ) vertexPos,
                 new Vector2f( (tu + 1) * TileSize, (tv + 1) * TileSize ) ) );
 
-            _vertexArray.Append( new Vertex( Direction[3] + ( Vector2f ) vertexPos,
+            vertexArray.Append( new Vertex( Direction[3] + ( Vector2f ) vertexPos,
                 new Vector2f( tu * TileSize, (tv + 1) * TileSize ) ) );
         }
     }
