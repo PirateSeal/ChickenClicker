@@ -29,10 +29,6 @@ namespace ChickenFarmer.UI
             //    var _buttonHenHouseUpgradeBound = _ctxGameLoop.HouseMenu.ButtonHenHouseUpgrade.GetGlobalBounds();
             //  var _buttonBuyChickenBound = _ctxGameLoop.HouseMenu.ButtonBuyChicken.GetGlobalBounds();
 
-            if ( Keyboard.IsKeyPressed( Keyboard.Key.Escape ) )
-            {
-                _ctxGameLoop.Window.Close();
-            }
 
             if ( Keyboard.IsKeyPressed( Keyboard.Key.Escape ) )
             {
@@ -42,30 +38,26 @@ namespace ChickenFarmer.UI
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.Z))
             {
-                
+                _ctxGameLoop.FarmUI.Farm.Player.Move(new Vector(Direction[3].X, Direction[3].Y));
                 _ctxGameLoop.View.Move(Direction[3]);
-
             }
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.S))
             {
-
+                _ctxGameLoop.FarmUI.Farm.Player.Move(new Vector(Direction[2].X, Direction[2].Y));
                 _ctxGameLoop.View.Move(Direction[2]);
-
             }
 
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
             {
-
+                _ctxGameLoop.FarmUI.Farm.Player.Move(new Vector(Direction[1].X, Direction[1].Y));
                 _ctxGameLoop.View.Move(Direction[1]);
-
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.D))
             {
-
+                _ctxGameLoop.FarmUI.Farm.Player.Move(new Vector(Direction[0].X, Direction[0].Y));
                 _ctxGameLoop.View.Move(Direction[0]);
-
             }
 
 

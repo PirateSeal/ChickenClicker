@@ -49,5 +49,12 @@ namespace ChickenFarmer.Model
                 ( float ) Math.Sqrt( Math.Pow( 2, v2.X - v1.X ) + Math.Pow( 2, v2.Y - v1.Y ) );
             return distance;
         }
+
+        public Vector Add(Vector vector)
+        {
+            return new Vector(X + vector.X, Y + vector.Y);
+        }
+
+
     }
 }

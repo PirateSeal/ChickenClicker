@@ -17,12 +17,12 @@ namespace ChickenFarmer.UI
         Vector2f _position;
         RectangleShape _sprite;
 
-        public PlayerUI(FarmUI ctxFarmUI, Player player, Vector2f position)
+        public PlayerUI(FarmUI ctxFarmUI, Player player)
         {
             _spriteSize = new Vector2f(64f, 96f);
             _ctxFarmUI = ctxFarmUI;
-            _position = position;
             _player = player;
+            _position = new Vector2f(player.Position.X, player.Position.Y);
             _texture = new Texture("../../../../Data/henhouse1.png");
             _sprite = new RectangleShape(_spriteSize);
             
@@ -31,9 +31,17 @@ namespace ChickenFarmer.UI
         public void DrawPlayer()
         {
             _sprite.Texture = _texture;
-            _sprite.Position = _position;
+            _sprite.Position = new Vector2f(_player.Position.X, _player.Position.Y);
             _ctxFarmUI.CtxGame.Window.Draw(_sprite);
         }
+
+        public Vector2f Position
+        {
+            get { return _sprite.Position; }
+            set { _position = value; }
+        }
+
+        
 
 
         

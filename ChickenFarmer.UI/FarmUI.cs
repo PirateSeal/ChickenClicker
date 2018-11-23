@@ -23,7 +23,7 @@ namespace ChickenFarmer.UI
         {
             Farm = new Farm();
             CtxGame = ctx;
-            _playerUI = new PlayerUI(this, Farm.Player, new Vector2f(Farm.Player.Position.X, Farm.Player.Position.Y));
+            _playerUI = new PlayerUI(this, Farm.Player);
             HenhouseCollection = new HenhouseCollectionUi( this );
 
             Font font = new Font( FontLocation );
@@ -32,7 +32,10 @@ namespace ChickenFarmer.UI
             ButtonSellEggs = new RectangleShape( _buttonSize ) { Position = _buttonPos, };
         }
 
-        public void Update() { Farm.Update(); }
+        public void Update()
+        {
+            Farm.Update();
+        }
 
         public void DrawInfo()
         {
