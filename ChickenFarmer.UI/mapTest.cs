@@ -4,6 +4,8 @@ using System.Text;
 using TiledSharp;
 using SFML.Graphics;
 using SFML.System;
+using System.Diagnostics;
+
 
 namespace ChickenFarmer.UI
 {
@@ -18,8 +20,10 @@ namespace ChickenFarmer.UI
 
         private TmxMap _map;
         public VertexArray[] _TotalMap{ get; }
-       
 
+        Stopwatch sw = new Stopwatch();
+
+       
         private Texture[] _texturesArray;
         private GameLoop _gameCtx;
 
@@ -42,7 +46,7 @@ namespace ChickenFarmer.UI
             LoadTexture();
             int? imageWidth = _map.Tilesets[0].Image.Width; //check for null expression
             if ( imageWidth != null ) TileSetSize = ( int ) imageWidth;
-            ConvertLayer();
+            ConvertLayers();
 
 
         }
@@ -56,26 +60,27 @@ namespace ChickenFarmer.UI
             }
         }
 
-        private void ConvertLayer()
+        private void ConvertLayers()
         {
-            int idx = 0;
+
+            int idx=0;
             foreach (var layer in _map.Layers)
             {              
                 VertexArray _vertexArray = new VertexArray(PrimitiveType.Quads, 4 * (uint)(_map.Width * _map.Height));
                 for (int index = 0; index < layer.Tiles.Count; index++)
                 {
-                    int gid = layer.Tiles[index].Gid;
-                    if (gid != 0)
+                   
+                    if (layer.Tiles[index].Gid != 0)
                     {
-                        Vector2i pos = new Vector2i(layer.Tiles[index].X * TileSize, layer.Tiles[index].Y * TileSize);
-                        Console.WriteLine("x:{0} , y:{1} gid:{2}  ", pos.X, pos.Y, gid);
-                        Add(pos, gid,_vertexArray);
+                        Vector2i pos = new Vector2i(layer.Tiles[index].X * TileSize, layer.Tiles[index].Y * TileSize);                     
+                        Add(pos, layer.Tiles[index].Gid,_vertexArray);
                     }
                     
                 }
                 _TotalMap[idx++] = _vertexArray;
             }
-           
+            sw.Stop();
+            Console.WriteLine("Elapsed={0}", sw.Elapsed);
         }
 
         public void Dispose()
@@ -98,9 +103,10 @@ namespace ChickenFarmer.UI
             {
                 item.Draw(target, state);
             }
-                    
+        
+            
         }
-
+        
 
         private void Add( Vector2i vertexPos, int gid,VertexArray vertexArray )
         {

@@ -58,7 +58,6 @@ namespace ChickenFarmer.UI
             {
                 FillColor = Color.Blue, Position = size
             };
-           
 
             while (Window.IsOpen)
             {
