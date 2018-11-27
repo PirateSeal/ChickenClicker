@@ -14,6 +14,7 @@ namespace ChickenFarmer.UI
         private GameLoop _ctxGame;
         private Vector2f _houseSize = new Vector2f( 64f, 96f );
         private Texture[] _textures;
+       
 
         public HenhouseUi( FarmUI ctxFarm, Henhouse house, Vector2f pos )
         {
