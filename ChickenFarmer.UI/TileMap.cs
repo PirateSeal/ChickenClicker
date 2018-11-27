@@ -4,12 +4,12 @@ using System.Text;
 using TiledSharp;
 using SFML.Graphics;
 using SFML.System;
-using System.Diagnostics;
+
 
 
 namespace ChickenFarmer.UI
 {
-    internal class MapTest : IDrawable
+    internal class TileMap : IDrawable
     {
         private static readonly Vector2f[] Direction = {
             new Vector2f( 0, 0 ),
@@ -20,35 +20,38 @@ namespace ChickenFarmer.UI
 
         private TmxMap _map;
         public VertexArray[] _TotalMap{ get; }
+        private VertexArray _collide;
 
-        Stopwatch sw = new Stopwatch();
-
-       
         private Texture[] _texturesArray;
         private GameLoop _gameCtx;
 
         private bool _disposed;
 
-        //  Color color = new Color(255, 255, );
+
+        Color _color = new Color(255, 255, 255,255);
+        Color _noColor = new Color(255,0,255,0);
+
         public int TileSize { get; }
         public int MapSize { get; }
         public int TileSetSize { get; }
+        public VertexArray Collide { get => _collide; set => _collide = value; }
 
-        public MapTest( string file, GameLoop gameCtx )
+        public TileMap( string file, GameLoop gameCtx )
         {
             _gameCtx = gameCtx;
             _map = new TmxMap( file );
             _TotalMap = new VertexArray[_map.Layers.Count];
-           
+            
             MapSize = _map.Height;
             TileSize = _map.TileHeight;
             Console.WriteLine( file );
             LoadTexture();
             int? imageWidth = _map.Tilesets[0].Image.Width; //check for null expression
             if ( imageWidth != null ) TileSetSize = ( int ) imageWidth;
+           _collide = new VertexArray(PrimitiveType.Quads, 4 * (uint)(_map.Width * _map.Height));
             ConvertLayers();
 
-
+             
         }
 
         private void LoadTexture()
@@ -63,24 +66,37 @@ namespace ChickenFarmer.UI
         private void ConvertLayers()
         {
 
-            int idx=0;
+            int layerIdx=0;
             foreach (var layer in _map.Layers)
             {              
                 VertexArray _vertexArray = new VertexArray(PrimitiveType.Quads, 4 * (uint)(_map.Width * _map.Height));
+              
+
                 for (int index = 0; index < layer.Tiles.Count; index++)
                 {
                    
                     if (layer.Tiles[index].Gid != 0)
                     {
-                        Vector2i pos = new Vector2i(layer.Tiles[index].X * TileSize, layer.Tiles[index].Y * TileSize);                     
-                        Add(pos, layer.Tiles[index].Gid,_vertexArray);
+                        if (layerIdx != _map.Layers.Count-1 )
+                        {
+                            Vector2i pos = new Vector2i(layer.Tiles[index].X * TileSize, layer.Tiles[index].Y * TileSize);
+                            Add(pos, layer.Tiles[index].Gid, _vertexArray, _color);
+                            
+                        }
+                        else
+                        {
+                            Vector2i pos = new Vector2i(layer.Tiles[index].X * TileSize, layer.Tiles[index].Y * TileSize);
+                            Add(pos, layer.Tiles[index].Gid, _collide, _noColor);
+                          
+
+                        }
                     }
                     
+
                 }
-                _TotalMap[idx++] = _vertexArray;
+                _TotalMap[layerIdx++] = _vertexArray;         
             }
-            sw.Stop();
-            Console.WriteLine("Elapsed={0}", sw.Elapsed);
+        
         }
 
         public void Dispose()
@@ -108,7 +124,7 @@ namespace ChickenFarmer.UI
         }
         
 
-        private void Add( Vector2i vertexPos, int gid,VertexArray vertexArray )
+        private void Add( Vector2i vertexPos, int gid,VertexArray vertexArray, Color color)
         {
             
             int tu = gid % (TileSetSize / TileSize) - 1;
@@ -119,16 +135,24 @@ namespace ChickenFarmer.UI
                 tv --;
             }
 
-            vertexArray.Append( new Vertex( Direction[0] + ( Vector2f ) vertexPos,
+            vertexArray.Append( 
+                new Vertex( Direction[0] + ( Vector2f ) vertexPos, 
+                color,
                 new Vector2f( tu * TileSize, tv * TileSize ) ) );
 
-            vertexArray.Append( new Vertex( Direction[1] + ( Vector2f ) vertexPos,
+            vertexArray.Append( 
+                new Vertex( Direction[1] + ( Vector2f ) vertexPos, 
+                color,
                 new Vector2f( (tu + 1) * TileSize, tv * TileSize ) ) );
 
-            vertexArray.Append( new Vertex( Direction[2] + ( Vector2f ) vertexPos,
+            vertexArray.Append(
+                new Vertex( Direction[2] + ( Vector2f ) vertexPos, 
+                color,
                 new Vector2f( (tu + 1) * TileSize, (tv + 1) * TileSize ) ) );
 
-            vertexArray.Append( new Vertex( Direction[3] + ( Vector2f ) vertexPos,
+            vertexArray.Append( 
+                new Vertex( Direction[3] + ( Vector2f ) vertexPos,
+                color,
                 new Vector2f( tu * TileSize, (tv + 1) * TileSize ) ) );
         }
     }

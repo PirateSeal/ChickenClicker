@@ -13,7 +13,7 @@ namespace ChickenFarmer.UI
         private DateTime _oldUpdate = DateTime.Now;
         View _view;
 
-        private MapTest _mapTest;
+        private TileMap _mapTest;
 
         public GameLoop()
         {
@@ -24,7 +24,7 @@ namespace ChickenFarmer.UI
             FarmUI = new FarmUI( this );
             _playerInput = new InputHandler( this );
 
-            _mapTest = new MapTest( "../../../../Data/map/3Layers.tmx", this );
+            _mapTest = new TileMap( "../../../../Data/map/3Layers.tmx", this );
         }
 
         public RenderWindow Window { get; private set; }
@@ -38,7 +38,7 @@ namespace ChickenFarmer.UI
             SFML.SystemNative.Load();
             SFML.WindowNative.Load();
             SFML.GraphicsNative.Load();
-            SFML.AudioNative.Load();
+             SFML.AudioNative.Load();
         }
 
         public void Run()
@@ -61,6 +61,7 @@ namespace ChickenFarmer.UI
 
             while (Window.IsOpen)
             {
+                _playerInput.Handle();
                 Window.View = View;
                 Window.Clear( new Color( 255, 0, 255 ) );
                 Window.Draw( square );
@@ -80,7 +81,7 @@ namespace ChickenFarmer.UI
             if ( _oldUpdate.Add( _intervalUpdate ) < current )
             {
                 FarmUI.Update();
-                _playerInput.Handle();
+              
 
                 _oldUpdate = current;
             }

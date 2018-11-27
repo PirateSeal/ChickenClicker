@@ -8,6 +8,9 @@ namespace ChickenFarmer.Model
 {
     public abstract class Building
     {
+        
+
+
         protected Building( BuildingCollection ctx, Vector posVector)
         {
             CtxCollection = ctx ?? throw new ArgumentNullException( nameof(ctx) );
