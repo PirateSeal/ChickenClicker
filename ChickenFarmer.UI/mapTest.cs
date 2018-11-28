@@ -4,7 +4,7 @@ using System.Text;
 using TiledSharp;
 using SFML.Graphics;
 using SFML.System;
-using System.Diagnostics;
+
 
 
 namespace ChickenFarmer.UI
@@ -12,16 +12,15 @@ namespace ChickenFarmer.UI
     internal class MapTest : IDrawable
     {
         private static readonly Vector2f[] Direction = {
-            new Vector2f( 0, 0 ),
-            new Vector2f( 16, 0 ),
-            new Vector2f( 16, 16 ),
-            new Vector2f( 0, 16 )
+            new Vector2f( 0 + 0.0075f, 0 + 0.0075f),         // 0.0075f  fix texture bleeding
+            new Vector2f( 16 + 0.0075f, 0 + 0.0075f),
+            new Vector2f( 16 + 0.0075f , 16 + 0.0075f),
+            new Vector2f( 0 + 0.0075f , 16 + 0.0075f)
         };
 
         private TmxMap _map;
         public VertexArray[] _TotalMap{ get; }
 
-        Stopwatch sw = new Stopwatch();
 
        
         private Texture[] _texturesArray;
@@ -62,7 +61,6 @@ namespace ChickenFarmer.UI
 
         private void ConvertLayers()
         {
-
             int idx=0;
             foreach (var layer in _map.Layers)
             {              
@@ -79,8 +77,6 @@ namespace ChickenFarmer.UI
                 }
                 _TotalMap[idx++] = _vertexArray;
             }
-            sw.Stop();
-            Console.WriteLine("Elapsed={0}", sw.Elapsed);
         }
 
         public void Dispose()
