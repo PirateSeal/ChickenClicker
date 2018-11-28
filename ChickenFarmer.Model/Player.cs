@@ -28,7 +28,7 @@ namespace ChickenFarmer.Model
             Vector movement = _direction * _speed;
             Vector newPosition = _position.Add(movement);
             _position = newPosition;
-            Console.WriteLine("Position Joueur X = {0} Y = {1}", Position.X, Position.Y);
+            //Console.WriteLine("Position Joueur X = {0} Y = {1}", Position.X, Position.Y);
         }
 
 

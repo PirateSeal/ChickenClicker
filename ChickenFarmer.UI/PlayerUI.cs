@@ -13,26 +13,66 @@ namespace ChickenFarmer.UI
         Player _player ;
         Texture _texture;
         private FarmUI _ctxFarmUI;
+        int _animFrame;
         Vector2f _spriteSize;
         Vector2f _position;
-        RectangleShape _sprite;
+        Sprite _sprite;
+        int _columnSpriteSheet;
+        int _direction;
 
         public PlayerUI(FarmUI ctxFarmUI, Player player)
         {
-            _spriteSize = new Vector2f(64f, 96f);
+            _animFrame = 0;
+            _columnSpriteSheet = 0;
+            _direction = 0;
+            _spriteSize = new Vector2f(16f, 32f);
             _ctxFarmUI = ctxFarmUI;
             _player = player;
             _position = new Vector2f(player.Position.X, player.Position.Y);
-            _texture = new Texture("../../../../Data/henhouse1.png");
-            _sprite = new RectangleShape(_spriteSize);
-            
+            _texture = new Texture("../../../../Data/SpriteSheet/Player/Player.png");
+            _sprite = new Sprite(_texture);
         }
 
         public void DrawPlayer()
         {
-            _sprite.Texture = _texture;
+
+            _sprite.TextureRect = new IntRect(0, 0, 16, 32);
+
+            if (_direction == 1)
+            {
+                _sprite.TextureRect = new IntRect(0, 64, 16, 32);
+            }
+            else if (_direction == 2)
+            {
+                _sprite.TextureRect = new IntRect(0, 96, 16, 32);
+
+            }
+            else if (_direction == 3)
+            {
+                _sprite.TextureRect = new IntRect(0, 32, 16, 32);
+
+            }
+            else if (_direction == 4)
+            {
+                _sprite.TextureRect = new IntRect(0, 0, 16, 32);
+
+            }
+
+            //if (direction == 2)
+            //{
+            //    _sprite.Texture = _texture;
+            //    _sprite.TextureRect = new IntRect(64, 64, 16, 32);
+            //    _sprite.Position = new Vector2f(_player.Position.X, _player.Position.Y);
+            //}
             _sprite.Position = new Vector2f(_player.Position.X, _player.Position.Y);
             _ctxFarmUI.CtxGame.Window.Draw(_sprite);
+
+        }
+
+        public int Direction
+        {
+            get { return _direction; }
+            set { _direction = value; }
         }
 
         public Vector2f Position
