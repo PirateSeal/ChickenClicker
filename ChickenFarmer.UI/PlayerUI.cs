@@ -40,34 +40,36 @@ namespace ChickenFarmer.UI
 
             if (_direction == 1)
             {
-                _sprite.TextureRect = new IntRect(0, 64, 16, 32);
+                _sprite.TextureRect = new IntRect(_animFrame*16, 64, 16, 32);
             }
-            else if (_direction == 2)
+            if (_direction == 2)
             {
-                _sprite.TextureRect = new IntRect(0, 96, 16, 32);
+                _sprite.TextureRect = new IntRect(_animFrame * 16, 96, 16, 32);
 
             }
-            else if (_direction == 3)
+            if (_direction == 3)
             {
-                _sprite.TextureRect = new IntRect(0, 32, 16, 32);
+                _sprite.TextureRect = new IntRect(_animFrame * 16, 32, 16, 32);
 
             }
-            else if (_direction == 4)
+            if (_direction == 4)
             {
-                _sprite.TextureRect = new IntRect(0, 0, 16, 32);
-
+                _sprite.TextureRect = new IntRect(_animFrame * 16, 0, 16, 32);
             }
 
-            //if (direction == 2)
-            //{
-            //    _sprite.Texture = _texture;
-            //    _sprite.TextureRect = new IntRect(64, 64, 16, 32);
-            //    _sprite.Position = new Vector2f(_player.Position.X, _player.Position.Y);
-            //}
+            if (_animFrame == 3) _animFrame = 0;
+
             _sprite.Position = new Vector2f(_player.Position.X, _player.Position.Y);
             _ctxFarmUI.CtxGame.Window.Draw(_sprite);
-
+            
         }
+
+        public int AnimFrame
+        {
+            get { return _animFrame; }
+            set { _animFrame = value; }
+        }
+
 
         public int Direction
         {
