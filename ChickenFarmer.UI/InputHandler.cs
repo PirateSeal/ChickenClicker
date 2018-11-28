@@ -10,6 +10,7 @@ namespace ChickenFarmer.UI
     internal class InputHandler
     {
         GameLoop _ctxGameLoop;
+        Vector _deplacement;
         
 
         private static readonly Vector2f[] Direction = {
@@ -31,6 +32,8 @@ namespace ChickenFarmer.UI
             //  var _buttonBuyChickenBound = _ctxGameLoop.HouseMenu.ButtonBuyChicken.GetGlobalBounds();
 
 
+            _deplacement = new Vector();
+
             if ( Keyboard.IsKeyPressed( Keyboard.Key.Escape ) )
             {
                 _ctxGameLoop.Window.Close();
@@ -39,29 +42,28 @@ namespace ChickenFarmer.UI
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.Z))
             {
-                _ctxGameLoop.FarmUI.Farm.Player.Move(new Vector(Direction[3].X, Direction[3].Y));
+                _deplacement += new Vector(Direction[3].X, Direction[3].Y);
                 _ctxGameLoop.FarmUI._playerUI.Direction = 1;
-                _ctxGameLoop.View.Move(Direction[3]);
+               
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
             {
-                _ctxGameLoop.FarmUI.Farm.Player.Move(new Vector(Direction[1].X, Direction[1].Y));
+                _deplacement += new Vector(Direction[1].X, Direction[1].Y);
                 _ctxGameLoop.FarmUI._playerUI.Direction = 2;
-                _ctxGameLoop.View.Move(Direction[1]);
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.S))
             {
-                _ctxGameLoop.FarmUI.Farm.Player.Move(new Vector(Direction[2].X, Direction[2].Y));
+                _deplacement += new Vector(Direction[2].X, Direction[2].Y);
                 _ctxGameLoop.FarmUI._playerUI.Direction = 4;
-                _ctxGameLoop.View.Move(Direction[2]);
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.D))
             {
-                _ctxGameLoop.FarmUI.Farm.Player.Move(new Vector(Direction[0].X, Direction[0].Y));
+                _deplacement += (new Vector(Direction[0].X, Direction[0].Y));
                 _ctxGameLoop.FarmUI._playerUI.Direction = 3;
-                _ctxGameLoop.View.Move(Direction[0]);
             }
 
+            _ctxGameLoop.View.Center = new Vector2f(_ctxGameLoop.FarmUI.Farm.Player.Position.X, _ctxGameLoop.FarmUI.Farm.Player.Position.Y);
+            _ctxGameLoop.FarmUI.Farm.Player.Move(_deplacement);
             _ctxGameLoop.FarmUI._playerUI.AnimFrame++;
 
 

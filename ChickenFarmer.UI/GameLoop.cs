@@ -64,6 +64,7 @@ namespace ChickenFarmer.UI
             while (Window.IsOpen)
             {
                 Window.View = View;
+                
                 Window.Clear( new Color( 255, 0, 255 ) );
                 Window.Draw( square );
                 
@@ -73,6 +74,7 @@ namespace ChickenFarmer.UI
                 Window.Draw(_mapTest);
                 FarmUI._playerUI.DrawPlayer();
                 Window.Display();
+
                 _playerInput.Handle();
                 Update();
             }

@@ -59,8 +59,8 @@ namespace ChickenFarmer.UI
 
             _sprite.Position = new Vector2f(_player.Position.X, _player.Position.Y);
             _ctxFarmUI.CtxGame.Window.Draw(_sprite);
-            Console.WriteLine(_animFrame);
-            Console.WriteLine("{0}, {1}, {2}, {3}", _sprite.TextureRect.Left, _sprite.TextureRect.Top, _sprite.TextureRect.Height, _sprite.TextureRect.Width);
+            //Console.WriteLine(_animFrame);
+            //Console.WriteLine("{0}, {1}, {2}, {3}", _sprite.TextureRect.Left, _sprite.TextureRect.Top, _sprite.TextureRect.Height, _sprite.TextureRect.Width);
 
         }
 
