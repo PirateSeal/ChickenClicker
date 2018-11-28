@@ -44,17 +44,16 @@ namespace ChickenFarmer.UI
             {
                 _deplacement += new Vector(Direction[3].X, Direction[3].Y);
                 _ctxGameLoop.FarmUI._playerUI.Direction = 1;
-               
-            }
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
-            {
-                _deplacement += new Vector(Direction[1].X, Direction[1].Y);
-                _ctxGameLoop.FarmUI._playerUI.Direction = 2;
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.S))
             {
                 _deplacement += new Vector(Direction[2].X, Direction[2].Y);
                 _ctxGameLoop.FarmUI._playerUI.Direction = 4;
+            }
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
+            {
+                _deplacement += new Vector(Direction[1].X, Direction[1].Y);
+                _ctxGameLoop.FarmUI._playerUI.Direction = 2;
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.D))
             {

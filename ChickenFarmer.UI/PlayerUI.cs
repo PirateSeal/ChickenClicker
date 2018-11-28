@@ -8,7 +8,7 @@ using ChickenFarmer.Model;
 
 namespace ChickenFarmer.UI
 {
-    internal class PlayerUI
+    internal class PlayerUI : IDrawable
     {
         Player _player ;
         Texture _texture;
@@ -33,14 +33,14 @@ namespace ChickenFarmer.UI
             _sprite = new Sprite(_texture);
         }
 
-        public void DrawPlayer()
+        public void AnimationLoop()
         {
 
             _sprite.TextureRect = new IntRect(0, 0, 16, 32);
 
             if (_direction == 1)
             {
-                _sprite.TextureRect = new IntRect(_animFrame*16, 64, 16, 32);
+                _sprite.TextureRect = new IntRect(_animFrame * 16, 64, 16, 32);
             }
             if (_direction == 2)
             {
@@ -57,14 +57,20 @@ namespace ChickenFarmer.UI
 
             if (_animFrame == 3) _animFrame = 0;
 
-            _sprite.Position = new Vector2f(_player.Position.X, _player.Position.Y);
-            _ctxFarmUI.CtxGame.Window.Draw(_sprite);
-            //Console.WriteLine(_animFrame);
-            //Console.WriteLine("{0}, {1}, {2}, {3}", _sprite.TextureRect.Left, _sprite.TextureRect.Top, _sprite.TextureRect.Height, _sprite.TextureRect.Width);
+            
+            
 
         }
+        public void Draw(IRenderTarget target, in RenderStates states)
+        {
+            _sprite.Draw(target, states);
+        }
 
-
+        public void UpdateSpritePosition()
+        {
+            
+            _sprite.Position = new Vector2f(_player.Position.X, _player.Position.Y);
+        }
 
         public int AnimFrame
         {
@@ -79,11 +85,7 @@ namespace ChickenFarmer.UI
             set { _direction = value; }
         }
 
-        public Vector2f Position
-        {
-            get { return _sprite.Position; }
-            set { _position = value; }
-        }
+       
 
         
 

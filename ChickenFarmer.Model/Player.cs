@@ -24,14 +24,10 @@ namespace ChickenFarmer.Model
 
         public void Move(Vector direction)
         {
-            if (direction.X == 5 && direction.Y == 5) _direction = (direction /2);
-            else if (direction.X == -5 && direction.Y == -5) _direction = (direction / 2);
-            else if (direction.X == -5 && direction.Y == 5) _direction = (direction / 2);
-            else if (direction.X == 5 && direction.Y == -5) _direction = (direction / 2);
-            else
-            {
-                _direction = direction;
-            }
+            if ((direction.X == 5 || direction.X == -5) && (direction.Y == 5 || direction.Y == -5)) _direction = (direction / 2);
+            
+            else _direction = direction;
+            
            
             //Console.WriteLine("direction X = {0} Y = {1}", _direction.X, _direction.Y);
             Vector movement = _direction * _speed;

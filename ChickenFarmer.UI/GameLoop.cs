@@ -72,11 +72,13 @@ namespace ChickenFarmer.UI
                 //FarmUI.DrawInfo();
                 FarmUI.HenhouseCollection.DrawHouses();
                 Window.Draw(_mapTest);
-                FarmUI._playerUI.DrawPlayer();
-                Window.Display();
-
-                _playerInput.Handle();
+                
+                FarmUI._playerUI.UpdateSpritePosition();
+                FarmUI._playerUI.Draw(Window, State);
                 Update();
+                Window.Display();
+                _playerInput.Handle();
+                
             }
         }
 
@@ -87,7 +89,6 @@ namespace ChickenFarmer.UI
             if ( _oldUpdate.Add( _intervalUpdate ) < current )
             {
                 FarmUI.Update();
-                
 
                 _oldUpdate = current;
             }
