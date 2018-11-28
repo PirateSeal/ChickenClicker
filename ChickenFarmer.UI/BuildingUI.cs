@@ -1,6 +1,7 @@
 ﻿#region Usings
 
 using System;
+using ChickenFarmer.Model;
 using SFML.Graphics;
 using SFML.System;
 
@@ -10,14 +11,16 @@ namespace ChickenFarmer.UI
 {
     public class BuildingUI : IDrawable, IDisposable
     {
-        public BuildingUI( BuildingCollectionUI ctx, RectangleShape shape, Vector2f pos )
+        public BuildingUI(BuildingCollectionUI ctx, Building building , RectangleShape shape, Vector2f pos)
         {
-            Shape = shape ?? throw new ArgumentNullException( nameof(shape) );
+            Shape = shape ?? throw new ArgumentNullException(nameof(shape));
             CtxBuildingCollectionUi = ctx;
             Menu = new ContextualMenu();
             Pos = pos;
-
+            BuildingCtx = building;
         }
+
+        public Building BuildingCtx { get; set; }
 
         public BuildingCollectionUI CtxBuildingCollectionUi { get; }
         public RectangleShape Shape { get; }
@@ -27,13 +30,16 @@ namespace ChickenFarmer.UI
 
         public void Dispose() { throw new NotImplementedException(); }
 
-        public void Draw( IRenderTarget target, in RenderStates states ) { target.Draw( Shape ); }
-
-        public void Texturize<TBuildingType>( int buildingLvl ) where TBuildingType : BuildingUI
+        public void Draw(IRenderTarget target, in RenderStates states)
         {
-            CtxBuildingCollectionUi.CtxfarmUI.FarmOptionsUI.TextureDictionary.TryGetValue(
-                typeof( TBuildingType ), out Texture[] textures );
-            if ( textures != null ) BuildingTexture = textures[buildingLvl];
+            target.Draw(Shape);
         }
+
+//        public void Texturize<TBuildingType>() where TBuildingType : BuildingUI
+//        {
+//            CtxBuildingCollectionUi.CtxfarmUI.FarmOptionsUI.TextureDictionary.
+//                TryGetValue(typeof(TBuildingType), out Texture[] textures);
+//            if ( textures != null ) BuildingTexture = textures[];
+//        }
     }
 }

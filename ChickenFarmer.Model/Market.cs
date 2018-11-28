@@ -14,21 +14,12 @@ namespace ChickenFarmer.Model
 {
     public class Market
     {
-        public enum StorageType : byte
-        {
-            Seed = 0,
-            Vegetable = 1,
-            Meat = 2,
-            Egg = 3
-        }
-
         public Market(Farm farm)
         {
             CtxFarm = farm ?? throw new ArgumentNullException(nameof(farm));
         }
 
         private Farm CtxFarm { get; }
-        private Storage FarmStorage => CtxFarm.Buildings.StorageBuilding;
         private FarmOptions Options => CtxFarm.Options;
 
         public void UpgradeHouse(Henhouse house)
@@ -41,87 +32,92 @@ namespace ChickenFarmer.Model
             CtxFarm.Money -= Options.UpgradeHouseCost * (lvl + 1);
         }
 
-        public void UpgradeStorage(StorageType storageType)
+        public void UpgradeStorage(Storage.StorageType storageType)
         {
             switch (storageType)
             {
-                case StorageType.Seed:
-                    if (FarmStorage.SeedCapacityLevel < Options.DefaultStorageMaxLevel)
+                case Storage.StorageType.Seeds:
+                    if (CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Seeds).StorageLevel < Options.DefaultStorageMaxLevel)
                     {
                         CtxFarm.Money -= Options.DefaultStorageUpgradeCost *
-                                         (FarmStorage.SeedCapacityLevel + 1);
-                        FarmStorage.SeedMaxCapacity *= 2;
-                        FarmStorage.SeedCapacityLevel++;
+                                         (CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Seeds).StorageLevel + 1);
+                        CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Seeds).MaxCapacity *= 2;
+                        CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Seeds).StorageLevel++;
                     }
 
                     break;
-                case StorageType.Vegetable:
-                    if (FarmStorage.VegetableCapacityLevel < Options.DefaultStorageMaxLevel)
+                case Storage.StorageType.Vegetables:
+                    if (CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Vegetables).StorageLevel < Options.DefaultStorageMaxLevel)
                     {
                         CtxFarm.Money -= Options.DefaultStorageUpgradeCost *
-                                         (FarmStorage.VegetableCapacityLevel + 1);
-                        FarmStorage.VegetableMaxCapacity *= 2;
-                        FarmStorage.VegetableCapacityLevel++;
+                                         (CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Vegetables).StorageLevel + 1);
+                        CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Vegetables).MaxCapacity *= 2;
+                        CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Vegetables).StorageLevel++;
                     }
 
                     break;
-                case StorageType.Meat:
-                    if (FarmStorage.MeatCapacityLevel < Options.DefaultStorageMaxLevel)
+                case Storage.StorageType.Meat:
+                    if (CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Meat).StorageLevel < Options.DefaultStorageMaxLevel)
                     {
                         CtxFarm.Money -= Options.DefaultStorageUpgradeCost *
-                                         (FarmStorage.MeatCapacityLevel + 1);
-                        FarmStorage.MeatMaxCapacity *= 2;
-                        FarmStorage.MeatCapacityLevel++;
+                                         (CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Meat).StorageLevel + 1);
+                        CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Meat).MaxCapacity *= 2;
+                        CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Meat).StorageLevel++;
                     }
 
                     break;
-                case StorageType.Egg:
-                    if (FarmStorage.EggCapacityLevel < Options.DefaultStorageMaxLevel)
+                case Storage.StorageType.Eggs:
+                    if (CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Eggs).StorageLevel < Options.DefaultStorageMaxLevel)
                     {
                         CtxFarm.Money -= Options.DefaultStorageUpgradeCost *
-                                         (FarmStorage.EggCapacityLevel + 1);
-                        FarmStorage.EggMaxCapacity *= 2;
-                        FarmStorage.EggCapacityLevel++;
+                                         (CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Eggs).StorageLevel + 1);
+                        CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Eggs).MaxCapacity *= 2;
+                        CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Eggs).StorageLevel++;
                     }
 
                     break;
                 default:
                     throw new ArgumentException("Invalid food argument given",
-                        nameof(StorageType));
+                        nameof(Storage.StorageType));
             }
         }
 
-        public void BuyFood(int amount, StorageType food)
+        public void BuyFood(int amount, Storage.StorageType food)
         {
             switch (food)
             {
-                case StorageType.Seed:
-                    if (CtxFarm.Money > Options.SeedPrice * amount)
+                case Storage.StorageType.Seeds:
                     {
-                        CtxFarm.Money -= Options.SeedPrice * amount;
-                        FarmStorage.SeedCapacity += amount;
-                    }
+                        if (CtxFarm.Money > Options.SeedPrice * amount)
+                        {
+                            CtxFarm.Money -= Options.SeedPrice * amount;
+                            CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Eggs).Capacity += amount;
+                        }
 
-                    break;
-                case StorageType.Vegetable:
-                    if (CtxFarm.Money > Options.VegetablePrice * amount)
+                        break;
+                    }
+                case Storage.StorageType.Vegetables:
                     {
-                        CtxFarm.Money -= Options.VegetablePrice * amount;
-                        FarmStorage.VegetableCapacity += amount;
-                    }
+                        if (CtxFarm.Money > Options.VegetablePrice * amount)
+                        {
+                            CtxFarm.Money -= Options.VegetablePrice * amount;
+                            CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Eggs).Capacity += amount;
+                        }
 
-                    break;
-                case StorageType.Meat:
-                    if (CtxFarm.Money > Options.MeatPrice * amount)
+                        break;
+                    }
+                case Storage.StorageType.Meat:
                     {
-                        CtxFarm.Money -= Options.MeatPrice * amount;
-                        FarmStorage.MeatCapacity += amount;
-                    }
+                        if (CtxFarm.Money > Options.MeatPrice * amount)
+                        {
+                            CtxFarm.Money -= Options.MeatPrice * amount;
+                            CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Eggs).Capacity += amount;
+                        }
 
-                    break;
+                        break;
+                    }
                 default:
-                    throw new ArgumentException("Invalid type of food given",
-                        nameof(StorageType));
+                    throw new ArgumentException("Invalid type of food given", nameof(Storage.StorageType));
             }
         }
 
@@ -142,8 +138,8 @@ namespace ChickenFarmer.Model
 
         public static void Sellegg(Farm farm)
         {
-            farm.Money += 2 * farm.Buildings.StorageBuilding.TotalEggs;
-            farm.Buildings.StorageBuilding.TotalEggs = 0;
+            farm.Money += 2 * farm.Buildings.FindStorageByType(Storage.StorageType.Eggs).Capacity;
+            farm.Buildings.FindStorageByType(Storage.StorageType.Eggs).Capacity = 0;
         }
 
         public void BuyHenhouse(int xCoord, int yCoord)

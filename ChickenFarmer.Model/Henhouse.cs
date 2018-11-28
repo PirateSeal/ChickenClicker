@@ -52,13 +52,13 @@ namespace ChickenFarmer.Model
 
         public void FeedAllChicken()
         {
-            if ( CtxCollection.StorageBuilding.SeedCapacity < ToFeed( Chikens ) ) return;
+            if ( CtxCollection.FindStorageByType(Storage.StorageType.Seeds).Capacity < ToFeed( Chikens ) ) return;
             foreach ( Chicken chicken in Chikens ) chicken.ChickenFeed();
         }
 
         public void FeedAllDyingChicken()
         {
-            if ( CtxCollection.StorageBuilding.SeedCapacity < ToFeed( DyingChickens ) ) return;
+            if ( CtxCollection.FindStorageByType(Storage.StorageType.Seeds).Capacity < ToFeed( DyingChickens ) ) return;
             foreach ( Chicken chicken in DyingChickens ) chicken.ChickenFeed();
             DyingChickens.Clear();
         }

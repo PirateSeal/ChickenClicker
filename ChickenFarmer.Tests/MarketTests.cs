@@ -77,11 +77,11 @@ namespace ChickenFarmer.Tests
         {
             Farm farm = new Farm();
             farm.Buildings.Build<Storage>( 1, 1 );
-            farm.Buildings.StorageBuilding.TotalEggs = 500;
+            farm.Buildings.FindStorageByType(Storage.StorageType.Eggs).Capacity= 500;
 
             Market.Sellegg(farm);
 
-            Assert.That(farm.Buildings.StorageBuilding.TotalEggs,Is.EqualTo(0));
+            Assert.That(farm.Buildings.FindStorageByType(Storage.StorageType.Eggs).Capacity,Is.EqualTo(0));
             Assert.That(farm.Money,Is.EqualTo(1100));
         }
 

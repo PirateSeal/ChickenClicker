@@ -22,7 +22,7 @@ namespace ChickenFarmer.Model
         public int Money { get; set; }
         private int Chickencount => Buildings.ChickenCount();
 
-        public void AddEgg() { Buildings.StorageBuilding.TotalEggs ++; }
+        public void AddEgg() { Buildings.FindStorageByType( Storage.StorageType.Eggs ).Capacity++; }
 
         public void Update()
         {
@@ -30,11 +30,11 @@ namespace ChickenFarmer.Model
             Info();
         }
 
-        public int[] UIinfo() { return new[] { Money, Buildings.StorageBuilding.TotalEggs, Chickencount }; }
+        public int[] UIinfo() { return new[] { Money, Buildings.FindStorageByType(Storage.StorageType.Eggs).Capacity, Chickencount }; }
 
         private void Info()
         {
-            Console.WriteLine( "money : {0} , " + "egg :{1} ," + " chicken {2} ", Money, Buildings.StorageBuilding.TotalEggs,
+            Console.WriteLine( "money : {0} , " + "egg :{1} ," + " chicken {2} ", Money, Buildings.FindStorageByType(Storage.StorageType.Eggs).Capacity,
                 Chickencount );
         }
     }

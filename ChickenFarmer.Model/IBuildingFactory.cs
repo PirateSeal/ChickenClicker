@@ -1,7 +1,7 @@
 ﻿namespace ChickenFarmer.Model
 {
-    internal interface IBuildingFactory
+    public interface IBuildingFactory
     {
-        Building Create( BuildingCollection ctx, Vector posVector );
+        Building Create( BuildingCollection ctx, Vector posVector, Storage.StorageType storageType );
     }
 }

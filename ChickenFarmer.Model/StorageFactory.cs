@@ -2,9 +2,9 @@
 {
     public class StorageFactory : IBuildingFactory
     {
-        public Building Create( BuildingCollection ctx, Vector posVector )
+        public Building Create( BuildingCollection ctx, Vector posVector, Storage.StorageType storageType)
         {
-            return new Storage( ctx, posVector );
+            return new Storage( ctx, posVector, storageType);
         }
     }
 }

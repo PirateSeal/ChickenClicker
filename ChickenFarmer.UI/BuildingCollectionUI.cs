@@ -25,7 +25,7 @@ namespace ChickenFarmer.UI
         {
             foreach (Building building in CtxfarmUI.Farm.Buildings.Buildings)
             {
-                Buildings.Add(new BuildingUI(this, new RectangleShape(), new Vector2f(building.PosVector.X, building.PosVector.Y)));
+                Buildings.Add(new BuildingUI(this, building, new RectangleShape(){FillColor =  new Color(255,255,255)}, new Vector2f(building.PosVector.X, building.PosVector.Y)));
             }
         }
 

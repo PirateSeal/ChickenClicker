@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 #endregion
 
@@ -20,29 +21,23 @@ namespace ChickenFarmer.Model
                 { typeof( Storage ), new StorageFactory() },
                 { typeof( Henhouse ), new HenhouseFactory() }
             };
-            this.Build<Henhouse>(150f, 250f);
-            this.Build<Storage>(250f, 250f);
         }
 
         public Farm CtxFarm { get; }
         public List<Building> Buildings { get; }
         private FarmOptions Options => CtxFarm.Options;
 
-        public Storage StorageBuilding
+        public Storage FindStorageByType(Storage.StorageType storageType)
         {
-            get
+            foreach (Storage item in Buildings.OfType<Storage>())
             {
-                foreach ( Building item in Buildings )
+                if (item.ResourceType == storageType)
                 {
-                    if (item.GetType() == typeof(Storage))
-                    {
-                        Storage building = (Storage)item;
-                        return building;
-                    }
+                    return item;
                 }
-              
-                 throw new InvalidOperationException( "No storage found, build one" );
             }
+
+            throw new InvalidOperationException("No storage found, build one");
         }
 
 
@@ -56,7 +51,7 @@ namespace ChickenFarmer.Model
             return buildingList;
         }
 
-        public Building Build<TBuildingType>( float xCoord, float yCoord )
+        public Building Build<TBuildingType>( float xCoord, float yCoord, Storage.StorageType storageType = Storage.StorageType.None)
             where TBuildingType : Building
         {
             if ( xCoord <= 0 ) throw new ArgumentOutOfRangeException( nameof(xCoord) );
@@ -72,7 +67,7 @@ namespace ChickenFarmer.Model
             if ( factory == null )
                 throw new InvalidOperationException(
                     "This building doesn't have a factory to create it" );
-            Building building = factory.Create( this, new Vector( xCoord, yCoord ) );
+            Building building = factory.Create( this, new Vector( xCoord, yCoord ), storageType);
 
             Buildings.Add( building );
             return building;

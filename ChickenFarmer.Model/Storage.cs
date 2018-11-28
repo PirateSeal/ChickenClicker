@@ -8,58 +8,52 @@ namespace ChickenFarmer.Model
 {
     public class Storage : Building
     {
-        public Storage( BuildingCollection ctx, Vector posVector ) : base( ctx, posVector )
+        public enum StorageType
         {
-            CtxCollection = ctx ?? throw new ArgumentNullException( nameof(ctx) );
+            None = 0,
+            Seeds = 1,
+            Vegetables = 2,
+            Meat = 3,
+            Eggs = 4
+        }
+        public Storage(BuildingCollection ctx, Vector posVector, StorageType storageType) : base(ctx, posVector)
+        {
+            CtxCollection = ctx ?? throw new ArgumentNullException(nameof(ctx));
             PosVector = posVector;
+            StorageLevel = Options.DefaultStorageLevel;
+            ResourceType = storageType;
 
-            SeedCapacity = ctx.CtxFarm.Options.DefaultSeedCapacity;
-            SeedMaxCapacity = ctx.CtxFarm.Options.DefaultSeedMaxCapacity;
-            SeedCapacityLevel = ctx.CtxFarm.Options.DefaultStorageLevel;
-
-            VegetableCapacity = ctx.CtxFarm.Options.DefaultVegetableCapacity;
-            VegetableMaxCapacity = ctx.CtxFarm.Options.DefaultVegetableMaxCapacity;
-            VegetableCapacityLevel = ctx.CtxFarm.Options.DefaultStorageLevel;
-
-            MeatCapacity = ctx.CtxFarm.Options.DefaultMeatCapacity;
-            MeatMaxCapacity = ctx.CtxFarm.Options.DefaultMeatMaxCapacity;
-            MeatCapacityLevel = ctx.CtxFarm.Options.DefaultStorageLevel;
-
-            TotalEggs = ctx.CtxFarm.Options.DefaultEggCapacity;
-            EggMaxCapacity = ctx.CtxFarm.Options.DefaultEggMaxCapacity;
-            EggCapacityLevel = ctx.CtxFarm.Options.DefaultStorageLevel;
+            switch (storageType)
+            {
+                case StorageType.Seeds:
+                    Capacity = Options.DefaultSeedCapacity;
+                    MaxCapacity = Options.DefaultSeedMaxCapacity;
+                    break;
+                case StorageType.Vegetables:
+                    Capacity = Options.DefaultVegetableCapacity;
+                    MaxCapacity = Options.DefaultVegetableMaxCapacity;
+                    break;
+                case StorageType.Meat:
+                    Capacity = Options.DefaultMeatCapacity;
+                    MaxCapacity = Options.DefaultMeatMaxCapacity;
+                    break;
+                case StorageType.Eggs:
+                    Capacity = Options.DefaultEggCapacity;
+                    MaxCapacity = Options.DefaultEggMaxCapacity;
+                    break;
+                case StorageType.None:
+                default:
+                    throw new ArgumentException("Undefined type of storage", nameof(StorageType));
+            }
         }
 
-        #region Seed Properties
+        public StorageType ResourceType { get; private set; }
 
-        public int SeedCapacity { get; set; }
-        public int SeedMaxCapacity { get; set; }
-        public int SeedCapacityLevel { get; set; }
+        private FarmOptions Options => CtxCollection.CtxFarm.Options;
 
-        #endregion
+        public int Capacity { get; set; }
+        public int MaxCapacity { get; set; }
+        public int StorageLevel { get; set; }
 
-        #region Vegetable Properties
-
-        public int VegetableCapacity { get; set; }
-        public int VegetableMaxCapacity { get; set; }
-        public int VegetableCapacityLevel { get; set; }
-
-        #endregion
-
-        #region Meat Properties
-
-        public int MeatCapacity { get; set; }
-        public int MeatMaxCapacity { get; set; }
-        public int MeatCapacityLevel { get; set; }
-
-        #endregion
-
-        #region Egg Properties
-
-        public int TotalEggs { get; set; }
-        public int EggMaxCapacity { get; set; }
-        public int EggCapacityLevel { get; set; }
-
-        #endregion
     }
 }

@@ -42,7 +42,7 @@ namespace ChickenFarmer.Model
         public void ChickenFeed()
         {
             if ( CtxHenhouse != null )
-                CtxHenhouse.CtxCollection.StorageBuilding.SeedCapacity -=
+                CtxHenhouse.CtxCollection.FindStorageByType(Storage.StorageType.Seeds).Capacity -=
                     ( int ) Math.Round( Hunger );
             Hunger = 100;
         }
