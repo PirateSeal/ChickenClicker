@@ -40,35 +40,35 @@ namespace ChickenFarmer.UI
             if (Keyboard.IsKeyPressed(Keyboard.Key.Z))
             {
                 _ctxGameLoop.FarmUI.Farm.Player.Move(new Vector(Direction[3].X, Direction[3].Y));
-                _ctxGameLoop.FarmUI._playerUI.AnimFrame++;
                 _ctxGameLoop.FarmUI._playerUI.Direction = 1;
                 _ctxGameLoop.View.Move(Direction[3]);
             }
-
-            else if (Keyboard.IsKeyPressed(Keyboard.Key.S))
-            {
-                _ctxGameLoop.FarmUI.Farm.Player.Move(new Vector(Direction[2].X, Direction[2].Y));
-                _ctxGameLoop.FarmUI._playerUI.AnimFrame++;
-                _ctxGameLoop.FarmUI._playerUI.Direction = 4;
-                _ctxGameLoop.View.Move(Direction[2]);
-            }
-
-
-            else if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
             {
                 _ctxGameLoop.FarmUI.Farm.Player.Move(new Vector(Direction[1].X, Direction[1].Y));
-                _ctxGameLoop.FarmUI._playerUI.AnimFrame++;
                 _ctxGameLoop.FarmUI._playerUI.Direction = 2;
                 _ctxGameLoop.View.Move(Direction[1]);
             }
-            else if (Keyboard.IsKeyPressed(Keyboard.Key.D))
+            if (Keyboard.IsKeyPressed(Keyboard.Key.S))
+            {
+                _ctxGameLoop.FarmUI.Farm.Player.Move(new Vector(Direction[2].X, Direction[2].Y));
+                _ctxGameLoop.FarmUI._playerUI.Direction = 4;
+                _ctxGameLoop.View.Move(Direction[2]);
+            }
+            if (Keyboard.IsKeyPressed(Keyboard.Key.D))
             {
                 _ctxGameLoop.FarmUI.Farm.Player.Move(new Vector(Direction[0].X, Direction[0].Y));
-                _ctxGameLoop.FarmUI._playerUI.AnimFrame++;
                 _ctxGameLoop.FarmUI._playerUI.Direction = 3;
                 _ctxGameLoop.View.Move(Direction[0]);
             }
 
+            _ctxGameLoop.FarmUI._playerUI.AnimFrame++;
+
+
+            if (!Keyboard.IsKeyPressed(Keyboard.Key.Z) && !Keyboard.IsKeyPressed(Keyboard.Key.D) && !Keyboard.IsKeyPressed(Keyboard.Key.Q) && !Keyboard.IsKeyPressed(Keyboard.Key.S))
+                _ctxGameLoop.FarmUI._playerUI.AnimFrame = 0;
+        
+          
 
 
             foreach ( HenhouseUi house in _ctxGameLoop.FarmUI.HenhouseCollection.Henhouses )

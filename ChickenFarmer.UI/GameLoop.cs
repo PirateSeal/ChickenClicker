@@ -68,7 +68,7 @@ namespace ChickenFarmer.UI
                 Window.Draw( square );
                 
                 //   _window.Draw(background);
-                FarmUI.DrawInfo();
+                //FarmUI.DrawInfo();
                 FarmUI.HenhouseCollection.DrawHouses();
                 Window.Draw(_mapTest);
                 FarmUI._playerUI.DrawPlayer();
