@@ -41,6 +41,7 @@ namespace ChickenFarmer.UI
             if (_direction == 1)
             {
                 _sprite.TextureRect = new IntRect(_animFrame*16, 64, 16, 32);
+                
             }
             if (_direction == 2)
             {
@@ -61,8 +62,11 @@ namespace ChickenFarmer.UI
 
             _sprite.Position = new Vector2f(_player.Position.X, _player.Position.Y);
             _ctxFarmUI.CtxGame.Window.Draw(_sprite);
-            
+            //Console.WriteLine(_sprite.TextureRect.Left.ToString(), _sprite.TextureRect.Top, _sprite.TextureRect.Height, _sprite.TextureRect.Width);
+
         }
+
+
 
         public int AnimFrame
         {

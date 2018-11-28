@@ -73,6 +73,7 @@ namespace ChickenFarmer.UI
                 Window.Draw(_mapTest);
                 FarmUI._playerUI.DrawPlayer();
                 Window.Display();
+                _playerInput.Handle();
                 Update();
             }
         }
@@ -84,7 +85,7 @@ namespace ChickenFarmer.UI
             if ( _oldUpdate.Add( _intervalUpdate ) < current )
             {
                 FarmUI.Update();
-                _playerInput.Handle();
+                
 
                 _oldUpdate = current;
             }

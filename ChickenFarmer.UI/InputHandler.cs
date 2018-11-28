@@ -45,7 +45,7 @@ namespace ChickenFarmer.UI
                 _ctxGameLoop.View.Move(Direction[3]);
             }
 
-            if (Keyboard.IsKeyPressed(Keyboard.Key.S))
+            else if (Keyboard.IsKeyPressed(Keyboard.Key.S))
             {
                 _ctxGameLoop.FarmUI.Farm.Player.Move(new Vector(Direction[2].X, Direction[2].Y));
                 _ctxGameLoop.FarmUI._playerUI.AnimFrame++;
@@ -54,14 +54,14 @@ namespace ChickenFarmer.UI
             }
 
 
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
+            else if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
             {
                 _ctxGameLoop.FarmUI.Farm.Player.Move(new Vector(Direction[1].X, Direction[1].Y));
                 _ctxGameLoop.FarmUI._playerUI.AnimFrame++;
                 _ctxGameLoop.FarmUI._playerUI.Direction = 2;
                 _ctxGameLoop.View.Move(Direction[1]);
             }
-            if (Keyboard.IsKeyPressed(Keyboard.Key.D))
+            else if (Keyboard.IsKeyPressed(Keyboard.Key.D))
             {
                 _ctxGameLoop.FarmUI.Farm.Player.Move(new Vector(Direction[0].X, Direction[0].Y));
                 _ctxGameLoop.FarmUI._playerUI.AnimFrame++;
