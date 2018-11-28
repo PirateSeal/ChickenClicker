@@ -1,37 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿#region Usings
+
 using ChickenFarmer.Model;
-using SFML.Audio;
 using SFML.Graphics;
 using SFML.System;
-using SFML.Window;
+
+#endregion
 
 namespace ChickenFarmer.UI
 {
-    internal class FarmUI
+    public class FarmUI
     {
         private const string FontLocation = "../../../../Data/pricedown.ttf";
+        private readonly Vector2f _buttonPos = new Vector2f( 10f, 540f );
 
         private readonly Vector2f _buttonSize = new Vector2f( 80f, 60f );
-        private readonly Vector2f _buttonPos = new Vector2f( 10f, 540f );
-        private Text _text;
-
-        public Farm Farm { get; private set; }
 
         public FarmUI( GameLoop ctx )
         {
             Farm = new Farm();
 
             CtxGame = ctx;
-            HenhouseCollection = new HenhouseCollectionUi( this );
+            BuildingCollectionUI = new BuildingCollectionUI( this );
 
             Font font = new Font( FontLocation );
-            _text = new Text( "", font );
+            Text = new Text( "", font );
 
-            ButtonSellEggs = new RectangleShape( _buttonSize ) { Position = _buttonPos, };
+            ButtonSellEggs = new RectangleShape( _buttonSize ) { Position = _buttonPos };
+            FarmOptionsUI = new FarmOptionsUI();
         }
 
+        public Text Text { get; }
+
+        public Farm Farm { get; }
+
+        public FarmOptionsUI FarmOptionsUI { get; }
+
+        public Shape ButtonSellEggs { get; }
+        public GameLoop CtxGame { get; }
+        internal BuildingCollectionUI BuildingCollectionUI { get; set; }
         public void Update() { Farm.Update(); }
 
         public void DrawInfo()
@@ -41,34 +47,23 @@ namespace ChickenFarmer.UI
 
             int i;
             for (i = 0; i < 3; i ++)
-            {
                 switch (i)
                 {
                     case 0:
-                        infoToPrint += "Argent : " + info[i].ToString() + "\n";
+                        infoToPrint += "Argent : " + info[i] + "\n";
                         break;
                     case 1:
-                        infoToPrint += "Oeufs : " + info[i].ToString() + "\n";
+                        infoToPrint += "Oeufs : " + info[i] + "\n";
                         break;
                     case 2:
-                        infoToPrint += "Poules : " + info[i].ToString() + "\n";
-                        break;
-                    default:
+                        infoToPrint += "Poules : " + info[i] + "\n";
                         break;
                 }
-            }
 
-            _text.DisplayedString = infoToPrint;
-            CtxGame.Window.Draw( _text );
+            Text.DisplayedString = infoToPrint;
+            CtxGame.Window.Draw( Text );
 
             CtxGame.Window.Draw( ButtonSellEggs );
         }
-
-        public Shape ButtonSellEggs { get; }
-        public GameLoop CtxGame { get; private set; }
-        internal HenhouseCollectionUi HenhouseCollection { get; set; }
     }
 }
-
-
-

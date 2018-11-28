@@ -1,19 +1,23 @@
-﻿using System;
-using SFML.Audio;
+﻿#region Usings
+
+using System;
+using ChickenFarmer.Model;
+using SFML;
+using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
-using SFML.Graphics;
+
+#endregion
 
 namespace ChickenFarmer.UI
 {
     public class GameLoop
     {
-        private InputHandler _playerInput;
-        private TimeSpan _intervalUpdate = new TimeSpan( 0, 0, 0, 0, 100 );
-        private DateTime _oldUpdate = DateTime.Now;
-        View _view;
+        private readonly TimeSpan _intervalUpdate = new TimeSpan( 0, 0, 0, 0, 100 );
 
-        private TileMap _mapTest;
+        private readonly TileMap _mapTest;
+        private DateTime _oldUpdate = DateTime.Now;
+        private readonly InputHandler _playerInput;
 
         public GameLoop()
         {
@@ -22,23 +26,24 @@ namespace ChickenFarmer.UI
             Window.SetFramerateLimit( 60 );
 
             FarmUI = new FarmUI( this );
+            FarmUI.Farm.Buildings.Build<Storage>( 50f, 50f );
+            FarmUI.Farm.Buildings.Build<Henhouse>( 100f, 100f );
             _playerInput = new InputHandler( this );
 
             _mapTest = new TileMap( "../../../../Data/map/3Layers.tmx", this );
         }
 
-        public RenderWindow Window { get; private set; }
-
+        public RenderWindow Window { get; }
         public RenderStates State { get; set; }
-        public View View { get => _view; set => _view = value; }
+        public View View { get; set; }
         internal FarmUI FarmUI { get; set; }
 
         private static void Init()
         {
-            SFML.SystemNative.Load();
-            SFML.WindowNative.Load();
-            SFML.GraphicsNative.Load();
-             SFML.AudioNative.Load();
+            SystemNative.Load();
+            WindowNative.Load();
+            GraphicsNative.Load();
+            AudioNative.Load();
         }
 
         public void Run()
@@ -67,8 +72,8 @@ namespace ChickenFarmer.UI
                 Window.Draw( square );
                 //   _window.Draw(background);
                 FarmUI.DrawInfo();
-                FarmUI.HenhouseCollection.DrawHouses();
-                Window.Draw(_mapTest);
+                FarmUI.BuildingCollectionUI.DrawBuildings( Window, State  );
+                Window.Draw( _mapTest );
                 Window.Display();
                 Update();
             }
@@ -81,7 +86,6 @@ namespace ChickenFarmer.UI
             if ( _oldUpdate.Add( _intervalUpdate ) < current )
             {
                 FarmUI.Update();
-              
 
                 _oldUpdate = current;
             }

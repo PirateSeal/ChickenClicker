@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ChickenFarmer.UI
+﻿namespace ChickenFarmer.UI
 {
-    class ContextualMenu
+    public class ContextualMenu
     {
     }
 }

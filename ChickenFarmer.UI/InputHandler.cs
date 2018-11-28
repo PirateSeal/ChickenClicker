@@ -70,7 +70,7 @@ namespace ChickenFarmer.UI
 
 
 
-            foreach ( HenhouseUi house in _ctxGameLoop.FarmUI.HenhouseCollection.Henhouses )
+            /*foreach ( HenhouseUi house in _ctxGameLoop.FarmUI.BuildingCollectionUI.Henhouses )
             {
                 if ( house.HouseSprite == null ) return;
                 FloatRect buyChickenBound = house.HouseMenu.ButtonBuyChicken.GetGlobalBounds();
@@ -79,7 +79,7 @@ namespace ChickenFarmer.UI
                      Mouse.IsButtonPressed( Mouse.Button.Left ) &&
                      house.HouseMenu.DrawState == false )
                 {
-                    foreach ( HenhouseUi item in _ctxGameLoop.FarmUI.HenhouseCollection.Henhouses )
+                    foreach ( HenhouseUi item in _ctxGameLoop.FarmUI.BuildingCollectionUI.Henhouses )
                     {
                         if ( item != house )
                         {
@@ -122,7 +122,7 @@ namespace ChickenFarmer.UI
 
                     Thread.Sleep( 50 );
                 }
-            }
+            }*/
 
             if ( buttonSellEggsBound.Contains( mpos.X, mpos.Y ) &&
                  Mouse.IsButtonPressed( Mouse.Button.Left ) )
