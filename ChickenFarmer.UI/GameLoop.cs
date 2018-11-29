@@ -9,7 +9,7 @@ namespace ChickenFarmer.UI
     public class GameLoop
     {
         private InputHandler _playerInput;
-        private TimeSpan _intervalUpdate = new TimeSpan( 0, 0, 0, 0, 100 );
+        private TimeSpan _intervalUpdate = new TimeSpan( 0, 0, 0, 0, 60 );
         private DateTime _oldUpdate = DateTime.Now;
         View _view;
 
@@ -54,7 +54,7 @@ namespace ChickenFarmer.UI
             //Texture texture = new Texture("../../../../Data/farm_background.jpg");
             // Sprite background = new Sprite(texture);
 
-            View = new View( new FloatRect( new Vector2f( 0f, 0f ), new Vector2f( 1280, 720 ) ) );
+            View = new View( new FloatRect( new Vector2f( 0f, 0f ), new Vector2f( 1280/2, 720/2 ) ) );
 
             Shape button = new RectangleShape( buttonsize )
             {
@@ -75,10 +75,10 @@ namespace ChickenFarmer.UI
                 
                 FarmUI._playerUI.UpdateSpritePosition();
                 FarmUI._playerUI.Draw(Window, State);
-                Update();
+                
                 Window.Display();
                 _playerInput.Handle();
-                
+                Update();
             }
         }
 
@@ -88,7 +88,10 @@ namespace ChickenFarmer.UI
 
             if ( _oldUpdate.Add( _intervalUpdate ) < current )
             {
+                
                 FarmUI.Update();
+                FarmUI._playerUI.AnimationLoop();
+                FarmUI._playerUI.AnimFrame++;
 
                 _oldUpdate = current;
             }

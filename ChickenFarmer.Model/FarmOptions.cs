@@ -5,7 +5,7 @@ namespace ChickenFarmer.Model
         public FarmOptions( )
         {
             DefaultPlayerLife = 10;
-            DefaultPlayerMaxSpeed = 1;
+            DefaultPlayerMaxSpeed = 0.5f;
             DefaultMoney = 100;
             DefaultHenhouseCapacity = 4;
             DefaultStorageCapacity = 1;

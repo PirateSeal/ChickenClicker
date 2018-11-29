@@ -17,13 +17,11 @@ namespace ChickenFarmer.UI
         Vector2f _spriteSize;
         Vector2f _position;
         Sprite _sprite;
-        int _columnSpriteSheet;
         int _direction;
 
         public PlayerUI(FarmUI ctxFarmUI, Player player)
         {
             _animFrame = 0;
-            _columnSpriteSheet = 0;
             _direction = 0;
             _spriteSize = new Vector2f(16f, 32f);
             _ctxFarmUI = ctxFarmUI;
@@ -35,7 +33,7 @@ namespace ChickenFarmer.UI
 
         public void AnimationLoop()
         {
-
+            
             _sprite.TextureRect = new IntRect(0, 0, 16, 32);
 
             if (_direction == 1)
@@ -56,19 +54,21 @@ namespace ChickenFarmer.UI
             }
 
             if (_animFrame == 3) _animFrame = 0;
-
             
-            
+            //Console.WriteLine("animFrame : {0} ", _animFrame);
 
         }
+
         public void Draw(IRenderTarget target, in RenderStates states)
         {
-            _sprite.Draw(target, states);
+            //target.Draw(_sprite, states);
+            _ctxFarmUI.CtxGame.Window.Draw(_sprite);
+            //Console.WriteLine("sprite X : {0}  sprite Y : {1}  sprite.TextureREct : {2}", _sprite.Position.X, _sprite.Position.Y, _sprite.TextureRect);
+            
         }
 
         public void UpdateSpritePosition()
         {
-            
             _sprite.Position = new Vector2f(_player.Position.X, _player.Position.Y);
         }
 
@@ -84,11 +84,6 @@ namespace ChickenFarmer.UI
             get { return _direction; }
             set { _direction = value; }
         }
-
-       
-
-        
-
 
         
     }

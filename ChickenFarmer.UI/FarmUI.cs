@@ -35,7 +35,6 @@ namespace ChickenFarmer.UI
         public void Update()
         {
             Farm.Update();
-            _playerUI.AnimationLoop();
         }
 
         public void DrawInfo()
