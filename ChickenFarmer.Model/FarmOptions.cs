@@ -4,7 +4,8 @@ namespace ChickenFarmer.Model
     {
         public FarmOptions( )
         {
-            DefaultPlayerMaxSpeed = 1;
+            DefaultPlayerLife = 10;
+            DefaultPlayerMaxSpeed = 0.5f;
             DefaultMoney = 100;
             DefaultHenhouseCapacity = 4;
             DefaultStorageCapacity = 1;
@@ -76,6 +77,7 @@ namespace ChickenFarmer.Model
         public int DefaultHenhouseCapacity { get; }
 
         private int DefaultHenhouseBuildTime { get; }
+        public int DefaultPlayerLife { get; private set; }
         public float DefaultPlayerMaxSpeed { get; private set; }
     }
 }

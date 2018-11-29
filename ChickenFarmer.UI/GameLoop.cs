@@ -13,12 +13,11 @@ namespace ChickenFarmer.UI
 {
     public class GameLoop
     {
-        private readonly TimeSpan _intervalUpdate =
-            new TimeSpan(0, 0, 0, 0, 100);
-
+        private InputHandler _playerInput;
+        private TimeSpan _intervalUpdate = new TimeSpan( 0, 0, 0, 0, 60 );
         private readonly TileMap _tileMap;
         private DateTime _oldUpdate = DateTime.Now;
-        private readonly InputHandler _playerInput;
+        View _view;
 
         public GameLoop()
         {
@@ -32,9 +31,9 @@ namespace ChickenFarmer.UI
             _tileMap = new TileMap("../../../../Data/map/3Layers.tmx", this);
         }
 
-        public RenderWindow Window { get; }
-        public RenderStates State { get; set; }
         public View View { get; set; }
+        public RenderStates State { get; set; }
+        public RenderWindow Window { get; }
         internal FarmUI FarmUI { get; set; }
 
         private static void Init()
@@ -66,17 +65,15 @@ namespace ChickenFarmer.UI
             {
                 _playerInput.Handle();
                 Window.View = View;
-                Window.Clear(new Color(255, 0, 255));
                 Window.Draw(_tileMap);
-
-
-       
+                Window.Clear(new Color(255, 0, 255));
                 //   _window.Draw(background);
-                FarmUI.DrawInfo();
-             
-               
                 FarmUI.BuildingCollectionUI.Draw(Window, State);
+                FarmUI.DrawInfo();
+                FarmUI._playerUI.UpdateSpritePosition();
+                FarmUI._playerUI.Draw(Window, states);
                 Window.Display();
+                _playerInput.Handle();
                 Update();
             }
         }
@@ -87,7 +84,10 @@ namespace ChickenFarmer.UI
 
             if ( _oldUpdate.Add(_intervalUpdate) < current )
             {
+                
                 FarmUI.Update();
+                FarmUI._playerUI.AnimationLoop();
+                FarmUI._playerUI.AnimFrame++;
 
                 _oldUpdate = current;
             }

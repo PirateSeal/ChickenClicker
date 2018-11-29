@@ -15,6 +15,7 @@ namespace ChickenFarmer.UI
 
         private readonly Vector2f _buttonSize = new Vector2f( 80f, 60f );
 
+        public PlayerUI _playerUI;
         public FarmUI( GameLoop ctx )
         {
             FarmOptionsUI = new FarmOptionsUI();
@@ -22,6 +23,7 @@ namespace ChickenFarmer.UI
           
             CtxGame = ctx;
             BuildingCollectionUI = new BuildingCollectionUI( this );
+            _playerUI = new PlayerUI(this, Farm.Player);
 
             Font font = new Font( FontLocation );
             Text = new Text( "", font );
@@ -39,7 +41,10 @@ namespace ChickenFarmer.UI
         public Shape ButtonSellEggs { get; }
         public GameLoop CtxGame { get; }
         internal BuildingCollectionUI BuildingCollectionUI { get; set; }
-        public void Update() { Farm.Update(); }
+        public void Update()
+        {
+            Farm.Update();
+        }
 
         public void DrawInfo()
         {
