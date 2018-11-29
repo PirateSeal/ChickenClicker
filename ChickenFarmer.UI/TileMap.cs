@@ -9,6 +9,7 @@ using SFML.System;
 
 namespace ChickenFarmer.UI
 {
+    // CECI EST UN EXEMPLE
     internal class TileMap : IDrawable
     {
         private static readonly Vector2f[] Direction = {
