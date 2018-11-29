@@ -12,10 +12,11 @@ namespace ChickenFarmer.UI
     internal class TileMap : IDrawable
     {
         private static readonly Vector2f[] Direction = {
-            new Vector2f( 0, 0 ),
-            new Vector2f( 16, 0 ),
-            new Vector2f( 16, 16 ),
-            new Vector2f( 0, 16 )
+
+            new Vector2f( 0 + 0.0075f, 0 + 0.0075f),         // 0.0075f  fix texture bleeding
+            new Vector2f( 16 + 0.0075f, 0 + 0.0075f),
+            new Vector2f( 16 + 0.0075f , 16 + 0.0075f),
+            new Vector2f( 0 + 0.0075f , 16 + 0.0075f)
         };
 
         private TmxMap _map;

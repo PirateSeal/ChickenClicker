@@ -55,9 +55,9 @@ namespace ChickenFarmer.UI
                                 (Vector2f)HouseTexture.Size)
                                 {
                                     Texture = HouseTexture,
-                                    Position = new Vector2f(worldPos.X, worldPos.Y)
-                                }, 
-                                new Vector2f(worldPos.X, worldPos.Y)
+                                    Position = new Vector2f(building.PosVector.X  , building.PosVector.Y)
+                            }, 
+                                new Vector2f(building.PosVector.X, building.PosVector.Y)
                         )
                     );
 
@@ -73,9 +73,9 @@ namespace ChickenFarmer.UI
                         new RectangleShape((Vector2f)HouseTexture.Size)
                         {
                           Texture = HouseTexture,
-                          Position = new Vector2f(worldPos.X, worldPos.Y)
+                          Position = new Vector2f(building.PosVector.X, building.PosVector.Y)
                         },
-                        new Vector2f(worldPos.X, worldPos.Y)
+                        new Vector2f(building.PosVector.X, building.PosVector.Y)
 
                         ));
 

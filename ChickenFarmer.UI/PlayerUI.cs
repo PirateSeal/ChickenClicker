@@ -8,7 +8,7 @@ using ChickenFarmer.Model;
 
 namespace ChickenFarmer.UI
 {
-    internal class PlayerUI : IDrawable
+    public class PlayerUI : IDrawable
     {
         Player _player ;
         Texture _texture;

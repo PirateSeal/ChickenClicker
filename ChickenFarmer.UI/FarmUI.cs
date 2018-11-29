@@ -15,7 +15,7 @@ namespace ChickenFarmer.UI
 
         private readonly Vector2f _buttonSize = new Vector2f( 80f, 60f );
 
-        public PlayerUI _playerUI;
+        PlayerUI _playerUI;
         public FarmUI( GameLoop ctx )
         {
             FarmOptionsUI = new FarmOptionsUI();
@@ -33,7 +33,7 @@ namespace ChickenFarmer.UI
         }
 
         public Text Text { get; }
-
+        public PlayerUI PlayerUI { get { return _playerUI; } }
         public Farm Farm { get; }
 
         public FarmOptionsUI FarmOptionsUI { get; }

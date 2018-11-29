@@ -12,6 +12,7 @@ namespace ChickenFarmer.UI
         GameLoop _ctxGameLoop;
         TimeSpan _time = new TimeSpan(0, 0, 0, 0, 500);
         private DateTime _oldUpdate = DateTime.Now;
+        Vector _deplacement;
         private static readonly Vector2f[] Direction = {
             new Vector2f( 5, 0),
             new Vector2f( -5, 0 ),
@@ -44,23 +45,23 @@ namespace ChickenFarmer.UI
             if (Keyboard.IsKeyPressed(Keyboard.Key.Z))
             {
                 _deplacement += new Vector(Direction[3].X, Direction[3].Y);
-                _ctxGameLoop.FarmUI._playerUI.Direction = 1;
+                _ctxGameLoop.FarmUI.PlayerUI.Direction = 1;
                 
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.S))
             {
                 _deplacement += new Vector(Direction[2].X, Direction[2].Y);
-                _ctxGameLoop.FarmUI._playerUI.Direction = 4;
+                _ctxGameLoop.FarmUI.PlayerUI.Direction = 4;
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
             {
                 _deplacement += new Vector(Direction[1].X, Direction[1].Y);
-                _ctxGameLoop.FarmUI._playerUI.Direction = 2;
+                _ctxGameLoop.FarmUI.PlayerUI.Direction = 2;
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.D))
             {
                 _deplacement += (new Vector(Direction[0].X, Direction[0].Y));
-                _ctxGameLoop.FarmUI._playerUI.Direction = 3;
+                _ctxGameLoop.FarmUI.PlayerUI.Direction = 3;
             }
             //if (Keyboard.IsKeyPressed(Keyboard.Key.E) && _ctxGameLoop.FarmUI.Farm.Player.Position)
             //{
@@ -69,7 +70,7 @@ namespace ChickenFarmer.UI
 
             _ctxGameLoop.View.Center = new Vector2f(_ctxGameLoop.FarmUI.Farm.Player.Position.X, _ctxGameLoop.FarmUI.Farm.Player.Position.Y);
             _ctxGameLoop.FarmUI.Farm.Player.Move(_deplacement);
-            
+
 
 
             if (Mouse.IsButtonPressed(Mouse.Button.Right) && _oldUpdate.Add(_time) < current)
@@ -77,11 +78,14 @@ namespace ChickenFarmer.UI
                 _oldUpdate = DateTime.Now;
 
                 _ctxGameLoop.FarmUI.Farm.Buildings.Build<Henhouse>(worldPos.X, worldPos.Y);
-            if (!Keyboard.IsKeyPressed(Keyboard.Key.Z) && !Keyboard.IsKeyPressed(Keyboard.Key.D) && !Keyboard.IsKeyPressed(Keyboard.Key.Q) && !Keyboard.IsKeyPressed(Keyboard.Key.S))
-                _ctxGameLoop.FarmUI._playerUI.AnimFrame = 0;
-
                 _ctxGameLoop.FarmUI.BuildingCollectionUI.LoadBuildings();
             }
+
+
+            if (!Keyboard.IsKeyPressed(Keyboard.Key.Z) && !Keyboard.IsKeyPressed(Keyboard.Key.D) && !Keyboard.IsKeyPressed(Keyboard.Key.Q) && !Keyboard.IsKeyPressed(Keyboard.Key.S))
+                _ctxGameLoop.FarmUI.PlayerUI.AnimFrame = 0;
+     
+         
             /*foreach ( HenhouseUi house in _ctxGameLoop.FarmUI.BuildingCollectionUI.Henhouses )
             {
                 if ( house.HouseSprite == null ) return;

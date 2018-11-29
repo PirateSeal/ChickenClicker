@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 
+
 namespace ChickenFarmer.Model
 {
     public class Player
@@ -9,7 +10,7 @@ namespace ChickenFarmer.Model
         public int _life;
         public float _speed;
         public Vector _position;
-        public List<Building> _inventory;
+        public List<IBuilding> _inventory;
         public Farm _ctxFarm;
         public Vector _direction;
 
@@ -19,7 +20,7 @@ namespace ChickenFarmer.Model
             _position = new Vector(1280/2, 720/2); // divise par 2 pour centrer le joueur dans la view de la gameloop. A changer
             _life = ctxFarm.Options.DefaultPlayerLife;
             _speed = _ctxFarm.Options.DefaultPlayerMaxSpeed;
-            _inventory = new List<Building>();
+            _inventory = new List<IBuilding>();
         }
 
         public void Move(Vector direction)

@@ -34,9 +34,9 @@ namespace ChickenFarmer.UI
         public View View { get; set; }
         public RenderStates State { get; set; }
         public RenderWindow Window { get; }
-        internal FarmUI FarmUI { get; set; }
+        public FarmUI FarmUI { get; set; }
 
-        private static void Init()
+        public static void Init()
         {
             SystemNative.Load();
             WindowNative.Load();
@@ -64,21 +64,23 @@ namespace ChickenFarmer.UI
             while (Window.IsOpen)
             {
                 _playerInput.Handle();
-                Window.View = View;
-                Window.Draw(_tileMap);
+                Window.View = View;            
                 Window.Clear(new Color(255, 0, 255));
-                //   _window.Draw(background);
+                Window.Draw(_tileMap);
+              
                 FarmUI.BuildingCollectionUI.Draw(Window, State);
                 FarmUI.DrawInfo();
-                FarmUI._playerUI.UpdateSpritePosition();
-                FarmUI._playerUI.Draw(Window, states);
-                Window.Display();
-                _playerInput.Handle();
+                FarmUI.PlayerUI.UpdateSpritePosition();
+                FarmUI.PlayerUI.Draw(Window, State);
                 Update();
+
+
+
+                Window.Display();    
             }
         }
 
-        private void Update()
+        void Update()
         {
             DateTime current = DateTime.Now;
 
@@ -86,8 +88,8 @@ namespace ChickenFarmer.UI
             {
                 
                 FarmUI.Update();
-                FarmUI._playerUI.AnimationLoop();
-                FarmUI._playerUI.AnimFrame++;
+                FarmUI.PlayerUI.AnimationLoop();
+                FarmUI.PlayerUI.AnimFrame++;
 
                 _oldUpdate = current;
             }

@@ -21,7 +21,7 @@ namespace ChickenFarmer.UI
             HousePos1 = pos;
             _ctxGame = ctxFarm.CtxGame;
             Ctxhouse = house;
-            HouseMenu = new HouseMenu( _ctxGame, this );
+            //HouseMenu = new HouseMenu( _ctxGame, this );
 
             HouseSprite = new RectangleShape( _houseSize ) { Position = HousePos1, };
             _textures = _textures = new Texture[]
@@ -42,11 +42,11 @@ namespace ChickenFarmer.UI
             HouseSprite.Texture = _textures[Ctxhouse.Lvl];
 
             _ctxGame.Window.Draw( HouseSprite );
-            HouseMenu.DrawGui();
+            //HouseMenu.DrawGui();
         }
 
         public Shape HouseSprite { get; private set; }
-        public HouseMenu HouseMenu { get; private set; }
+        //public HouseMenu HouseMenu { get; private set; }
         public Henhouse Ctxhouse { get; private set; }
         public Vector2f HousePos1 { get; private set; } = new Vector2f( 100f, 100f );
     }
