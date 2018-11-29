@@ -17,8 +17,9 @@ namespace ChickenFarmer.UI
 
         public FarmUI( GameLoop ctx )
         {
+            FarmOptionsUI = new FarmOptionsUI();
             Farm = new Farm();
-
+          
             CtxGame = ctx;
             BuildingCollectionUI = new BuildingCollectionUI( this );
 
@@ -26,7 +27,7 @@ namespace ChickenFarmer.UI
             Text = new Text( "", font );
 
             ButtonSellEggs = new RectangleShape( _buttonSize ) { Position = _buttonPos };
-            FarmOptionsUI = new FarmOptionsUI();
+         
         }
 
         public Text Text { get; }

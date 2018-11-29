@@ -10,7 +10,8 @@ namespace ChickenFarmer.UI
     internal class InputHandler
     {
         GameLoop _ctxGameLoop;
-
+        TimeSpan _time = new TimeSpan(0, 0, 0, 0, 500);
+        private DateTime _oldUpdate = DateTime.Now;
         private static readonly Vector2f[] Direction = {
             new Vector2f( 5, 0),
             new Vector2f( -5, 0 ),
@@ -22,7 +23,10 @@ namespace ChickenFarmer.UI
 
         public void Handle()
         {
-            Vector2i mpos = Mouse.GetPosition( _ctxGameLoop.Window );
+            DateTime current = DateTime.Now;
+            Vector2i mpos = Mouse.GetPosition( _ctxGameLoop.Window);
+            Vector2f worldPos = _ctxGameLoop.Window.MapPixelToCoords(mpos);
+
             FloatRect buttonSellEggsBound = _ctxGameLoop.FarmUI.ButtonSellEggs.GetGlobalBounds();
 
             //      var _menuBound = _ctxGameLoop.HouseMenu.Menu.GetGlobalBounds(); 
@@ -49,15 +53,12 @@ namespace ChickenFarmer.UI
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.S))
             {
-
                 _ctxGameLoop.View.Move(Direction[2]);
-
             }
 
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
             {
-
                 _ctxGameLoop.View.Move(Direction[1]);
 
             }
@@ -68,6 +69,14 @@ namespace ChickenFarmer.UI
 
             }
 
+            if (Mouse.IsButtonPressed(Mouse.Button.Right) && _oldUpdate.Add(_time) < current)
+            {
+                _oldUpdate = DateTime.Now;
+
+                _ctxGameLoop.FarmUI.Farm.Buildings.Build<Henhouse>(worldPos.X, worldPos.Y);
+
+                _ctxGameLoop.FarmUI.BuildingCollectionUI.LoadBuildings();
+            }
 
 
             /*foreach ( HenhouseUi house in _ctxGameLoop.FarmUI.BuildingCollectionUI.Henhouses )

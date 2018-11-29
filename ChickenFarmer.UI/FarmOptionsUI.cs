@@ -15,14 +15,30 @@ namespace ChickenFarmer.UI
                 new Texture( "../../../../Data/henhouse1.png" ),
                 new Texture( "../../../../Data/henhouse2.png" ),
                 new Texture( "../../../../Data/henhouse1.png" ),
+                new Texture( "../../../../Data/henhouse1.png" )             
+            };
+
+            TextureTableStorage = new[]
+           {
                 new Texture( "../../../../Data/henhouse1.png" ),
+                new Texture( "../../../../Data/henhouse1.png" ),
+                new Texture( "../../../../Data/henhouse2.png" ),
                 new Texture( "../../../../Data/henhouse1.png" ),
                 new Texture( "../../../../Data/henhouse1.png" )
+
             };
+
+
         }
         public Dictionary<Type, Texture[]> TextureDictionary { get; }
 
         public Texture[] TextureTable { get; set; }
+
+        public Texture[] TextureTableStorage { get; set; }
+        
+
     }
+
+
 
 }

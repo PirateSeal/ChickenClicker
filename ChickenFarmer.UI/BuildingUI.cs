@@ -15,7 +15,7 @@ namespace ChickenFarmer.UI
         {
             Shape = shape ?? throw new ArgumentNullException(nameof(shape));
             CtxBuildingCollectionUi = ctx;
-            Menu = new ContextualMenu();
+            Menu = new ContextualMenu(this);
             Pos = pos;
             BuildingCtx = building;
         }
@@ -28,11 +28,12 @@ namespace ChickenFarmer.UI
         public ContextualMenu Menu { get; }
         public Texture BuildingTexture { get; set; }
 
-        public void Dispose() { throw new NotImplementedException(); }
+        public void Dispose() { Shape.Dispose(); Menu.Dispose(); }
 
         public void Draw(IRenderTarget target, in RenderStates states)
         {
-            target.Draw(Shape);
+
+            Shape.Draw(target,states);
         }
 
 //        public void Texturize<TBuildingType>() where TBuildingType : BuildingUI

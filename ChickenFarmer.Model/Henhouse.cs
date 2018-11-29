@@ -20,6 +20,7 @@ namespace ChickenFarmer.Model
             DyingChickens = new List<Chicken>();
         }
 
+
         public Vector PosVector { get; set; }
         public BuildingCollection CtxCollection { get; set; }
         private FarmOptions Options => CtxCollection.CtxFarm.Options;
@@ -31,7 +32,7 @@ namespace ChickenFarmer.Model
 
         public bool IsFull => ChickenCount == MaxCapacity;
 
-        public int Lvl { get; private set; }
+        public int Lvl { get;  set; }
 
         public int CountDyingChickens => DyingChickens.Count;
 

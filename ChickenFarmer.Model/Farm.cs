@@ -13,6 +13,10 @@ namespace ChickenFarmer.Model
             Options = new FarmOptions();
             Market = new Market( this );
             Buildings = new BuildingCollection( this );
+
+            Buildings.Build<Henhouse>(200, 400);
+            Buildings.Build<Storage>(600, 300, Storage.StorageType.Eggs);
+
             Money = Options.DefaultMoney;
         }
 

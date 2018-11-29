@@ -16,7 +16,7 @@ namespace ChickenFarmer.UI
         private readonly TimeSpan _intervalUpdate =
             new TimeSpan(0, 0, 0, 0, 100);
 
-        private readonly TileMap _mapTest;
+        private readonly TileMap _tileMap;
         private DateTime _oldUpdate = DateTime.Now;
         private readonly InputHandler _playerInput;
 
@@ -27,12 +27,9 @@ namespace ChickenFarmer.UI
             Window.SetFramerateLimit(60);
 
             FarmUI = new FarmUI(this);
-            FarmUI.Farm.Buildings.Build<Storage>(50f, 50f,
-                Storage.StorageType.Seeds);
-            FarmUI.Farm.Buildings.Build<Henhouse>(100f, 100f);
             _playerInput = new InputHandler(this);
 
-            _mapTest = new TileMap("../../../../Data/map/3Layers.tmx", this);
+            _tileMap = new TileMap("../../../../Data/map/3Layers.tmx", this);
         }
 
         public RenderWindow Window { get; }
@@ -51,32 +48,34 @@ namespace ChickenFarmer.UI
         public void Run()
         {
             Init();
+            
 
-            Vector2f size = new Vector2f(800f, 600f);
             Vector2f buttonsize = new Vector2f(80f, 60f);
-
-            Shape square = new RectangleShape(size) { FillColor = Color.Red };
-            //Texture texture = new Texture("../../../../Data/farm_background.jpg");
-            // Sprite background = new Sprite(texture);
 
             View = new View(new FloatRect(new Vector2f(0f, 0f),
                 new Vector2f(1280, 720)));
 
             Shape button = new RectangleShape(buttonsize)
             {
-                FillColor = Color.Blue, Position = size
+                FillColor = Color.Blue, Position = View.Size
             };
+
+           
 
             while (Window.IsOpen)
             {
                 _playerInput.Handle();
                 Window.View = View;
                 Window.Clear(new Color(255, 0, 255));
-                Window.Draw(square);
+                Window.Draw(_tileMap);
+
+
+       
                 //   _window.Draw(background);
                 FarmUI.DrawInfo();
-                FarmUI.BuildingCollectionUI.DrawBuildings(Window, State);
-                Window.Draw(_mapTest);
+             
+               
+                FarmUI.BuildingCollectionUI.Draw(Window, State);
                 Window.Display();
                 Update();
             }

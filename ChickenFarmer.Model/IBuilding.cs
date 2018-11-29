@@ -10,5 +10,6 @@ namespace ChickenFarmer.Model
     {
         BuildingCollection CtxCollection { get; set; }
         Vector PosVector { get; set; }
+        int Lvl { get; set; }
     }
 }

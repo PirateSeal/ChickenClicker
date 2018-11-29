@@ -58,6 +58,6 @@ namespace ChickenFarmer.Model
         public int Capacity { get; set; }
         public int MaxCapacity { get; set; }
         public int StorageLevel { get; set; }
-
+        public int Lvl { get => StorageLevel; set => StorageLevel = value; }
     }
 }

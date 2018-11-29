@@ -9,29 +9,89 @@ using System.Collections.Generic;
 
 namespace ChickenFarmer.UI
 {
-    public class BuildingCollectionUI
+    public class BuildingCollectionUI : IDrawable
     {
         public BuildingCollectionUI(FarmUI farmUi)
         {
             CtxfarmUI = farmUi;
-            Buildings = new List<BuildingUI>();
+            BuildingsUIList = new List<BuildingUI>();
             LoadBuildings();
         }
 
         public FarmUI CtxfarmUI { get; }
-        private List<BuildingUI> Buildings { get; }
+        private List<BuildingUI> BuildingsUIList { get; }
 
-        private void LoadBuildings()
+     
+
+
+
+        internal void LoadBuildings()
         {
+           
+            foreach (var buildingUI in BuildingsUIList)
+            {
+                buildingUI.Dispose();
+            }
+            BuildingsUIList.Clear();
+
+            var _size = new Vector2f(250, 250);
+
+
             foreach (IBuilding building in CtxfarmUI.Farm.Buildings.BuildingList)
             {
-                Buildings.Add(new BuildingUI(this, building, new RectangleShape(){FillColor =  new Color(255,255,255)}, new Vector2f(building.PosVector.X, building.PosVector.Y)));
+
+                Vector2f worldPos = CtxfarmUI.CtxGame.Window.MapPixelToCoords(new Vector2i((int)building.PosVector.X , (int)building.PosVector.Y));
+
+                if (building is Henhouse)
+                {
+                    Texture HouseTexture = CtxfarmUI.FarmOptionsUI.TextureTable[building.Lvl]; 
+                    
+
+                    BuildingsUIList.Add(
+                        new BuildingUI(
+                            this, 
+                            building,
+                            new RectangleShape(
+                                (Vector2f)HouseTexture.Size)
+                                {
+                                    Texture = HouseTexture,
+                                    Position = new Vector2f(worldPos.X, worldPos.Y)
+                                }, 
+                                new Vector2f(worldPos.X, worldPos.Y)
+                        )
+                    );
+
+                }
+
+                if (building is Storage)
+                {
+                    Texture HouseTexture = CtxfarmUI.FarmOptionsUI.TextureTableStorage[building.Lvl];
+
+                    BuildingsUIList.Add(new BuildingUI(
+                        this,
+                        building,
+                        new RectangleShape((Vector2f)HouseTexture.Size)
+                        {
+                          Texture = HouseTexture,
+                          Position = new Vector2f(worldPos.X, worldPos.Y)
+                        },
+                        new Vector2f(worldPos.X, worldPos.Y)
+
+                        ));
+
+                }
+
+
             }
         }
 
-        public void DrawBuildings(IRenderTarget target, RenderStates states)
+        public void Draw(IRenderTarget target,in RenderStates states)
         {
-            foreach (BuildingUI item in Buildings) item.Draw(target, states);
+
+            foreach (BuildingUI item in BuildingsUIList)
+            {
+                target.Draw(item);
+            }
         }
     }
 }
