@@ -15,7 +15,7 @@ namespace ChickenFarmer.Model
         public BuildingCollection( Farm ctx )
         {
             CtxFarm = ctx ?? throw new ArgumentNullException( nameof(ctx) );
-            Buildings = new List<Building>();
+            BuildingList = new List<IBuilding>();
             _buildingFactories = new Dictionary<Type, IBuildingFactory>
             {
                 { typeof( Storage ), new StorageFactory() },
@@ -24,12 +24,12 @@ namespace ChickenFarmer.Model
         }
 
         public Farm CtxFarm { get; }
-        public List<Building> Buildings { get; }
+        public List<IBuilding> BuildingList { get; }
         private FarmOptions Options => CtxFarm.Options;
 
         public Storage FindStorageByType(Storage.StorageType storageType)
         {
-            foreach (Storage item in Buildings.OfType<Storage>())
+            foreach (Storage item in BuildingList.OfType<Storage>())
             {
                 if (item.ResourceType == storageType)
                 {
@@ -41,22 +41,22 @@ namespace ChickenFarmer.Model
         }
 
 
-        public List<TBuildingType> GetBuildingInList<TBuildingType>() where TBuildingType : Building
+        public List<TBuildingType> GetBuildingInListByType<TBuildingType>() where TBuildingType : IBuilding
         {
             List<TBuildingType> buildingList = new List<TBuildingType>();
-            foreach ( Building building in Buildings )
+            foreach ( IBuilding building in BuildingList )
                 if ( building.GetType() == typeof( TBuildingType ) )
-                    buildingList.Add( building as TBuildingType );
+                    buildingList.Add( building is TBuildingType type ? type : default(TBuildingType));
 
             return buildingList;
         }
 
-        public Building Build<TBuildingType>( float xCoord, float yCoord, Storage.StorageType storageType = Storage.StorageType.None)
-            where TBuildingType : Building
+        public IBuilding Build<TBuildingType>( float xCoord, float yCoord, Storage.StorageType storageType = Storage.StorageType.None)
+            where TBuildingType : IBuilding
         {
             if ( xCoord <= 0 ) throw new ArgumentOutOfRangeException( nameof(xCoord) );
             if ( yCoord <= 0 ) throw new ArgumentOutOfRangeException( nameof(yCoord) );
-            foreach ( Building item in Buildings )
+            foreach ( IBuilding item in BuildingList )
                 if ( Math.Abs( item.PosVector.X - xCoord ) < 0.1f &&
                      Math.Abs( item.PosVector.Y - yCoord ) < 0.1f )
                     throw new ArgumentException( "Invalid Coordinates, change xCoord or yCoord" );
@@ -67,26 +67,26 @@ namespace ChickenFarmer.Model
             if ( factory == null )
                 throw new InvalidOperationException(
                     "This building doesn't have a factory to create it" );
-            Building building = factory.Create( this, new Vector( xCoord, yCoord ), storageType);
+            IBuilding building = factory.Create( this, new Vector( xCoord, yCoord ), storageType);
 
-            Buildings.Add( building );
+            BuildingList.Add( building );
             return building;
         }
 
-        public bool CheckMaxBuildingTypeLimit<TBuildingType>() where TBuildingType : Building
+        public bool CheckMaxBuildingTypeLimit<TBuildingType>() where TBuildingType : IBuilding
         {
             int count = 0;
-            foreach ( Building building in Buildings )
+            foreach ( IBuilding building in BuildingList )
                 if ( building is TBuildingType )
                     count ++;
-            if ( typeof( TBuildingType ) == typeof( Storage ) && count == 1 ) return false;
+            //if ( typeof( TBuildingType ) == typeof( Storage ) && count == 1 ) return false;
             return count != Options.DefaultHenhouseCapacity;
         }
 
-        public int CountNbrBuilding<TBuildingType>() where TBuildingType : Building
+        public int CountNbrBuilding<TBuildingType>() where TBuildingType : IBuilding
         {
             int count = 0;
-            foreach ( Building building in Buildings )
+            foreach ( IBuilding building in BuildingList )
                 if ( building is TBuildingType )
                     count ++;
             return count;
@@ -94,7 +94,7 @@ namespace ChickenFarmer.Model
 
         public void Update()
         {
-            foreach ( Building building in Buildings )
+            foreach ( IBuilding building in BuildingList )
             {
                 Henhouse item = building as Henhouse;
                 item?.Update(); // "?" = check for null
@@ -102,19 +102,19 @@ namespace ChickenFarmer.Model
         }
 
         public TBuildingType FindBuilding<TBuildingType>( float xCoord, float yCoord )
-            where TBuildingType : Building
+            where TBuildingType : class, IBuilding
         {
-            foreach ( Building building in Buildings )
+            foreach ( IBuilding building in BuildingList )
                 if ( Math.Abs( building.PosVector.X - xCoord ) < 0.1f &&
                      Math.Abs( building.PosVector.Y - yCoord ) < 0.1f && building is TBuildingType )
-                    return ( TBuildingType ) building;
+                    return building as TBuildingType;
             return null;
         }
 
         public int ChickenCount()
         {
             int sum = 0;
-            foreach ( Building building in CtxFarm.Buildings.Buildings )
+            foreach ( IBuilding building in CtxFarm.Buildings.BuildingList )
                 if ( building is Henhouse house )
                     sum += house.ChickenCount;
 

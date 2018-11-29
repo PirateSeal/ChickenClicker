@@ -14,7 +14,8 @@ namespace ChickenFarmer.Tests
         public void Chicken_Starve_To_Death()
         {
             Farm farm = new Farm { Money = 5000 };
-            farm.Buildings.Build<Storage>(1, 1);
+            farm.Buildings.Build<Storage>(1, 1, Storage.StorageType.Seeds);
+            farm.Buildings.Build<Storage>(1, 3, Storage.StorageType.Eggs);
             farm.Market.BuyHenhouse(1, 2);
 
             farm.Market.BuyChicken(1, Chicken.Breed.Tier1);
@@ -27,7 +28,7 @@ namespace ChickenFarmer.Tests
         public void Create_Chicken()
         {
             Farm farm = new Farm { Money = 5000 };
-            farm.Buildings.Build<Storage>(1, 2);
+            farm.Buildings.Build<Storage>(1, 2, Storage.StorageType.Seeds);
             farm.Market.BuyHenhouse(1, 4);
 
             farm.Market.BuyChicken(5, Chicken.Breed.Tier1);
@@ -42,7 +43,8 @@ namespace ChickenFarmer.Tests
         public void Feed_All_Chicken_In_One_Henhouse()
         {
             Farm farm = new Farm { Money = 5000 };
-            farm.Buildings.Build<Storage>(1, 1);
+            farm.Buildings.Build<Storage>(1, 1,Storage.StorageType.Seeds);
+            farm.Buildings.Build<Storage>(1, 3,Storage.StorageType.Eggs);
             farm.Buildings.Build<Henhouse>(1, 2);
             Henhouse house = farm.Buildings.FindBuilding<Henhouse>(1, 2);
 
@@ -63,7 +65,8 @@ namespace ChickenFarmer.Tests
         public void Feed_All_Dying_Chicken_In_One_Henhouse()
         {
             Farm farm = new Farm { Money = 5000 };
-            farm.Buildings.Build<Storage>(1, 1);
+            farm.Buildings.Build<Storage>(1, 1,Storage.StorageType.Seeds);
+            farm.Buildings.Build<Storage>(1, 3,Storage.StorageType.Eggs);
             farm.Buildings.Build<Henhouse>(1, 2);
             Henhouse house = farm.Buildings.FindBuilding<Henhouse>(1, 2);
 

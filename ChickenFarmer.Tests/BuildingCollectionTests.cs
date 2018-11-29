@@ -15,11 +15,11 @@ namespace ChickenFarmer.Tests
         public void Check_HH_And_Storage_Creation()
         {
             Farm farm = new Farm();
-            farm.Buildings.Build<Storage>(5, 5);
+            farm.Buildings.Build<Storage>(5, 5, Storage.StorageType.Seeds);
 
             farm.Buildings.Build<Henhouse>(1, 1);
 
-            Assert.That(farm.Buildings.Buildings.Count, Is.EqualTo(2));
+            Assert.That(farm.Buildings.BuildingList.Count, Is.EqualTo(2));
 
             Assert.That(farm.Buildings.FindBuilding<Storage>(5, 5), Is.TypeOf<Storage>());
             Assert.That(farm.Buildings.FindBuilding<Storage>(5, 5).PosVector, Is.EqualTo(new Vector(5, 5)));
@@ -33,17 +33,17 @@ namespace ChickenFarmer.Tests
         public void Check_Max_Number_HH()
         {
             Farm farm = new Farm();
-            farm.Buildings.Build<Storage>(5, 5);
+            farm.Buildings.Build<Storage>(5, 5, Storage.StorageType.Seeds);
 
             farm.Buildings.Build<Henhouse>(1, 1);
             farm.Buildings.Build<Henhouse>(2, 2);
             farm.Buildings.Build<Henhouse>(3, 3);
             farm.Buildings.Build<Henhouse>(4, 1);
 
-            Assert.That(farm.Buildings.Buildings.Count, Is.EqualTo(5));
+            Assert.That(farm.Buildings.BuildingList.Count, Is.EqualTo(5));
             Assert.That(farm.Buildings.CountNbrBuilding<Henhouse>(), Is.EqualTo(4));
 
-            Building hh = farm.Buildings.Build<Henhouse>(6, 6);
+            IBuilding hh = farm.Buildings.Build<Henhouse>(6, 6);
             Assert.That(hh, Is.Null);
         }
 
@@ -51,11 +51,11 @@ namespace ChickenFarmer.Tests
         public void Check_TypeOf_Building_List()
         {
             Farm farm = new Farm();
-            farm.Buildings.Build<Storage>(1, 1);
+            farm.Buildings.Build<Storage>(1, 1, Storage.StorageType.Seeds);
             farm.Buildings.Build<Henhouse>(1, 2);
             farm.Buildings.Build<Henhouse>(1, 3);
 
-            List<Henhouse> henhouses = farm.Buildings.GetBuildingInList<Henhouse>();
+            List<Henhouse> henhouses = farm.Buildings.GetBuildingInListByType<Henhouse>();
 
             foreach (Henhouse henhouse in henhouses)
             {

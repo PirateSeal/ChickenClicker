@@ -11,7 +11,7 @@ namespace ChickenFarmer.Tests
         public void Create_Storage_On_Farm_Creation()
         {
             Farm farm = new Farm();
-            farm.Buildings.Build<Storage>( 1, 1 );
+            farm.Buildings.Build<Storage>( 1, 1 ,Storage.StorageType.Seeds);
 
             Assert.That(farm.Buildings.FindStorageByType(Storage.StorageType.Seeds).Capacity == 1000);
         }
@@ -22,7 +22,7 @@ namespace ChickenFarmer.Tests
         public void Buy_Food(int amount, Storage.StorageType storageType)
         {
             Farm farm = new Farm { Money = 5000 };
-            farm.Buildings.Build<Storage>( 1, 1 );
+            farm.Buildings.Build<Storage>( 1, 1 ,storageType);
 
             switch (storageType)
             {
@@ -54,7 +54,7 @@ namespace ChickenFarmer.Tests
         public void Upgrade_All_Storages(Storage.StorageType storageType)
         {
             Farm farm = new Farm { Money = 5000 };
-            farm.Buildings.Build<Storage>( 1, 1 );
+            farm.Buildings.Build<Storage>( 1, 1 , storageType);
             Storage storage = farm.Buildings.FindStorageByType(storageType);
 
 

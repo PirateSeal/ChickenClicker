@@ -43,7 +43,7 @@ namespace ChickenFarmer.Tests
             farm.Market.BuyHenhouse( 1, 1 );
 
             Assert.That( farm.Money, Is.EqualTo( 5000 - farm.Options.DefaultHenHouseCost ) );
-            Assert.That( farm.Buildings.Buildings.Count, Is.EqualTo( 1 ) );
+            Assert.That( farm.Buildings.BuildingList.Count, Is.EqualTo( 1 ) );
             Assert.That( farm.Buildings.CountNbrBuilding<Henhouse>(), Is.EqualTo( 1 ) );
         }
 
@@ -69,14 +69,14 @@ namespace ChickenFarmer.Tests
             farm.Market.BuyHenhouse( 1, 1 );
 
             Assert.That(farm.Money,Is.EqualTo(15));
-            Assert.That(farm.Buildings.Buildings.Count, Is.EqualTo(0));
+            Assert.That(farm.Buildings.BuildingList.Count, Is.EqualTo(0));
         }
 
         [Test]
         public void Sell_Eggs()
         {
             Farm farm = new Farm();
-            farm.Buildings.Build<Storage>( 1, 1 );
+            farm.Buildings.Build<Storage>( 1, 1 , Storage.StorageType.Eggs);
             farm.Buildings.FindStorageByType(Storage.StorageType.Eggs).Capacity= 500;
 
             Market.Sellegg(farm);

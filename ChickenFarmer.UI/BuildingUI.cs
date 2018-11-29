@@ -11,7 +11,7 @@ namespace ChickenFarmer.UI
 {
     public class BuildingUI : IDrawable, IDisposable
     {
-        public BuildingUI(BuildingCollectionUI ctx, Building building , RectangleShape shape, Vector2f pos)
+        public BuildingUI(BuildingCollectionUI ctx, IBuilding building , RectangleShape shape, Vector2f pos)
         {
             Shape = shape ?? throw new ArgumentNullException(nameof(shape));
             CtxBuildingCollectionUi = ctx;
@@ -20,7 +20,7 @@ namespace ChickenFarmer.UI
             BuildingCtx = building;
         }
 
-        public Building BuildingCtx { get; set; }
+        public IBuilding BuildingCtx { get; set; }
 
         public BuildingCollectionUI CtxBuildingCollectionUi { get; }
         public RectangleShape Shape { get; }

@@ -8,9 +8,9 @@ using System.Linq;
 
 namespace ChickenFarmer.Model
 {
-    public class Henhouse : Building
+    public class Henhouse : IBuilding
     {
-        public Henhouse( BuildingCollection ctx, Vector posVector ) : base( ctx, posVector )
+        public Henhouse( BuildingCollection ctx, Vector posVector )
         {
             CtxCollection = ctx ?? throw new ArgumentNullException( nameof(ctx) );
             PosVector = posVector;
@@ -20,6 +20,8 @@ namespace ChickenFarmer.Model
             DyingChickens = new List<Chicken>();
         }
 
+        public Vector PosVector { get; set; }
+        public BuildingCollection CtxCollection { get; set; }
         private FarmOptions Options => CtxCollection.CtxFarm.Options;
         public List<Chicken> Chikens { get; }
         private List<Chicken> DyingChickens { get; }

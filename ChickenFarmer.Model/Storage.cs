@@ -6,7 +6,7 @@ using System;
 
 namespace ChickenFarmer.Model
 {
-    public class Storage : Building
+    public class Storage : IBuilding
     {
         public enum StorageType
         {
@@ -16,7 +16,7 @@ namespace ChickenFarmer.Model
             Meat = 3,
             Eggs = 4
         }
-        public Storage(BuildingCollection ctx, Vector posVector, StorageType storageType) : base(ctx, posVector)
+        public Storage(BuildingCollection ctx, Vector posVector, StorageType storageType)
         {
             CtxCollection = ctx ?? throw new ArgumentNullException(nameof(ctx));
             PosVector = posVector;
@@ -46,6 +46,10 @@ namespace ChickenFarmer.Model
                     throw new ArgumentException("Undefined type of storage", nameof(StorageType));
             }
         }
+
+        public Vector PosVector { get; set; }
+
+        public BuildingCollection CtxCollection { get; set; }
 
         public StorageType ResourceType { get; private set; }
 

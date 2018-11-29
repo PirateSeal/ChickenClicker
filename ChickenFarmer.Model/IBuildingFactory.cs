@@ -2,6 +2,6 @@
 {
     public interface IBuildingFactory
     {
-        Building Create( BuildingCollection ctx, Vector posVector, Storage.StorageType storageType );
+        IBuilding Create( BuildingCollection ctx, Vector posVector, Storage.StorageType storageType );
     }
 }

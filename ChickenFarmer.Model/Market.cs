@@ -91,7 +91,7 @@ namespace ChickenFarmer.Model
                         if (CtxFarm.Money > Options.SeedPrice * amount)
                         {
                             CtxFarm.Money -= Options.SeedPrice * amount;
-                            CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Eggs).Capacity += amount;
+                            CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Seeds).Capacity += amount;
                         }
 
                         break;
@@ -101,7 +101,7 @@ namespace ChickenFarmer.Model
                         if (CtxFarm.Money > Options.VegetablePrice * amount)
                         {
                             CtxFarm.Money -= Options.VegetablePrice * amount;
-                            CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Eggs).Capacity += amount;
+                            CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Vegetables).Capacity += amount;
                         }
 
                         break;
@@ -111,7 +111,7 @@ namespace ChickenFarmer.Model
                         if (CtxFarm.Money > Options.MeatPrice * amount)
                         {
                             CtxFarm.Money -= Options.MeatPrice * amount;
-                            CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Eggs).Capacity += amount;
+                            CtxFarm.Buildings.FindStorageByType(Storage.StorageType.Meat).Capacity += amount;
                         }
 
                         break;
@@ -124,7 +124,7 @@ namespace ChickenFarmer.Model
         public void BuyChicken(int amount, Chicken.Breed breed)
         {
             int toPut = amount;
-            foreach (Building building in CtxFarm.Buildings.Buildings)
+            foreach (IBuilding building in CtxFarm.Buildings.BuildingList)
                 if (building is Henhouse house)
                     if (CtxFarm.Money > Options.DefaultChickenCost[(int)breed - 1])
                         do
