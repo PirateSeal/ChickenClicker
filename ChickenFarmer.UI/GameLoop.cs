@@ -12,6 +12,7 @@ namespace ChickenFarmer.UI
         private TimeSpan _intervalUpdate = new TimeSpan( 0, 0, 0, 0, 60 );
         private DateTime _oldUpdate = DateTime.Now;
         View _view;
+        RenderStates states;
 
         private MapTest _mapTest;
 
@@ -31,7 +32,7 @@ namespace ChickenFarmer.UI
 
         public RenderWindow Window { get; private set; }
 
-        public RenderStates State { get; set; }
+        
         public View View { get => _view; set => _view = value; }
         internal FarmUI FarmUI { get; set; }
 
@@ -56,25 +57,28 @@ namespace ChickenFarmer.UI
 
             View = new View( new FloatRect( new Vector2f( 0f, 0f ), new Vector2f( 1280/2, 720/2 ) ) );
 
+            states = new RenderStates();
+
             Shape button = new RectangleShape( buttonsize )
             {
                 FillColor = Color.Blue, Position = size
             };
 
+
+
             while (Window.IsOpen)
             {
                 Window.View = View;
-                
-                Window.Clear( new Color( 255, 0, 255 ) );
+                Window.Clear(new Color( 255, 0, 255 ));
                 Window.Draw( square );
                 
                 //   _window.Draw(background);
                 //FarmUI.DrawInfo();
-                FarmUI.HenhouseCollection.DrawHouses();
-                Window.Draw(_mapTest);
                 
+                Window.Draw(_mapTest);
+                FarmUI.HenhouseCollection.DrawHouses();
                 FarmUI._playerUI.UpdateSpritePosition();
-                FarmUI._playerUI.Draw(Window, State);
+                FarmUI._playerUI.Draw(Window, states);
                 
                 Window.Display();
                 _playerInput.Handle();

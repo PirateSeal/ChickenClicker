@@ -24,10 +24,12 @@ namespace ChickenFarmer.UI
 
         public void Handle()
         {
-            Vector2i mpos = Mouse.GetPosition( _ctxGameLoop.Window );
+            Vector2i mpos0 = Mouse.GetPosition( _ctxGameLoop.Window );
+            Vector2f mpos = _ctxGameLoop.Window.MapPixelToCoords(mpos0);
+
             FloatRect buttonSellEggsBound = _ctxGameLoop.FarmUI.ButtonSellEggs.GetGlobalBounds();
 
-            //      var _menuBound = _ctxGameLoop.HouseMenu.Menu.GetGlobalBounds(); 
+            // var _menuBound = _ctxGameLoop.HouseMenu.Menu.GetGlobalBounds(); 
             //    var _buttonHenHouseUpgradeBound = _ctxGameLoop.HouseMenu.ButtonHenHouseUpgrade.GetGlobalBounds();
             //  var _buttonBuyChickenBound = _ctxGameLoop.HouseMenu.ButtonBuyChicken.GetGlobalBounds();
 
@@ -61,6 +63,10 @@ namespace ChickenFarmer.UI
                 _deplacement += (new Vector(Direction[0].X, Direction[0].Y));
                 _ctxGameLoop.FarmUI._playerUI.Direction = 3;
             }
+            //if (Keyboard.IsKeyPressed(Keyboard.Key.E) && _ctxGameLoop.FarmUI.Farm.Player.Position)
+            //{
+            //    _ctxGameLoop.FarmUI._playerUI.Interact();
+            //}
 
             _ctxGameLoop.View.Center = new Vector2f(_ctxGameLoop.FarmUI.Farm.Player.Position.X, _ctxGameLoop.FarmUI.Farm.Player.Position.Y);
             _ctxGameLoop.FarmUI.Farm.Player.Move(_deplacement);
@@ -72,12 +78,18 @@ namespace ChickenFarmer.UI
                 _ctxGameLoop.FarmUI._playerUI.AnimFrame = 0;
         
           
+            
+
 
 
             foreach ( HenhouseUi house in _ctxGameLoop.FarmUI.HenhouseCollection.Henhouses )
             {
                 if ( house.HouseSprite == null ) return;
                 FloatRect buyChickenBound = house.HouseMenu.ButtonBuyChicken.GetGlobalBounds();
+
+                Console.WriteLine("gb : {0}", house.HouseSprite.GetGlobalBounds());
+
+
 
                 if ( house.HouseSprite.GetGlobalBounds().Contains( mpos.X, mpos.Y ) &&
                      Mouse.IsButtonPressed( Mouse.Button.Left ) &&

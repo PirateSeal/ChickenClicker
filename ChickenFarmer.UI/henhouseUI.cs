@@ -9,7 +9,7 @@ using ChickenFarmer.Model;
 
 namespace ChickenFarmer.UI
 {
-    internal class HenhouseUi
+    internal class HenhouseUi  
     {
         private GameLoop _ctxGame;
         private Vector2f _houseSize = new Vector2f( 64f, 96f );
