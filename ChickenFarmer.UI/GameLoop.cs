@@ -66,12 +66,15 @@ namespace ChickenFarmer.UI
                 _playerInput.Handle();
                 Window.View = View;            
                 Window.Clear(new Color(255, 0, 255));
+
                 Window.Draw(_tileMap);
               
-                FarmUI.BuildingCollectionUI.Draw(Window, State);
-                FarmUI.DrawInfo();
+                FarmUI.BuildingCollectionUI.Draw(Window, State);               
                 FarmUI.PlayerUI.UpdateSpritePosition();
                 FarmUI.PlayerUI.Draw(Window, State);
+
+                _tileMap.DrawOver(Window, State);
+                FarmUI.DrawInfo();
                 Update();
 
 

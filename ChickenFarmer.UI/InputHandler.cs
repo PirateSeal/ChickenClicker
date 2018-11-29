@@ -76,8 +76,7 @@ namespace ChickenFarmer.UI
             if (Mouse.IsButtonPressed(Mouse.Button.Right) && _oldUpdate.Add(_time) < current)
             {
                 _oldUpdate = DateTime.Now;
-
-                _ctxGameLoop.FarmUI.Farm.Buildings.Build<Henhouse>(worldPos.X, worldPos.Y);
+                _ctxGameLoop.FarmUI.Farm.Market.BuyHenhouse(worldPos.X, worldPos.Y);
                 _ctxGameLoop.FarmUI.BuildingCollectionUI.LoadBuildings();
             }
 

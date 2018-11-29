@@ -15,7 +15,7 @@ namespace ChickenFarmer.Model
             DefaultLayByMinute = 0;
             DefaultChickenCost = new[] { 10, 20, 30, 40 };
 
-            DefaultHenHouseCost = 150;
+            DefaultHenHouseCost = 20;
             DefaultHenhouseBuildTime = 20;
 
             DefaultFoodConsumption = 0.1f;

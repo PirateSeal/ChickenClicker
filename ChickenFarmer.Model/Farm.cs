@@ -20,6 +20,7 @@ namespace ChickenFarmer.Model
             Buildings.Build<Henhouse>(200, 400);
             Buildings.Build<Storage>(600, 300, Storage.StorageType.Eggs);
             Money = Options.DefaultMoney;
+            Market.BuyChicken(1, Chicken.Breed.Tier1);
             Player = new Player(this);
         }
 

@@ -21,8 +21,12 @@ namespace ChickenFarmer.UI
         };
 
         private TmxMap _map;
-        public VertexArray[] _TotalMap{ get; }
+        public VertexArray[] UnderMap{ get; }
         private VertexArray _collide;
+
+        public VertexArray[] OverMap { get; }
+
+
 
         private Texture[] _texturesArray;
         private GameLoop _gameCtx;
@@ -42,16 +46,20 @@ namespace ChickenFarmer.UI
         {
             _gameCtx = gameCtx;
             _map = new TmxMap( file );
-            _TotalMap = new VertexArray[_map.Layers.Count];
-            
+            UnderMap = new VertexArray[2];
+            OverMap = new VertexArray[_map.Layers.Count-2];
+
             MapSize = _map.Height;
             TileSize = _map.TileHeight;
             Console.WriteLine( file );
             LoadTexture();
             int? imageWidth = _map.Tilesets[0].Image.Width; //check for null expression
             if ( imageWidth != null ) TileSetSize = ( int ) imageWidth;
-           _collide = new VertexArray(PrimitiveType.Quads, 4 * (uint)(_map.Width * _map.Height));
+
+            _collide = new VertexArray(PrimitiveType.Quads, 4 * (uint)(_map.Width * _map.Height));
+
             ConvertLayers();
+           
 
              
         }
@@ -71,20 +79,26 @@ namespace ChickenFarmer.UI
             int layerIdx=0;
             foreach (var layer in _map.Layers)
             {              
-                VertexArray _vertexArray = new VertexArray(PrimitiveType.Quads, 4 * (uint)(_map.Width * _map.Height));
-              
+                VertexArray _vertexArrayUnder = new VertexArray(PrimitiveType.Quads, 4 * (uint)(_map.Width * _map.Height));
+                VertexArray _vertexArrayOver = new VertexArray(PrimitiveType.Quads, 4 * (uint)(_map.Width * _map.Height));
+
 
                 for (int index = 0; index < layer.Tiles.Count; index++)
                 {
                    
                     if (layer.Tiles[index].Gid != 0)
                     {
-                        if (layerIdx != _map.Layers.Count-1 )
+                        if (layerIdx < 2)
                         {
                             Vector2i pos = new Vector2i(layer.Tiles[index].X * TileSize, layer.Tiles[index].Y * TileSize);
-                            Add(pos, layer.Tiles[index].Gid, _vertexArray, _color);
+                            Add(pos, layer.Tiles[index].Gid, _vertexArrayUnder, _color);
                             
+                        }else if (layerIdx >= 2 && layerIdx < _map.Layers.Count - 1)
+                        {
+                            Vector2i pos = new Vector2i(layer.Tiles[index].X * TileSize, layer.Tiles[index].Y * TileSize);
+                            Add(pos, layer.Tiles[index].Gid, _vertexArrayOver, _color);
                         }
+
                         else
                         {
                             Vector2i pos = new Vector2i(layer.Tiles[index].X * TileSize, layer.Tiles[index].Y * TileSize);
@@ -96,14 +110,19 @@ namespace ChickenFarmer.UI
                     
 
                 }
-                _TotalMap[layerIdx++] = _vertexArray;         
+                if (layerIdx < 2) UnderMap[layerIdx++] = _vertexArrayUnder;
+                else OverMap[(-2)+layerIdx++] = _vertexArrayOver ;
+
             }
         
         }
 
+
+
+
         public void Dispose()
         {
-            foreach (var item in _TotalMap)
+            foreach (var item in UnderMap)
             {
                 item?.Dispose();
                 _disposed = true;
@@ -112,12 +131,23 @@ namespace ChickenFarmer.UI
         }
 
 
+        public void DrawOver(IRenderTarget target, in RenderStates states)
+        {
+            if (_disposed) throw new ObjectDisposedException(typeof(Vertex).Name);
+            RenderStates state = new RenderStates(_texturesArray[0]);
+
+            foreach (var item in OverMap)
+            {
+                item.Draw(target, state);
+            }
+        }
+
         public void Draw( IRenderTarget target, in RenderStates states )
         {
             if ( _disposed ) throw new ObjectDisposedException( typeof( Vertex ).Name );
             RenderStates state = new RenderStates(_texturesArray[0]);
 
-            foreach (var item in _TotalMap)
+            foreach (var item in UnderMap)
             {
                 item.Draw(target, state);
             }
