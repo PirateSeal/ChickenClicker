@@ -26,13 +26,15 @@ namespace ChickenFarmer.UI
 
         public VertexArray[] OverMap { get; }
 
+        public int _season { get; set; }
+
+       const int _underLayer = 2;                        // define how many layers of the tmx are draw under the player
 
 
         private Texture[] _texturesArray;
         private GameLoop _gameCtx;
 
         private bool _disposed;
-
 
         Color _color = new Color(255, 255, 255,255);
         Color _noColor = new Color(255,0,255,0);
@@ -46,8 +48,8 @@ namespace ChickenFarmer.UI
         {
             _gameCtx = gameCtx;
             _map = new TmxMap( file );
-            UnderMap = new VertexArray[2];
-            OverMap = new VertexArray[_map.Layers.Count-2];
+            UnderMap = new VertexArray[_underLayer];
+            OverMap = new VertexArray[_map.Layers.Count-_underLayer];
 
             MapSize = _map.Height;
             TileSize = _map.TileHeight;
@@ -59,19 +61,47 @@ namespace ChickenFarmer.UI
             _collide = new VertexArray(PrimitiveType.Quads, 4 * (uint)(_map.Width * _map.Height));
 
             ConvertLayers();
-           
+            _season = 0;
 
              
         }
 
+  
+  
+
         private void LoadTexture()
         {
-            _texturesArray = new Texture[_map.Tilesets.Count];
-            for (int i = 0; i < _map.Tilesets.Count; i ++)
-            {
-                _texturesArray[i] = new Texture( _map.Tilesets[i].Image.Source );
-            }
+
+
+            _texturesArray = new Texture[5];
+
+            _texturesArray[0] = new Texture("..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Fall.png");
+            _texturesArray[1] = new Texture("..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Summer.png");
+            _texturesArray[2] = new Texture("..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Winter.png");
+            _texturesArray[3] = new Texture("..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Spring.png");
+
+            //_texturesArray = new Texture[_map.Tilesets.Count];
+            //for (int i = 0; i < _map.Tilesets.Count; i ++)
+            //{
+            //    _texturesArray[i] = new Texture( _map.Tilesets[i].Image.Source );
+            //}
         }
+
+
+        public void changeSeason()
+        {
+            if (_season < 3)
+            {
+                _season++;
+            }
+            else
+            {
+                _season = 0;
+            }
+
+
+        }
+
 
         private void ConvertLayers()
         {
@@ -134,7 +164,7 @@ namespace ChickenFarmer.UI
         public void DrawOver(IRenderTarget target, in RenderStates states)
         {
             if (_disposed) throw new ObjectDisposedException(typeof(Vertex).Name);
-            RenderStates state = new RenderStates(_texturesArray[0]);
+            RenderStates state = new RenderStates(_texturesArray[_season]);
 
             foreach (var item in OverMap)
             {
@@ -145,7 +175,7 @@ namespace ChickenFarmer.UI
         public void Draw( IRenderTarget target, in RenderStates states )
         {
             if ( _disposed ) throw new ObjectDisposedException( typeof( Vertex ).Name );
-            RenderStates state = new RenderStates(_texturesArray[0]);
+            RenderStates state = new RenderStates(_texturesArray[_season]);
 
             foreach (var item in UnderMap)
             {
