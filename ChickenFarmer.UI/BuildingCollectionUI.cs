@@ -19,7 +19,7 @@ namespace ChickenFarmer.UI
         }
 
         public FarmUI CtxfarmUI { get; }
-        private List<BuildingUI> BuildingsUIList { get; }
+        public List<BuildingUI> BuildingsUIList { get; }
 
      
 

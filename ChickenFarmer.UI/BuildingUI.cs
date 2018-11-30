@@ -11,17 +11,19 @@ namespace ChickenFarmer.UI
 {
     public class BuildingUI : IDrawable, IDisposable
     {
+
         public BuildingUI(BuildingCollectionUI ctx, IBuilding building , RectangleShape shape, Vector2f pos)
         {
             Shape = shape ?? throw new ArgumentNullException(nameof(shape));
             CtxBuildingCollectionUi = ctx;
-            Menu = new ContextualMenu(this);
             Pos = pos;
             BuildingCtx = building;
+            Menu = new ContextualMenu(this);
+            DrawMenuState = false;
         }
 
         public IBuilding BuildingCtx { get; set; }
-
+        public bool DrawMenuState { get; set; }
         public BuildingCollectionUI CtxBuildingCollectionUi { get; }
         public RectangleShape Shape { get; }
         public Vector2f Pos { get; }
@@ -32,6 +34,7 @@ namespace ChickenFarmer.UI
 
         public void Draw(IRenderTarget target, in RenderStates states)
         {
+            if ( DrawMenuState == true ) Menu.Draw(target, states);
 
             Shape.Draw(target,states);
         }

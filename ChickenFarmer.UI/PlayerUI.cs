@@ -61,8 +61,8 @@ namespace ChickenFarmer.UI
 
         public void Draw(IRenderTarget target, in RenderStates states)
         {
-            //target.Draw(_sprite, states);
-            _ctxFarmUI.CtxGame.Window.Draw(_sprite);
+            target.Draw(_sprite);
+            
             //Console.WriteLine("sprite X : {0}  sprite Y : {1}  sprite.TextureREct : {2}", _sprite.Position.X, _sprite.Position.Y, _sprite.TextureRect);
             
         }
