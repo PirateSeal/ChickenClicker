@@ -9,19 +9,23 @@ namespace ChickenFarmer.UI
 {
     public class ContextualMenu : IDrawable, IDisposable
     {
-        Shape _totalMenu;
-        Vector2f _menuSize = new Vector2f(50, 50);
-        Vector2f _menuPos;
-        Color color = Color.Red;
 
-        public ContextualMenu(BuildingUI ctxBuilding)
+        BuildingUI _ctxBuildingUI;
+        Texture _texture;
+        RectangleShape _totalMenu;
+        Vector2f _menuSize = new Vector2f(150, 100);
+        Vector2f _menuPos;
+        Color _color = Color.Red;
+
+        
+
+        public ContextualMenu(BuildingUI ctxBuildingUI)
         {
-            _menuPos = new Vector2f(ctxBuilding.Pos.X, (ctxBuilding.Pos.Y + ctxBuilding.Shape.Size.Y));
-            _totalMenu = new RectangleShape(_menuSize)
-            {
-                Position = _menuPos,
-                FillColor = color
-            };
+            _ctxBuildingUI = ctxBuildingUI;
+            _menuPos = new Vector2f(_ctxBuildingUI.Pos.X, (_ctxBuildingUI.Pos.Y + _ctxBuildingUI.Shape.Size.Y));
+            _totalMenu = new RectangleShape(_menuSize);
+            _totalMenu.Position = _menuPos;
+            _totalMenu.FillColor = _color;
         }
 
         public void Dispose()
@@ -31,7 +35,19 @@ namespace ChickenFarmer.UI
 
         public void Draw(IRenderTarget target, in RenderStates states)
         {
-            target.Draw(_totalMenu, states);
+            _ctxBuildingUI.CtxBuildingCollectionUi.CtxfarmUI.CtxGame.Window.Draw(_totalMenu);
+            //target.Draw(_totalMenu, states);
+        }
+
+
+        public Vector2f MenuPos
+        {
+            get { return _menuPos; }
+        }
+
+        public RectangleShape TotalMenu
+        {
+            get { return _totalMenu; }
         }
     }
 }
