@@ -44,6 +44,11 @@ namespace ChickenFarmer.UI
         {
             get { return _menuPos; }
         }
+
+        public RectangleShape TotalMenu
+        {
+            get { return _totalMenu; }
+        }
     }
 }
 

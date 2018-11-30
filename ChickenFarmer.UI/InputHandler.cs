@@ -73,11 +73,11 @@ namespace ChickenFarmer.UI
             foreach (BuildingUI buildingUI in _ctxGameLoop.FarmUI.BuildingCollectionUI.BuildingsUIList)
             {
                 if (buildingUI.Shape.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) &&
-                     Mouse.IsButtonPressed(Mouse.Button.Left) )
+                     Mouse.IsButtonPressed(Mouse.Button.Left))
                 {
                     buildingUI.DrawMenuState = true;
                 }
-                else if(!buildingUI.Shape.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) &&
+                else if (!buildingUI.Shape.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) && !buildingUI.Menu.TotalMenu.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) &&
                      Mouse.IsButtonPressed(Mouse.Button.Left))
                 {
                     buildingUI.DrawMenuState = false;
