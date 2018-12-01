@@ -11,11 +11,15 @@ namespace ChickenFarmer.UI
     {
 
         BuildingUI _ctxBuildingUI;
+        private Type _buildingType;
+        ContextualMenuButton _contextualButtons;
         Texture _texture;
-        RectangleShape _totalMenu;
+        public RectangleShape _totalMenu;
         Vector2f _menuSize = new Vector2f(150, 100);
         Vector2f _menuPos;
         Color _color = Color.Red;
+
+        
 
         
 
@@ -26,7 +30,10 @@ namespace ChickenFarmer.UI
             _totalMenu = new RectangleShape(_menuSize);
             _totalMenu.Position = _menuPos;
             _totalMenu.FillColor = _color;
+            _contextualButtons = new ContextualMenuButton(this, _menuPos);
         }
+
+        
 
         public void Dispose()
         {
@@ -35,11 +42,15 @@ namespace ChickenFarmer.UI
 
         public void Draw(IRenderTarget target, in RenderStates states)
         {
+            Console.WriteLine("menu X {0} menu Y {1}", ContextualButtons.ButtonRectShape.Position.X, ContextualButtons.ButtonRectShape.Position.Y);
+
             _ctxBuildingUI.CtxBuildingCollectionUi.CtxfarmUI.CtxGame.Window.Draw(_totalMenu);
+            _contextualButtons.Draw(target, states);
+            //Console.WriteLine("buiding type : {0}", _ctxBuildingUI.BuildingCtx.GetType().ToString());
             //target.Draw(_totalMenu, states);
         }
 
-
+        
         public Vector2f MenuPos
         {
             get { return _menuPos; }
@@ -49,6 +60,10 @@ namespace ChickenFarmer.UI
         {
             get { return _totalMenu; }
         }
+
+        public BuildingUI CtxBuildingUI { get => _ctxBuildingUI; set => _ctxBuildingUI = value; }
+        public BuildingUI CtxBuildingUI1 { get => _ctxBuildingUI; set => _ctxBuildingUI = value; }
+        public ContextualMenuButton ContextualButtons { get => _contextualButtons; set => _contextualButtons = value; }
     }
 }
 
