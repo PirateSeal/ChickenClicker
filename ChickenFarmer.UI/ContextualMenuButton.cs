@@ -34,7 +34,7 @@ namespace ChickenFarmer.UI
                 _buttonRectShape = new RectangleShape(_buttonSize);
                 _buttonPos = new Vector2f(_menuPos.X+30, _menuPos.Y+30);
                 _buttonRectShape.Position = _buttonPos;
-                _buttonColor = Color.Blue;
+                _buttonRectShape.FillColor = Color.Blue;
                 
                 return _buttonRectShape;
             }
@@ -45,7 +45,7 @@ namespace ChickenFarmer.UI
                 _buttonRectShape = new RectangleShape(_buttonSize);
                 _buttonPos = new Vector2f(_ctxContextualMenu.MenuPos.X+30, _ctxContextualMenu.MenuPos.Y+30);
                 _buttonRectShape.Position = _buttonPos;
-                _buttonColor = Color.White;
+                _buttonRectShape.FillColor = Color.Cyan;
                 return _buttonRectShape;
             }
         }
