@@ -17,8 +17,11 @@ namespace ChickenFarmer.Model
             Buildings = new BuildingCollection( this );
 
 
-            Buildings.Build<Henhouse>(200, 400);
-            Buildings.Build<Storage>(600, 300, Storage.StorageType.Eggs);
+
+            Buildings.Build<Henhouse>(600, 740);
+            Buildings.Build<Storage>(800, 740, Storage.StorageType.Eggs);
+
+
             Money = Options.DefaultMoney;
             Market.BuyChicken(1, Chicken.Breed.Tier1);
             Player = new Player(this);
@@ -43,8 +46,8 @@ namespace ChickenFarmer.Model
 
         private void Info()
         {
-            Console.WriteLine( "money : {0} , " + "egg :{1} ," + " chicken {2} ", Money, Buildings.FindStorageByType(Storage.StorageType.Eggs).Capacity,
-                Chickencount );
+        //    Console.WriteLine( "money : {0} , " + "egg :{1} ," + " chicken {2} ", Money, Buildings.FindStorageByType(Storage.StorageType.Eggs).Capacity,
+//Chickencount );
         }
     }
 }
