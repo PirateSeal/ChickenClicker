@@ -68,6 +68,8 @@ namespace ChickenFarmer.UI
                 }
 
             Text.DisplayedString = infoToPrint;
+            Text.Position = new Vector2f(CtxGame.View.Center.X - CtxGame.View.Size.X / 2, CtxGame.View.Center.Y - CtxGame.View.Size.Y / 2);
+
             CtxGame.Window.Draw( Text );
 
             CtxGame.Window.Draw( ButtonSellEggs );
