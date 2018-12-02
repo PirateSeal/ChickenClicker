@@ -15,9 +15,10 @@ namespace ChickenFarmer.UI
     {
         private InputHandler _playerInput;
         private TimeSpan _intervalUpdate = new TimeSpan( 0, 0, 0, 0, 60 );
-        private readonly TileMap _tileMap;
+        TileMap _tileMap;
         private DateTime _oldUpdate = DateTime.Now;
         View _view;
+
 
         public GameLoop()
         {
@@ -35,6 +36,7 @@ namespace ChickenFarmer.UI
         public RenderStates State { get; set; }
         public RenderWindow Window { get; }
         public FarmUI FarmUI { get; set; }
+        internal TileMap TileMap { get => _tileMap; set => _tileMap = value; }
 
         public static void Init()
         {
@@ -66,14 +68,14 @@ namespace ChickenFarmer.UI
                 
                 Window.View = View;            
                 Window.Clear(new Color(255, 0, 255));
-                Window.Draw(_tileMap);
-                
-                FarmUI.BuildingCollectionUI.Draw(Window, State);
 
-                //FarmUI.DrawInfo();
+                Window.Draw(_tileMap);
+                FarmUI.BuildingCollectionUI.Draw(Window, State);               
                 FarmUI.PlayerUI.UpdateSpritePosition();
                 FarmUI.PlayerUI.Draw(Window, State);
-                _playerInput.Handle();
+
+                _tileMap.DrawOver(Window, State);
+                FarmUI.DrawInfo();
                 Update();
 
 

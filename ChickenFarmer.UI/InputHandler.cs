@@ -63,7 +63,11 @@ namespace ChickenFarmer.UI
                 _deplacement += (new Vector(Direction[0].X, Direction[0].Y));
                 _ctxGameLoop.FarmUI.PlayerUI.Direction = 3;
             }
-            
+            if (Keyboard.IsKeyPressed(Keyboard.Key.C) && _oldUpdate.Add(_time) < current)
+            {
+                _oldUpdate = DateTime.Now;
+                _ctxGameLoop.TileMap.changeSeason();
+            }
 
             _ctxGameLoop.View.Center = new Vector2f(_ctxGameLoop.FarmUI.Farm.Player.Position.X, _ctxGameLoop.FarmUI.Farm.Player.Position.Y);
             _ctxGameLoop.FarmUI.Farm.Player.Move(_deplacement);
@@ -88,8 +92,7 @@ namespace ChickenFarmer.UI
             if (Mouse.IsButtonPressed(Mouse.Button.Right) && _oldUpdate.Add(_time) < current)
             {
                 _oldUpdate = DateTime.Now;
-
-                _ctxGameLoop.FarmUI.Farm.Buildings.Build<Henhouse>(worldPos.X, worldPos.Y);
+                _ctxGameLoop.FarmUI.Farm.Market.BuyHenhouse(worldPos.X, worldPos.Y);
                 _ctxGameLoop.FarmUI.BuildingCollectionUI.LoadBuildings();
             }
 

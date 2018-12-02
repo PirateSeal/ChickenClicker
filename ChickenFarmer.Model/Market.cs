@@ -142,7 +142,7 @@ namespace ChickenFarmer.Model
             farm.Buildings.FindStorageByType(Storage.StorageType.Eggs).Capacity = 0;
         }
 
-        public void BuyHenhouse(int xCoord, int yCoord)
+        public void BuyHenhouse(float xCoord, float yCoord)
         {
             if (CtxFarm.Money > Options.DefaultHenHouseCost &&
                  CtxFarm.Buildings.CheckMaxBuildingTypeLimit<Henhouse>())
