@@ -78,7 +78,7 @@ namespace ChickenFarmer.UI
                 FarmUI.DrawInfo();
                 Update();
 
-
+                _playerInput.Handle();
 
                 Window.Display();    
             }
