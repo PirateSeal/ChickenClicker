@@ -70,7 +70,7 @@ namespace ChickenFarmer.UI
                 
                 FarmUI.BuildingCollectionUI.Draw(Window, State);
 
-                //FarmUI.DrawInfo();
+                FarmUI.DrawInfo();
                 FarmUI.PlayerUI.UpdateSpritePosition();
                 FarmUI.PlayerUI.Draw(Window, State);
                 _playerInput.Handle();

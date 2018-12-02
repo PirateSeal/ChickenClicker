@@ -76,7 +76,14 @@ namespace ChickenFarmer.UI
                      Mouse.IsButtonPressed(Mouse.Button.Left))
                 {
                     buildingUI.DrawMenuState = true;
+                    
                 }
+                if (buildingUI.Menu.ContextualButtons.ButtonRectShape.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left))
+                {
+                    Market.Sellegg(_ctxGameLoop.FarmUI.Farm);
+                    Console.WriteLine("button SellEggs clicked");
+                }
+
                 else if (!buildingUI.Shape.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) && !buildingUI.Menu.TotalMenu.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) &&
                      Mouse.IsButtonPressed(Mouse.Button.Left))
                 {
@@ -84,7 +91,7 @@ namespace ChickenFarmer.UI
                 }
                 
             }
-
+          
             if (Mouse.IsButtonPressed(Mouse.Button.Right) && _oldUpdate.Add(_time) < current)
             {
                 _oldUpdate = DateTime.Now;
@@ -156,12 +163,13 @@ namespace ChickenFarmer.UI
                 }
             }*/
 
-            if ( buttonSellEggsBound.Contains( mpos.X, mpos.Y ) &&
-                 Mouse.IsButtonPressed( Mouse.Button.Left ) )
-            {
-                Market.Sellegg( _ctxGameLoop.FarmUI.Farm );
-                Console.WriteLine( "button SellEggs clicked" );
-            }
+
+
+            //if ( buttonSellEggsBound.Contains( mpos.X, mpos.Y ) &&
+            //     Mouse.IsButtonPressed( Mouse.Button.Left ) )
+            //{
+                
+            //}
         }
     }
 }

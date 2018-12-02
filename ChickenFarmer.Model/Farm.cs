@@ -35,7 +35,7 @@ namespace ChickenFarmer.Model
         public void Update()
         {
             Buildings.Update();
-            //Info();
+            Info();
         }
 
         public int[] UIinfo() { return new[] { Money, Buildings.FindStorageByType(Storage.StorageType.Eggs).Capacity, Chickencount }; }
