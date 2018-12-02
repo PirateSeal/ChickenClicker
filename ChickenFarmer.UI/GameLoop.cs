@@ -71,6 +71,7 @@ namespace ChickenFarmer.UI
 
                 Window.Draw(_tileMap);
                 FarmUI.BuildingCollectionUI.Draw(Window, State);               
+                FarmUI.DrawInfo();
                 FarmUI.PlayerUI.UpdateSpritePosition();
                 FarmUI.PlayerUI.Draw(Window, State);
 
