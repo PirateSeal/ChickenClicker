@@ -42,7 +42,7 @@ namespace ChickenFarmer.UI
 
         public void Draw(IRenderTarget target, in RenderStates states)
         {
-            Console.WriteLine("menu X {0} menu Y {1}", ContextualButtons.ButtonRectShape.Position.X, ContextualButtons.ButtonRectShape.Position.Y);
+            //Console.WriteLine("menu X {0} menu Y {1}", ContextualButtons.ButtonRectShape.Position.X, ContextualButtons.ButtonRectShape.Position.Y);
 
             _ctxBuildingUI.CtxBuildingCollectionUi.CtxfarmUI.CtxGame.Window.Draw(_totalMenu);
             _contextualButtons.Draw(target, states);
