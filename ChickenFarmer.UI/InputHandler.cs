@@ -63,24 +63,39 @@ namespace ChickenFarmer.UI
                 _deplacement += (new Vector(Direction[0].X, Direction[0].Y));
                 _ctxGameLoop.FarmUI.PlayerUI.Direction = 3;
             }
-
             if (Keyboard.IsKeyPressed(Keyboard.Key.C) && _oldUpdate.Add(_time) < current)
             {
                 _oldUpdate = DateTime.Now;
                 _ctxGameLoop.TileMap.changeSeason();
             }
 
-
-            //if (Keyboard.IsKeyPressed(Keyboard.Key.E) && _ctxGameLoop.FarmUI.Farm.Player.Position)
-            //{
-            //    _ctxGameLoop.FarmUI._playerUI.Interact();
-            //}
-
             _ctxGameLoop.View.Center = new Vector2f(_ctxGameLoop.FarmUI.Farm.Player.Position.X, _ctxGameLoop.FarmUI.Farm.Player.Position.Y);
             _ctxGameLoop.FarmUI.Farm.Player.Move(_deplacement);
 
 
 
+            foreach (BuildingUI buildingUI in _ctxGameLoop.FarmUI.BuildingCollectionUI.BuildingsUIList)
+            {
+                if (buildingUI.Shape.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) &&
+                     Mouse.IsButtonPressed(Mouse.Button.Left))
+                {
+                    buildingUI.DrawMenuState = true;
+                    
+                }
+                if (buildingUI.Menu.ContextualButtons.ButtonRectShape.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left))
+                {
+                    Market.Sellegg(_ctxGameLoop.FarmUI.Farm);
+                    Console.WriteLine("button SellEggs clicked");
+                }
+
+                else if (!buildingUI.Shape.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) && !buildingUI.Menu.TotalMenu.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) &&
+                     Mouse.IsButtonPressed(Mouse.Button.Left))
+                {
+                    buildingUI.DrawMenuState = false;
+                }
+                
+            }
+          
             if (Mouse.IsButtonPressed(Mouse.Button.Right) && _oldUpdate.Add(_time) < current)
             {
                 _oldUpdate = DateTime.Now;
@@ -151,12 +166,13 @@ namespace ChickenFarmer.UI
                 }
             }*/
 
-            if ( buttonSellEggsBound.Contains( mpos.X, mpos.Y ) &&
-                 Mouse.IsButtonPressed( Mouse.Button.Left ) )
-            {
-                Market.Sellegg( _ctxGameLoop.FarmUI.Farm );
-                Console.WriteLine( "button SellEggs clicked" );
-            }
+
+
+            //if ( buttonSellEggsBound.Contains( mpos.X, mpos.Y ) &&
+            //     Mouse.IsButtonPressed( Mouse.Button.Left ) )
+            //{
+                
+            //}
         }
     }
 }

@@ -65,21 +65,21 @@ namespace ChickenFarmer.UI
 
             while (Window.IsOpen)
             {
-                _playerInput.Handle();
+                
                 Window.View = View;            
                 Window.Clear(new Color(255, 0, 255));
 
                 Window.Draw(_tileMap);
-              
-                FarmUI.BuildingCollectionUI.Draw(Window, State);               
+
                 FarmUI.PlayerUI.UpdateSpritePosition();
                 FarmUI.PlayerUI.Draw(Window, State);
+                FarmUI.BuildingCollectionUI.Draw(Window, State);
 
                 _tileMap.DrawOver(Window, State);
                 FarmUI.DrawInfo();
                 Update();
 
-
+                _playerInput.Handle();
 
                 Window.Display();    
             }

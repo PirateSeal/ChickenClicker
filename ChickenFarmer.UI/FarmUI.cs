@@ -16,6 +16,7 @@ namespace ChickenFarmer.UI
         private readonly Vector2f _buttonSize = new Vector2f( 80f, 60f );
 
         PlayerUI _playerUI;
+
         public FarmUI( GameLoop ctx )
         {
             FarmOptionsUI = new FarmOptionsUI();
@@ -67,6 +68,8 @@ namespace ChickenFarmer.UI
                 }
 
             Text.DisplayedString = infoToPrint;
+            Text.Position = new Vector2f(CtxGame.View.Center.X - CtxGame.View.Size.X / 2, CtxGame.View.Center.Y - CtxGame.View.Size.Y / 2);
+
             CtxGame.Window.Draw( Text );
 
             CtxGame.Window.Draw( ButtonSellEggs );
