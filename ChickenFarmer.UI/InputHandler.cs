@@ -80,15 +80,23 @@ namespace ChickenFarmer.UI
                      Mouse.IsButtonPressed(Mouse.Button.Left))
                 {
                     buildingUI.DrawMenuState = true;
-                    
-                }
-                if (buildingUI.Menu.ContextualButtons.ButtonRectShape.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left))
-                {
-                    Market.Sellegg(_ctxGameLoop.FarmUI.Farm);
-                    Console.WriteLine("button SellEggs clicked");
-                }
 
-                else if (!buildingUI.Shape.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) && !buildingUI.Menu.TotalMenu.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) &&
+                }
+                for (int i = 0; i < buildingUI.Menu.ContextualButtons.ButtonRectShapeList.Count - 1; i++)
+                {
+                    if ( buildingUI.Menu.ContextualButtons.ButtonRectShapeList[0].GetGlobalBounds().Contains(worldPos.X, worldPos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left))
+                    {
+                        Market.Sellegg(_ctxGameLoop.FarmUI.Farm);
+                        Console.WriteLine("button SellEggs clicked");
+                    }
+                    else if (buildingUI.Menu.ContextualButtons.ButtonRectShapeList[1].GetGlobalBounds().Contains(worldPos.X, worldPos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left))
+                    {
+                        _ctxGameLoop.FarmUI.Farm.Market.BuyChicken(1, Chicken.Breed.Tier1);
+                        Console.WriteLine("button BuyChicken clicked");
+                    }
+                }
+            
+                if (!buildingUI.Shape.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) && !buildingUI.Menu.TotalMenu.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) &&
                      Mouse.IsButtonPressed(Mouse.Button.Left))
                 {
                     buildingUI.DrawMenuState = false;
