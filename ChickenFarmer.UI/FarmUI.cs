@@ -21,7 +21,12 @@ namespace ChickenFarmer.UI
         {
             FarmOptionsUI = new FarmOptionsUI();
             Farm = new Farm();
-          
+
+
+            Farm.Buildings.Build<Henhouse>(600, 740);
+            Farm.Buildings.Build<Storage>(800, 740, Storage.StorageType.Eggs);
+
+
             CtxGame = ctx;
             BuildingCollectionUI = new BuildingCollectionUI( this );
             _playerUI = new PlayerUI(this, Farm.Player);
@@ -29,8 +34,6 @@ namespace ChickenFarmer.UI
             Font font = new Font( FontLocation );
             Text = new Text( "", font );
 
-            ButtonSellEggs = new RectangleShape( _buttonSize ) { Position = _buttonPos };
-         
         }
 
         public Text Text { get; }
@@ -39,7 +42,7 @@ namespace ChickenFarmer.UI
 
         public FarmOptionsUI FarmOptionsUI { get; }
 
-        public Shape ButtonSellEggs { get; }
+
         public GameLoop CtxGame { get; }
         internal BuildingCollectionUI BuildingCollectionUI { get; set; }
         public void Update()
@@ -72,7 +75,7 @@ namespace ChickenFarmer.UI
 
             CtxGame.Window.Draw( Text );
 
-            CtxGame.Window.Draw( ButtonSellEggs );
+            
         }
     }
 }

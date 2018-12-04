@@ -18,9 +18,6 @@ namespace ChickenFarmer.Model
 
 
 
-            Buildings.Build<Henhouse>(600, 740);
-            Buildings.Build<Storage>(800, 740, Storage.StorageType.Eggs);
-
 
             Money = Options.DefaultMoney;
             Market.BuyChicken(1, Chicken.Breed.Tier1);
