@@ -1,8 +1,8 @@
 namespace ChickenFarmer.Model
 {
-    public class FarmOptions
+    public static class FarmOptions
     {
-        public FarmOptions( )
+        static FarmOptions( )
         {
             DefaultPlayerLife = 10;
             DefaultPlayerMaxSpeed = 0.5f;
@@ -26,6 +26,7 @@ namespace ChickenFarmer.Model
             SeedPrice = 3;
             VegetablePrice = 5;
             MeatPrice = 10;
+            EggValue = 2;
 
             DefaultEggCapacity = 0;
             DefaultEggMaxCapacity = 5000;
@@ -37,47 +38,48 @@ namespace ChickenFarmer.Model
             DefaultMeatMaxCapacity = 10000;
         }
 
-        private int DefaultStorageCapacity { get; }
+        private static int DefaultStorageCapacity { get; }
 
-        public int DefaultMoney { get; }
+        public static int DefaultMoney { get; }
 
-        public int DefaultHenHouseLimit { get; }
+        public static int DefaultHenHouseLimit { get; }
 
-        public int UpgradeHouseCost { get; }
+        public static int UpgradeHouseCost { get; }
 
-        private int DefaultLayByMinute { get; }
+        private static int DefaultLayByMinute { get; }
 
-        public int[] DefaultChickenCost { get; }
+        public static int[] DefaultChickenCost { get; }
 
-        public int DefaultHenHouseCost { get; }
+        public static int DefaultHenHouseCost { get; }
 
-        public int SeedPrice { get; }
-        public int VegetablePrice { get; }
-        public int MeatPrice { get; }
+        public static int SeedPrice { get; }
+        public static int VegetablePrice { get; }
+        public static int MeatPrice { get; }
 
-        public float DefaultFoodConsumption { get; }
-        public int DefaultStorageLevel { get; }
-        public int DefaultStorageMaxLevel { get; }
-        public int DefaultStorageUpgradeCost { get; }
+        public static float DefaultFoodConsumption { get; }
+        public static int DefaultStorageLevel { get; }
+        public static int DefaultStorageMaxLevel { get; }
+        public static int DefaultStorageUpgradeCost { get; }
 
-        public int DefaultSeedCapacity { get; }
-        public int DefaultSeedMaxCapacity { get; }
+        public static int DefaultSeedCapacity { get; }
+        public static int DefaultSeedMaxCapacity { get; }
 
-        public int DefaultVegetableCapacity { get; }
-        public int DefaultVegetableMaxCapacity { get; }
+        public static int DefaultVegetableCapacity { get; }
+        public static int DefaultVegetableMaxCapacity { get; }
 
-        public int DefaultMeatCapacity { get; }
-        public int DefaultMeatMaxCapacity { get; }
+        public static int DefaultMeatCapacity { get; }
+        public static int DefaultMeatMaxCapacity { get; }
 
-        public int DefaultEggCapacity { get; }
-        public int DefaultEggMaxCapacity { get; }
+        public static int DefaultEggCapacity { get; }
+        public static int DefaultEggMaxCapacity { get; }
 
-        public int DefaultMaxUpgrade { get; }
+        public static int DefaultMaxUpgrade { get; }
 
-        public int DefaultHenhouseCapacity { get; }
+        public static int DefaultHenhouseCapacity { get; }
 
-        private int DefaultHenhouseBuildTime { get; }
-        public int DefaultPlayerLife { get; private set; }
-        public float DefaultPlayerMaxSpeed { get; private set; }
+        public static int DefaultHenhouseBuildTime { get; }
+        public static int DefaultPlayerLife { get; }
+        public static float DefaultPlayerMaxSpeed { get; }
+        public static int EggValue { get; }
     }
 }

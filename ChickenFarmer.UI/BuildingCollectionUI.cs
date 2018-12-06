@@ -63,16 +63,16 @@ namespace ChickenFarmer.UI
 
                 }
 
-                if (building is Storage)
+                if (building is IStorage)
                 {
-                    Texture HouseTexture = CtxfarmUI.FarmOptionsUI.TextureTableStorage[building.Lvl];
+                    Texture houseTexture = CtxfarmUI.FarmOptionsUI.TextureTableStorage[building.Lvl];
 
                     BuildingsUIList.Add(new BuildingUI(
                         this,
                         building,
-                        new RectangleShape((Vector2f)HouseTexture.Size)
+                        new RectangleShape((Vector2f)houseTexture.Size)
                         {
-                          Texture = HouseTexture,
+                          Texture = houseTexture,
                           Position = new Vector2f(building.PosVector.X, building.PosVector.Y)
                         },
                         new Vector2f(building.PosVector.X, building.PosVector.Y)

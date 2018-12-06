@@ -14,16 +14,14 @@ namespace ChickenFarmer.Model
         {
             CtxCollection = ctx ?? throw new ArgumentNullException( nameof(ctx) );
             PosVector = posVector;
-            MaxCapacity = ctx.CtxFarm.Options.DefaultHenHouseLimit;
+            MaxCapacity = FarmOptions.DefaultHenHouseLimit;
             Lvl = 0;
             Chikens = new List<Chicken>( MaxCapacity * Lvl );
             DyingChickens = new List<Chicken>();
         }
 
-
         public Vector PosVector { get; set; }
         public BuildingCollection CtxCollection { get; set; }
-        private FarmOptions Options => CtxCollection.CtxFarm.Options;
         public List<Chicken> Chikens { get; }
         private List<Chicken> DyingChickens { get; }
 
@@ -39,7 +37,7 @@ namespace ChickenFarmer.Model
         public void Upgrade()
         {
             Lvl ++;
-            int newLimit = Options.DefaultHenHouseLimit * Lvl;
+            int newLimit = FarmOptions.DefaultHenHouseLimit * Lvl;
             MaxCapacity = newLimit;
         }
 
@@ -55,13 +53,13 @@ namespace ChickenFarmer.Model
 
         public void FeedAllChicken()
         {
-            if ( CtxCollection.FindStorageByType(Storage.StorageType.Seeds).Capacity < ToFeed( Chikens ) ) return;
+            if ( CtxCollection.FindStorage<SeedStorage>().Capacity < ToFeed( Chikens ) ) return;
             foreach ( Chicken chicken in Chikens ) chicken.ChickenFeed();
         }
 
         public void FeedAllDyingChicken()
         {
-            if ( CtxCollection.FindStorageByType(Storage.StorageType.Seeds).Capacity < ToFeed( DyingChickens ) ) return;
+            if ( CtxCollection.FindStorage<SeedStorage>().Capacity < ToFeed( DyingChickens ) ) return;
             foreach ( Chicken chicken in DyingChickens ) chicken.ChickenFeed();
             DyingChickens.Clear();
         }

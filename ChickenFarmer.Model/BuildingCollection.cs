@@ -10,36 +10,27 @@ namespace ChickenFarmer.Model
 {
     public class BuildingCollection
     {
-        private readonly Dictionary<Type, IBuildingFactory> _buildingFactories;
+        public Dictionary<Type, IBuildingFactory> BuildingFactories { get; } =
+            new Dictionary<Type, IBuildingFactory>
+            {
+                { typeof(EggStorage), new EggStorageFactory() },
+                { typeof(SeedStorage), new SeedStorageFactory() },
+                { typeof(VegetableStorage), new VegetableStorageFactory() },
+                { typeof(MeatStorage), new MeatStorageFactory() },
+                { typeof(Market), new MarketFactory() },
+                { typeof(Henhouse), new HenhouseFactory() }
+            };
 
         public BuildingCollection( Farm ctx )
         {
             CtxFarm = ctx ?? throw new ArgumentNullException( nameof(ctx) );
             BuildingList = new List<IBuilding>();
-            _buildingFactories = new Dictionary<Type, IBuildingFactory>
-            {
-                { typeof( Storage ), new StorageFactory() },
-                { typeof( Henhouse ), new HenhouseFactory() }
-            };
         }
 
         public Farm CtxFarm { get; }
         public List<IBuilding> BuildingList { get; }
-        private FarmOptions Options => CtxFarm.Options;
 
-        public Storage FindStorageByType(Storage.StorageType storageType)
-        {
-            foreach (Storage item in BuildingList.OfType<Storage>())
-            {
-                if (item.ResourceType == storageType)
-                {
-                    return item;
-                }
-            }
-
-            throw new InvalidOperationException("No storage found, build one");
-        }
-
+        public IStorage FindStorage<TStorageType>() => BuildingList.Find(storage => storage is TStorageType) as IStorage;
 
         public List<TBuildingType> GetBuildingInListByType<TBuildingType>() where TBuildingType : IBuilding
         {
@@ -51,7 +42,7 @@ namespace ChickenFarmer.Model
             return buildingList;
         }
 
-        public IBuilding Build<TBuildingType>( float xCoord, float yCoord, Storage.StorageType storageType = Storage.StorageType.None)
+        public IBuilding Build<TBuildingType>( float xCoord, float yCoord)
             where TBuildingType : IBuilding
         {
             if ( xCoord <= 0 ) throw new ArgumentOutOfRangeException( nameof(xCoord) );
@@ -61,26 +52,15 @@ namespace ChickenFarmer.Model
                      Math.Abs( item.PosVector.Y - yCoord ) < 0.1f )
                     throw new ArgumentException( "Invalid Coordinates, change xCoord or yCoord" );
 
-            if ( !CheckMaxBuildingTypeLimit<TBuildingType>() ) return null;
-
-            _buildingFactories.TryGetValue( typeof( TBuildingType ), out IBuildingFactory factory );
+            BuildingFactories.TryGetValue( typeof( TBuildingType ), out IBuildingFactory factory );
             if ( factory == null )
                 throw new InvalidOperationException(
                     "This building doesn't have a factory to create it" );
-            IBuilding building = factory.Create( this, new Vector( xCoord, yCoord ), storageType);
+            if (!factory.IsEnabled) throw new  InvalidOperationException("Factory not enabled. Max building limit reached !");
+            IBuilding building = factory.Create( this, new Vector( xCoord, yCoord ));
 
             BuildingList.Add( building );
             return building;
-        }
-
-        public bool CheckMaxBuildingTypeLimit<TBuildingType>() where TBuildingType : IBuilding
-        {
-            int count = 0;
-            foreach ( IBuilding building in BuildingList )
-                if ( building is TBuildingType )
-                    count ++;
-            //if ( typeof( TBuildingType ) == typeof( Storage ) && count == 1 ) return false;
-            return count != Options.DefaultHenhouseCapacity;
         }
 
         public int CountNbrBuilding<TBuildingType>() where TBuildingType : IBuilding

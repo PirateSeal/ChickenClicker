@@ -18,8 +18,8 @@ namespace ChickenFarmer.Model
         {
             _ctxFarm = ctxFarm ?? throw new ArgumentNullException(nameof(ctxFarm));
             _position = new Vector(1280/2, 720/2); // divise par 2 pour centrer le joueur dans la view de la gameloop. A changer
-            _life = ctxFarm.Options.DefaultPlayerLife;
-            _speed = _ctxFarm.Options.DefaultPlayerMaxSpeed;
+            _life = FarmOptions.DefaultPlayerLife;
+            _speed = FarmOptions.DefaultPlayerMaxSpeed;
             _inventory = new List<IBuilding>();
         }
 
@@ -38,14 +38,12 @@ namespace ChickenFarmer.Model
             //Console.WriteLine("Position Joueur X = {0} Y = {1}", Position.X, Position.Y);
         }
 
-        public Vector Direction
-        {
-            get { return _direction; }
-        }
+        public Vector Direction => _direction;
+
         public Vector Position
         {
-            get { return _position; }
-            set { _position = value; }
+            get => _position;
+            set => _position = value;
         }
         
         

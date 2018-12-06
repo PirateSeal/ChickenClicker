@@ -31,18 +31,17 @@ namespace ChickenFarmer.Model
         public float Hunger { get; private set; }
 
         private Henhouse CtxHenhouse { get; set; }
-        private FarmOptions Options => CtxHenhouse.CtxCollection.CtxFarm.Options;
 
         public void Update()
         {
-            Hunger -= Options.DefaultFoodConsumption * ( int ) ChikenBreed;
+            Hunger -= FarmOptions.DefaultFoodConsumption * ( int ) ChikenBreed;
             Lay();
         }
 
         public void ChickenFeed()
         {
             if ( CtxHenhouse != null )
-                CtxHenhouse.CtxCollection.FindStorageByType(Storage.StorageType.Seeds).Capacity -=
+                CtxHenhouse.CtxCollection.FindStorage<SeedStorage>().Capacity -=
                     ( int ) Math.Round( Hunger );
             Hunger = 100;
         }

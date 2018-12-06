@@ -1,5 +1,6 @@
 ﻿using SFML.Window;
 using System;
+using System.Linq;
 using System.Threading;
 using ChickenFarmer.Model;
 using SFML.Graphics;
@@ -9,10 +10,13 @@ namespace ChickenFarmer.UI
 {
     internal class InputHandler
     {
-        GameLoop _ctxGameLoop;
-        TimeSpan _time = new TimeSpan(0, 0, 0, 0, 500);
+        public GameLoop CtxGameLoop { get; }
+        public TimeSpan Time { get; } = new TimeSpan(0, 0, 0, 0, 500);
         private DateTime _oldUpdate = DateTime.Now;
         Vector _deplacement;
+
+        private Market Market => CtxGameLoop.FarmUI.Farm.Buildings.BuildingList.OfType<Market>().First();
+
         private static readonly Vector2f[] Direction = {
             new Vector2f( 5, 0),
             new Vector2f( -5, 0 ),
@@ -20,14 +24,14 @@ namespace ChickenFarmer.UI
             new Vector2f( 0, -5 )
         };
 
-        public InputHandler( GameLoop ctxGameLoop ) { _ctxGameLoop = ctxGameLoop; }
+        public InputHandler( GameLoop ctxGameLoop ) { CtxGameLoop = ctxGameLoop; }
 
         public void Handle()
         {
             DateTime current = DateTime.Now;
-            Vector2i mpos = Mouse.GetPosition( _ctxGameLoop.Window);
-            Vector2f worldPos = _ctxGameLoop.Window.MapPixelToCoords(mpos);
-            FloatRect buttonSellEggsBound = _ctxGameLoop.FarmUI.ButtonSellEggs.GetGlobalBounds();
+            Vector2i mpos = Mouse.GetPosition( CtxGameLoop.Window);
+            Vector2f worldPos = CtxGameLoop.Window.MapPixelToCoords(mpos);
+            FloatRect buttonSellEggsBound = CtxGameLoop.FarmUI.ButtonSellEggs.GetGlobalBounds();
 
             // var _menuBound = _ctxGameLoop.HouseMenu.Menu.GetGlobalBounds(); 
             //    var _buttonHenHouseUpgradeBound = _ctxGameLoop.HouseMenu.ButtonHenHouseUpgrade.GetGlobalBounds();
@@ -38,43 +42,43 @@ namespace ChickenFarmer.UI
 
             if ( Keyboard.IsKeyPressed( Keyboard.Key.Escape ) )
             {
-                _ctxGameLoop.Window.Close();
+                CtxGameLoop.Window.Close();
             }
 
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.Z))
             {
                 _deplacement += new Vector(Direction[3].X, Direction[3].Y);
-                _ctxGameLoop.FarmUI.PlayerUI.Direction = 1;
+                CtxGameLoop.FarmUI.PlayerUI.Direction = 1;
                 
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.S))
             {
                 _deplacement += new Vector(Direction[2].X, Direction[2].Y);
-                _ctxGameLoop.FarmUI.PlayerUI.Direction = 4;
+                CtxGameLoop.FarmUI.PlayerUI.Direction = 4;
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
             {
                 _deplacement += new Vector(Direction[1].X, Direction[1].Y);
-                _ctxGameLoop.FarmUI.PlayerUI.Direction = 2;
+                CtxGameLoop.FarmUI.PlayerUI.Direction = 2;
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.D))
             {
                 _deplacement += (new Vector(Direction[0].X, Direction[0].Y));
-                _ctxGameLoop.FarmUI.PlayerUI.Direction = 3;
+                CtxGameLoop.FarmUI.PlayerUI.Direction = 3;
             }
-            if (Keyboard.IsKeyPressed(Keyboard.Key.C) && _oldUpdate.Add(_time) < current)
+            if (Keyboard.IsKeyPressed(Keyboard.Key.C) && _oldUpdate.Add(Time) < current)
             {
                 _oldUpdate = DateTime.Now;
-                _ctxGameLoop.TileMap.changeSeason();
+                CtxGameLoop.TileMap.changeSeason();
             }
 
-            _ctxGameLoop.View.Center = new Vector2f(_ctxGameLoop.FarmUI.Farm.Player.Position.X, _ctxGameLoop.FarmUI.Farm.Player.Position.Y);
-            _ctxGameLoop.FarmUI.Farm.Player.Move(_deplacement);
+            CtxGameLoop.View.Center = new Vector2f(CtxGameLoop.FarmUI.Farm.Player.Position.X, CtxGameLoop.FarmUI.Farm.Player.Position.Y);
+            CtxGameLoop.FarmUI.Farm.Player.Move(_deplacement);
 
 
 
-            foreach (BuildingUI buildingUI in _ctxGameLoop.FarmUI.BuildingCollectionUI.BuildingsUIList)
+            foreach (BuildingUI buildingUI in CtxGameLoop.FarmUI.BuildingCollectionUI.BuildingsUIList)
             {
                 if (buildingUI.Shape.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) &&
                      Mouse.IsButtonPressed(Mouse.Button.Left))
@@ -86,12 +90,12 @@ namespace ChickenFarmer.UI
                 {
                     if ( buildingUI.Menu.ContextualButtons.ButtonRectShapeList[0].GetGlobalBounds().Contains(worldPos.X, worldPos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left))
                     {
-                        Market.Sellegg(_ctxGameLoop.FarmUI.Farm);
+                        Market.Sellegg(CtxGameLoop.FarmUI.Farm);
                         Console.WriteLine("button SellEggs clicked");
                     }
                     else if (buildingUI.Menu.ContextualButtons.ButtonRectShapeList[1].GetGlobalBounds().Contains(worldPos.X, worldPos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left))
                     {
-                        _ctxGameLoop.FarmUI.Farm.Market.BuyChicken(1, Chicken.Breed.Tier1);
+                        Market.BuyChicken(1, Chicken.Breed.Tier1);
                         Console.WriteLine("button BuyChicken clicked");
                     }
                 }
@@ -104,16 +108,16 @@ namespace ChickenFarmer.UI
                 
             }
           
-            if (Mouse.IsButtonPressed(Mouse.Button.Right) && _oldUpdate.Add(_time) < current)
+            if (Mouse.IsButtonPressed(Mouse.Button.Right) && _oldUpdate.Add(Time) < current)
             {
                 _oldUpdate = DateTime.Now;
-                _ctxGameLoop.FarmUI.Farm.Market.BuyHenhouse(worldPos.X, worldPos.Y);
-                _ctxGameLoop.FarmUI.BuildingCollectionUI.LoadBuildings();
+                Market.BuyHenhouse(worldPos.X, worldPos.Y);
+                CtxGameLoop.FarmUI.BuildingCollectionUI.LoadBuildings();
             }
 
 
             if (!Keyboard.IsKeyPressed(Keyboard.Key.Z) && !Keyboard.IsKeyPressed(Keyboard.Key.D) && !Keyboard.IsKeyPressed(Keyboard.Key.Q) && !Keyboard.IsKeyPressed(Keyboard.Key.S))
-                _ctxGameLoop.FarmUI.PlayerUI.AnimFrame = 0;
+                CtxGameLoop.FarmUI.PlayerUI.AnimFrame = 0;
      
          
             /*foreach ( HenhouseUi house in _ctxGameLoop.FarmUI.BuildingCollectionUI.Henhouses )

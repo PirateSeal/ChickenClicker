@@ -1,5 +1,6 @@
 ﻿#region Usings
 
+using System;
 using ChickenFarmer.Model;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -15,14 +16,14 @@ namespace ChickenFarmer.Tests
         public void Check_HH_And_Storage_Creation()
         {
             Farm farm = new Farm();
-            farm.Buildings.Build<Storage>(5, 5, Storage.StorageType.Seeds);
+            farm.Buildings.Build<EggStorage>(5, 5);
 
             farm.Buildings.Build<Henhouse>(1, 1);
 
             Assert.That(farm.Buildings.BuildingList.Count, Is.EqualTo(2));
 
-            Assert.That(farm.Buildings.FindBuilding<Storage>(5, 5), Is.TypeOf<Storage>());
-            Assert.That(farm.Buildings.FindBuilding<Storage>(5, 5).PosVector, Is.EqualTo(new Vector(5, 5)));
+            Assert.That(farm.Buildings.FindBuilding<EggStorage>(5, 5), Is.TypeOf<EggStorage>());
+            Assert.That(farm.Buildings.FindBuilding<EggStorage>(5, 5).PosVector, Is.EqualTo(new Vector(5, 5)));
 
             Assert.That(farm.Buildings.FindBuilding<Henhouse>(1, 1), Is.TypeOf<Henhouse>());
             Assert.That(farm.Buildings.FindBuilding<Henhouse>(1, 1).PosVector, Is.EqualTo(new Vector(1, 1)));
@@ -33,7 +34,7 @@ namespace ChickenFarmer.Tests
         public void Check_Max_Number_HH()
         {
             Farm farm = new Farm();
-            farm.Buildings.Build<Storage>(5, 5, Storage.StorageType.Seeds);
+            farm.Buildings.Build<EggStorage>(5, 5);
 
             farm.Buildings.Build<Henhouse>(1, 1);
             farm.Buildings.Build<Henhouse>(2, 2);
@@ -43,15 +44,15 @@ namespace ChickenFarmer.Tests
             Assert.That(farm.Buildings.BuildingList.Count, Is.EqualTo(5));
             Assert.That(farm.Buildings.CountNbrBuilding<Henhouse>(), Is.EqualTo(4));
 
-            IBuilding hh = farm.Buildings.Build<Henhouse>(6, 6);
-            Assert.That(hh, Is.Null);
+            Assert.Throws<InvalidOperationException>(()
+                => farm.Buildings.Build<Henhouse>(6, 6));
         }
 
         [Test]
         public void Check_TypeOf_Building_List()
         {
             Farm farm = new Farm();
-            farm.Buildings.Build<Storage>(1, 1, Storage.StorageType.Seeds);
+            farm.Buildings.Build<EggStorage>(1, 1);
             farm.Buildings.Build<Henhouse>(1, 2);
             farm.Buildings.Build<Henhouse>(1, 3);
 
