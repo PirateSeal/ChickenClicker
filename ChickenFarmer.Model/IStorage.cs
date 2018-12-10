@@ -5,5 +5,6 @@
         int Capacity { get; set; }
         int MaxCapacity { get; set; }
         int Value { get; }
+        new IStorageFactory Factory { get; }
     }
 }

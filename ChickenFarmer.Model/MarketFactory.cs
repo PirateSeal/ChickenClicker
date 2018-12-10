@@ -5,7 +5,7 @@
         public IBuilding Create(BuildingCollection ctx, Vector posVector)
         {
             NbrBuilt++;
-            return new Market(ctx, posVector);
+            return new Market(ctx, this, posVector);
         }
 
         public void OnRemove(IBuilding building) { NbrBuilt--; }

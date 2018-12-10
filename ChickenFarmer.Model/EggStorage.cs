@@ -2,9 +2,10 @@
 {
     public class EggStorage : IStorage
     {
-        public EggStorage(BuildingCollection ctx, Vector posVector)
+        public EggStorage(BuildingCollection ctx, IStorageFactory factory, Vector posVector)
         {
             CtxCollection = ctx;
+            Factory = factory;
             PosVector = posVector;
             Capacity = FarmOptions.DefaultEggCapacity;
             MaxCapacity = FarmOptions.DefaultEggMaxCapacity;
@@ -16,5 +17,7 @@
         public int Capacity { get; set; }
         public int MaxCapacity { get; set; }
         public int Value => FarmOptions.EggValue;
+        public IStorageFactory Factory { get; }
+        IBuildingFactory IBuilding.Factory => Factory;
     }
 }
