@@ -40,9 +40,20 @@ namespace ChickenFarmer.UI
 
             };
 
+            MapPath1 = new Dictionary<Type, string[]>()
+            {
+                { typeof(TileMap), new string[] { " ../../../../Data/map/3Layers.tmx" } }, 
+                { typeof(HenhouseUi), new string[] { "../../../../Data/map/henhouse1.tmx", "../../../../Data/map/henhouse2.tmx", "../../../../Data/map/henhouse3.tmx" } }
+            };
+
+
 
         }
         public Dictionary<Type, Texture[]> TextureDictionary { get; }
+
+
+        public Dictionary<Type, string[]> MapPath1 { get; }
+
 
         public string[] MapPath { get; set; }
 

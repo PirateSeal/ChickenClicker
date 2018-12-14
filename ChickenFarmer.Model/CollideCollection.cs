@@ -23,11 +23,13 @@ namespace ChickenFarmer.Model
             _collideList.Add(collidable);
             
         }
-        public bool IsCollide(CollideObject player)
+
+
+        public bool IsCollide(CollideObject obj)
         {
             var intersect = false;
             foreach (var item in _collideList)
-                if(Collide(player.Origin.X, player.Origin.Y, player.Width,player.Height, item.Origin.X, item.Origin.Y, item.Width, item.Height))
+                if(Collide(obj.Origin.X, obj.Origin.Y, obj.Width,obj.Height, item.Origin.X, item.Origin.Y, item.Width, item.Height))
                 {
                     intersect = true;
                     break;
