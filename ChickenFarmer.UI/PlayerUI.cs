@@ -89,6 +89,6 @@ namespace ChickenFarmer.UI
             set { _direction = value; }
         }
 
-        
+        public Sprite Sprite { get => _sprite; set => _sprite = value; }
     }
 }

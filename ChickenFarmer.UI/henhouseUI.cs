@@ -49,9 +49,7 @@ namespace ChickenFarmer.UI
         public void GoIn()
         {
         _ctxGame.FarmUI.FarmOptionsUI.MapPath1.TryGetValue(typeof(HenhouseUi), out var value);
-            _ctxGame.TileMap = new TileMap(value[Ctxhouse.Lvl])
-            ;
-
+        _ctxGame.TileMap = new TileMap(value[Ctxhouse.Lvl], _ctxGame);
         }
 
 
