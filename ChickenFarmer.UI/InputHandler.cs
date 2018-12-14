@@ -70,7 +70,10 @@ namespace ChickenFarmer.UI
             }
 
             _ctxGameLoop.View.Center = new Vector2f(_ctxGameLoop.FarmUI.Farm.Player.Position.X, _ctxGameLoop.FarmUI.Farm.Player.Position.Y);
-            _ctxGameLoop.FarmUI.Farm.Player.Move(_deplacement);
+
+            
+                _ctxGameLoop.FarmUI.Farm.Player.Move(_deplacement);
+        
 
 
 

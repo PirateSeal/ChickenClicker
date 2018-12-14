@@ -6,8 +6,13 @@ namespace ChickenFarmer.UI
 {
     public class FarmOptionsUI
     {
-        public FarmOptionsUI( )
+        FarmUI _ctxFarmUI;
+
+        public FarmOptionsUI(FarmUI ctxFarm)
         {
+
+            _ctxFarmUI = ctxFarm;
+
             TextureDictionary = new Dictionary<Type, Texture[]>();
             TextureTable = new[]
             {
@@ -28,9 +33,19 @@ namespace ChickenFarmer.UI
 
             };
 
+            MapPath = new[]
+            {
+                "../../../../Data/map/3Layers.tmx",
+                "../../../../Data/map/henhouse.tmx"
+
+            };
+
 
         }
         public Dictionary<Type, Texture[]> TextureDictionary { get; }
+
+        public string[] MapPath { get; set; }
+
 
         public Texture[] TextureTable { get; set; }
 

@@ -19,7 +19,7 @@ namespace ChickenFarmer.UI
 
         public FarmUI( GameLoop ctx )
         {
-            FarmOptionsUI = new FarmOptionsUI();
+            FarmOptionsUI = new FarmOptionsUI(this);
             Farm = new Farm();
 
 
