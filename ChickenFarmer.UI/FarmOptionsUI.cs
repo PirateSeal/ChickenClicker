@@ -6,8 +6,13 @@ namespace ChickenFarmer.UI
 {
     public class FarmOptionsUI
     {
-        public FarmOptionsUI( )
+        public FarmUI CtxFarmUI { get; }
+
+        public FarmOptionsUI(FarmUI ctxFarm)
         {
+
+            CtxFarmUI = ctxFarm;
+
             TextureDictionary = new Dictionary<Type, Texture[]>();
             TextureTable = new[]
             {
@@ -27,6 +32,16 @@ namespace ChickenFarmer.UI
                 new Texture( "../../../../Data/henhouse1.png" )
 
             };
+
+
+            };
+
+            MapPath1 = new Dictionary<Type, string[]>()
+            {
+                { typeof(TileMap), new[] { " ../../../../Data/map/3Layers.tmx" } }, 
+                { typeof(Model.Henhouse), new[] { "../../../../Data/map/henhouse1.tmx", "../../../../Data/map/henhouse2.tmx", "../../../../Data/map/henhouse3.tmx" } }
+            };
+
 
 
         }

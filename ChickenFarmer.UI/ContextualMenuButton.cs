@@ -13,6 +13,7 @@ namespace ChickenFarmer.UI
     {
         public ContextualMenu CtxContextualMenu { get; }
         public Vector2f ButtonSize { get; private set; }
+        public List<RectangleShape> ButtonRectShapeList { get; } = new List<RectangleShape>();
         public RectangleShape ButtonRectShape2 { get; private set; }
         public Vector2f ButtonPos1 { get; private set; }
         public Vector2f ButtonPos2 { get; private set; }
@@ -74,8 +75,6 @@ namespace ChickenFarmer.UI
             }
             
         }
-
-        public List<RectangleShape> ButtonRectShapeList { get; }
 
         public RectangleShape ButtonRectShape { get; private set; }
     }

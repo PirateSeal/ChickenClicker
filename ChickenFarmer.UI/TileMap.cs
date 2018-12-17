@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using SFML.Graphics;
 using SFML.System;
+using ChickenFarmer.Model;
 using TiledSharp;
 
 namespace ChickenFarmer.UI
@@ -19,7 +20,6 @@ namespace ChickenFarmer.UI
 
         private TmxMap _map;
         public VertexArray[] UnderMap{ get; }
-        private VertexArray _collide;
 
         public VertexArray[] OverMap { get; }
 
@@ -39,7 +39,7 @@ namespace ChickenFarmer.UI
         public int TileSize { get; }
         public int MapSize { get; }
         public int TileSetSize { get; }
-        public VertexArray Collide { get => _collide; set => _collide = value; }
+        public VertexArray Collide { get; set; }
 
         public TileMap( string file, GameLoop gameCtx )
         {
@@ -55,7 +55,7 @@ namespace ChickenFarmer.UI
             int? imageWidth = _map.Tilesets[0].Image.Width; //check for null expression
             if ( imageWidth != null ) TileSetSize = ( int ) imageWidth;
 
-            _collide = new VertexArray(PrimitiveType.Quads, 4 * (uint)(_map.Width * _map.Height));
+            Collide = new VertexArray(PrimitiveType.Quads, 4 * (uint)(_map.Width * _map.Height));
 
             ConvertLayers();
             Season = 0;
@@ -69,6 +69,7 @@ namespace ChickenFarmer.UI
         private void LoadTexture()
         {
 
+            List<Texture> textureList = new List<Texture>();
 
             _texturesArray = new Texture[5];
 
@@ -110,32 +111,32 @@ namespace ChickenFarmer.UI
                 VertexArray vertexArrayOver = new VertexArray(PrimitiveType.Quads, 4 * (uint)(_map.Width * _map.Height));
 
 
-                for (int index = 0; index < layer.Tiles.Count; index++)
+                foreach ( TmxLayerTile tile in layer.Tiles )
                 {
-                   
-                    if (layer.Tiles[index].Gid != 0)
+                    if (tile.Gid != 0)
                     {
                         if (layerIdx < 2)
                         {
-                            Vector2i pos = new Vector2i(layer.Tiles[index].X * TileSize, layer.Tiles[index].Y * TileSize);
-                            Add(pos, layer.Tiles[index].Gid, vertexArrayUnder, Color);
+                            Vector2i pos = new Vector2i(tile.X * TileSize, tile.Y * TileSize);
+                            Add(pos, tile.Gid, vertexArrayUnder, Color);
                             
                         }else if (layerIdx >= 2 && layerIdx < _map.Layers.Count - 1)
                         {
-                            Vector2i pos = new Vector2i(layer.Tiles[index].X * TileSize, layer.Tiles[index].Y * TileSize);
-                            Add(pos, layer.Tiles[index].Gid, vertexArrayOver, Color);
+                            Vector2i pos = new Vector2i(tile.X * TileSize, tile.Y * TileSize);
+                            Add(pos, tile.Gid, vertexArrayOver, Color);
                         }
 
                         else
                         {
-                            Vector2i pos = new Vector2i(layer.Tiles[index].X * TileSize, layer.Tiles[index].Y * TileSize);
-                            Add(pos, layer.Tiles[index].Gid, _collide, NoColor);
+                            Vector pos = new Vector(tile.X * TileSize, tile.Y * TileSize);
+
+                            ConvertCollide(pos);
+
+                            //  Add(pos, layer.Tiles[index].Gid, _collide, _noColor);
                           
 
                         }
                     }
-                    
-
                 }
                 if (layerIdx < 2) UnderMap[layerIdx++] = vertexArrayUnder;
                 else OverMap[(-2)+layerIdx++] = vertexArrayOver ;
@@ -182,6 +183,14 @@ namespace ChickenFarmer.UI
             
         }
         
+
+
+
+
+        public void ConvertCollide(Vector pos)
+        {
+            GameCtx?.FarmUI.Farm.CollideCollection.AddObject(pos, 16, 16);
+        }
 
         private void Add( Vector2i vertexPos, int gid,VertexArray vertexArray, Color color)
         {

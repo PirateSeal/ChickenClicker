@@ -31,7 +31,7 @@ namespace ChickenFarmer.UI
             DateTime current = DateTime.Now;
             Vector2i mpos = Mouse.GetPosition( CtxGameLoop.Window);
             Vector2f worldPos = CtxGameLoop.Window.MapPixelToCoords(mpos);
-            FloatRect buttonSellEggsBound = CtxGameLoop.FarmUI.ButtonSellEggs.GetGlobalBounds();
+    
 
             // var _menuBound = _ctxGameLoop.HouseMenu.Menu.GetGlobalBounds(); 
             //    var _buttonHenHouseUpgradeBound = _ctxGameLoop.HouseMenu.ButtonHenHouseUpgrade.GetGlobalBounds();
@@ -75,6 +75,19 @@ namespace ChickenFarmer.UI
 
             CtxGameLoop.View.Center = new Vector2f(CtxGameLoop.FarmUI.Farm.Player.Position.X, CtxGameLoop.FarmUI.Farm.Player.Position.Y);
             CtxGameLoop.FarmUI.Farm.Player.Move(_deplacement);
+
+            if (Keyboard.IsKeyPressed(Keyboard.Key.V) && _oldUpdate.Add(Time) < current)
+            {
+                
+                CtxGameLoop.TileMap = new TileMap("../../../../Data/map/henhouse.tmx", CtxGameLoop);
+            }
+
+
+            CtxGameLoop.View.Center = new Vector2f(CtxGameLoop.FarmUI.Farm.Player.Position.X, CtxGameLoop.FarmUI.Farm.Player.Position.Y);
+
+            
+                CtxGameLoop.FarmUI.Farm.Player.Move(_deplacement);
+        
 
 
 
