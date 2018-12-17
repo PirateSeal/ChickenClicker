@@ -15,7 +15,7 @@ namespace ChickenFarmer.Tests
         {
             Farm farm = new Farm();
 
-            Assert.That( farm.Money, Is.EqualTo( farm.Options.DefaultMoney ) );
+            Assert.That( farm.Money, Is.EqualTo( FarmOptions.DefaultMoney ) );
             Assert.That( farm.Buildings.BuildingList.Count, Is.EqualTo(0) );
         }
     }

@@ -13,32 +13,24 @@ namespace ChickenFarmer.Model
 {
     public class Farm
     {
-        
+
 
         public Farm()
         {
-            Options = new FarmOptions();
-            Market = new Market( this );
-            Buildings = new BuildingCollection( this );
+            Buildings = new BuildingCollection(this);
             CollideCollection = new CollideCollection(this);
 
-
-            Money = Options.DefaultMoney;
-            Market.BuyChicken(1, Chicken.Breed.Tier1);
+            Money = FarmOptions.DefaultMoney;
             Player = new Player(this);
         }
 
-
         public CollideCollection CollideCollection { get; }
-
-        public Player Player { get; } 
-        public FarmOptions Options { get; }
-        public Market Market { get; }
+        public Player Player { get; }
         public BuildingCollection Buildings { get; }
         public int Money { get; set; }
         private int Chickencount => Buildings.ChickenCount();
 
-        public void AddEgg() { Buildings.FindStorageByType( Storage.StorageType.Eggs ).Capacity++; }
+        public void AddEgg() { Buildings.FindStorage<EggStorage>().Capacity++; }
 
         public void Update()
         {
@@ -46,12 +38,11 @@ namespace ChickenFarmer.Model
             Info();
         }
 
-        public int[] UIinfo() { return new[] { Money, Buildings.FindStorageByType(Storage.StorageType.Eggs).Capacity, Chickencount }; }
+        public int[] UIinfo() { return new[] { Money, Buildings.FindStorage<EggStorage>().Capacity, Chickencount }; }
 
         private void Info()
         {
-        //    Console.WriteLine( "money : {0} , " + "egg :{1} ," + " chicken {2} ", Money, Buildings.FindStorageByType(Storage.StorageType.Eggs).Capacity,
-//Chickencount );
+            //Console.WriteLine("money : {0} , " + "egg :{1} ," + " chicken {2} ", Money, Buildings.FindStorage<EggStorage>().Capacity,Chickencount);
         }
     }
 }
