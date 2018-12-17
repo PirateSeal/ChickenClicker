@@ -3,7 +3,6 @@
 using ChickenFarmer.Model;
 using SFML.Graphics;
 using SFML.System;
-using System;
 using System.Collections.Generic;
 
 #endregion
@@ -22,40 +21,26 @@ namespace ChickenFarmer.UI
         public FarmUI CtxfarmUI { get; }
         public List<BuildingUI> BuildingsUIList { get; }
 
-
-
-
-
         internal void LoadBuildings()
         {
 
-            foreach (var buildingUI in BuildingsUIList)
+            foreach (BuildingUI buildingUI in BuildingsUIList)
             {
                 buildingUI.Dispose();
             }
 
             BuildingsUIList.Clear();
 
-            Vector2f size = new Vector2f(250, 250);
-
-
             foreach (IBuilding building in CtxfarmUI.Farm.Buildings.
                 BuildingList)
             {
 
-                Vector2f worldPos = CtxfarmUI.CtxGame.Window.MapPixelToCoords(
+                CtxfarmUI.CtxGame.Window.MapPixelToCoords(
                     new Vector2i((int)building.PosVector.X,
                         (int)building.PosVector.Y));
 
-                Texture houseTexture;
+                Texture houseTexture = CtxfarmUI.FarmOptionsUI.TextureTable[building.Lvl];
 
-                if (!(building is Henhouse) && !(building is IStorage)) throw new InvalidOperationException("This is not a building");
-                if (building is Henhouse)
-                    houseTexture =
-                        CtxfarmUI.FarmOptionsUI.TextureTable[building.Lvl];
-                else houseTexture =
-                    CtxfarmUI.FarmOptionsUI.TextureTableStorage[
-                        building.Lvl];
                 BuildingsUIList.Add(new BuildingUI(this, building,
                     new RectangleShape((Vector2f)houseTexture.Size)
                     {

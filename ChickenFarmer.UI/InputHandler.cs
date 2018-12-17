@@ -8,7 +8,7 @@ using SFML.System;
 
 namespace ChickenFarmer.UI
 {
-    internal class InputHandler
+    public class InputHandler
     {
         public GameLoop CtxGameLoop { get; }
         public TimeSpan Time { get; } = new TimeSpan(0, 0, 0, 0, 500);
@@ -70,7 +70,7 @@ namespace ChickenFarmer.UI
             if (Keyboard.IsKeyPressed(Keyboard.Key.C) && _oldUpdate.Add(Time) < current)
             {
                 _oldUpdate = DateTime.Now;
-                CtxGameLoop.TileMap.changeSeason();
+                CtxGameLoop.TileMap.ChangeSeason();
             }
 
             CtxGameLoop.View.Center = new Vector2f(CtxGameLoop.FarmUI.Farm.Player.Position.X, CtxGameLoop.FarmUI.Farm.Player.Position.Y);

@@ -14,24 +14,23 @@ namespace ChickenFarmer.Model
 {
     public class Market : IBuilding
     {
-        public BuildingCollection CtxCollection { get; set; }
-        private Farm CtxFarm => CtxCollection.CtxFarm;
-        public Vector PosVector { get; set; }
-        public int Lvl { get; set; }
-        public IBuildingFactory Factory { get; }
-
-        public Market(BuildingCollection ctx, IBuildingFactory factory, Vector posVector )
+        public Market(BuildingCollection ctx, IBuildingFactory factory, Vector posVector)
         {
             CtxCollection = ctx;
             PosVector = posVector;
             Factory = factory;
         }
 
+        private Farm CtxFarm => CtxCollection.CtxFarm;
+        public BuildingCollection CtxCollection { get; set; }
+        public Vector PosVector { get; set; }
+        public int Lvl { get; set; }
+        public IBuildingFactory Factory { get; }
+
         public void UpgradeHouse(Henhouse house)
         {
             int lvl = house.Lvl;
-            if ( CtxFarm.Money <= FarmOptions.UpgradeHouseCost * lvl ||
-                 house.Lvl >= FarmOptions.DefaultMaxUpgrade )
+            if ( CtxFarm.Money <= FarmOptions.UpgradeHouseCost * lvl || house.Lvl >= FarmOptions.DefaultMaxUpgrade )
                 return;
             house.Upgrade();
             CtxFarm.Money -= FarmOptions.UpgradeHouseCost * (lvl + 1);
@@ -43,20 +42,28 @@ namespace ChickenFarmer.Model
 
             if ( storage.Lvl < FarmOptions.DefaultStorageMaxLevel )
             {
-                CtxFarm.Money -=
-                    FarmOptions.DefaultStorageUpgradeCost * storage.Lvl + 1;
+                CtxFarm.Money -= FarmOptions.DefaultStorageUpgradeCost * storage.Lvl + 1;
                 storage.MaxCapacity *= 2;
                 storage.Lvl ++;
             }
             else
             {
-                throw new ArgumentException("Invalid building type given",
-                    nameof(TStorageType));
+                throw new ArgumentException("Invalid building type given", nameof(TStorageType));
             }
         }
 
-        public void BuyFood<TStorageType>(int amount)
-            where TStorageType : IStorage
+        public void UpgradeHenhouseRack<TRackType>(Henhouse henhouse) where TRackType : IRack
+        {
+            IRack upgradedRack = henhouse?.Racks.Find(rack => rack is TRackType) ??
+                                 throw new ArgumentNullException("Rack is null", nameof(upgradedRack));
+            if ( CtxFarm.Money >= upgradedRack.UpgrageCost )
+            {
+                CtxFarm.Money -= upgradedRack.UpgrageCost;
+                henhouse.UpgradeRack<TRackType>();
+            }
+        }
+
+        public void BuyFood<TStorageType>(int amount) where TStorageType : IStorage
         {
             IStorage storage = CtxCollection.FindStorage<TStorageType>();
 
@@ -67,8 +74,7 @@ namespace ChickenFarmer.Model
             }
             else
             {
-                throw new ArgumentException("Invalid type of food given",
-                    nameof(TStorageType));
+                throw new ArgumentException("Invalid type of food given", nameof(TStorageType));
             }
         }
 
@@ -77,15 +83,12 @@ namespace ChickenFarmer.Model
             int toPut = amount;
             foreach ( IBuilding building in CtxFarm.Buildings.BuildingList )
                 if ( building is Henhouse henhouse )
-                    if ( CtxFarm.Money >
-                         FarmOptions.DefaultChickenCost[( int ) breed - 1] )
+                    if ( CtxFarm.Money > FarmOptions.DefaultChickenCost[( int ) breed - 1] )
                         do
                         {
                             if ( toPut <= 0 ) return;
                             henhouse.AddChicken(breed);
-                            CtxFarm.Money -=
-                                FarmOptions.DefaultChickenCost[
-                                    ( int ) breed - 1];
+                            CtxFarm.Money -= FarmOptions.DefaultChickenCost[( int ) breed - 1];
                             toPut --;
                         } while (!henhouse.IsFull);
         }
@@ -98,13 +101,20 @@ namespace ChickenFarmer.Model
                 Capacity = 0;
         }
 
+        public void BuyRack<TRackType>(Henhouse henhouse) where TRackType : IRack
+        {
+            if ( typeof(VegetableRack).IsAssignableFrom(typeof(TRackType)) &&
+                 CtxFarm.Money > FarmOptions.DefaultVegetableRackPrice )
+                henhouse.Racks.Add(new VegetableRack(henhouse));
+            else if ( typeof(MeatRack).IsAssignableFrom(typeof(TRackType)) &&
+                      CtxFarm.Money > FarmOptions.DefaultMeatRackPrice )
+                henhouse.Racks.Add(new MeatRack(henhouse));
+        }
+
         public void BuyHenhouse(float xCoord, float yCoord)
         {
-            CtxCollection.BuildingFactories.TryGetValue(typeof(Henhouse),
-                out IBuildingFactory factory);
-            if ( factory != null &&
-                 CtxFarm.Money > FarmOptions.DefaultHenHouseCost &&
-                 factory.IsEnabled )
+            CtxCollection.BuildingFactories.TryGetValue(typeof(Henhouse), out IBuildingFactory factory);
+            if ( factory != null && CtxFarm.Money > FarmOptions.DefaultHenHouseCost && factory.IsEnabled )
             {
                 CtxFarm.Money -= FarmOptions.DefaultHenHouseCost;
                 CtxFarm.Buildings.Build<Henhouse>(xCoord, yCoord);

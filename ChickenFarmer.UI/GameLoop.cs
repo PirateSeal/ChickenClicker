@@ -13,12 +13,9 @@ namespace ChickenFarmer.UI
 {
     public class GameLoop
     {
-        private InputHandler _playerInput;
-        private TimeSpan _intervalUpdate = new TimeSpan( 0, 0, 0, 0, 60 );
-        TileMap _tileMap;
-        private DateTime _oldUpdate = DateTime.Now;
-        View _view;
-
+        public InputHandler PlayerInput { get; }
+        public TimeSpan IntervalUpdate { get; } = new TimeSpan(0, 0, 0, 0, 60);
+        public DateTime OldUpdate { get; private set; } = DateTime.Now;
 
         public GameLoop()
         {
@@ -27,16 +24,16 @@ namespace ChickenFarmer.UI
             Window.SetFramerateLimit(60);
 
             FarmUI = new FarmUI(this);
-            _playerInput = new InputHandler(this);
+            PlayerInput = new InputHandler(this);
 
-            _tileMap = new TileMap("../../../../Data/map/3Layers.tmx", this);
+            TileMap = new TileMap("../../../../Data/map/3Layers.tmx", this);
         }
 
         public View View { get; set; }
         public RenderStates State { get; set; }
         public RenderWindow Window { get; }
         public FarmUI FarmUI { get; set; }
-        internal TileMap TileMap { get => _tileMap; set => _tileMap = value; }
+        internal TileMap TileMap { get; set; }
 
         public static void Init()
         {
@@ -69,17 +66,17 @@ namespace ChickenFarmer.UI
                 Window.View = View;            
                 Window.Clear(new Color(255, 0, 255));
 
-                Window.Draw(_tileMap);
+                Window.Draw(TileMap);
 
                 FarmUI.PlayerUI.UpdateSpritePosition();
                 FarmUI.PlayerUI.Draw(Window, State);
                 FarmUI.BuildingCollectionUI.Draw(Window, State);
 
-                _tileMap.DrawOver(Window, State);
+                TileMap.DrawOver(Window, State);
                 FarmUI.DrawInfo();
                 Update();
 
-                _playerInput.Handle();
+                PlayerInput.Handle();
 
                 Window.Display();    
             }
@@ -89,14 +86,14 @@ namespace ChickenFarmer.UI
         {
             DateTime current = DateTime.Now;
 
-            if ( _oldUpdate.Add(_intervalUpdate) < current )
+            if ( OldUpdate.Add(IntervalUpdate) < current )
             {
                 
                 FarmUI.Update();
                 FarmUI.PlayerUI.AnimationLoop();
                 FarmUI.PlayerUI.AnimFrame++;
 
-                _oldUpdate = current;
+                OldUpdate = current;
             }
         }
     }

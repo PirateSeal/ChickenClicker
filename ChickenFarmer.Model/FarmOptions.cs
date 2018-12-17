@@ -30,13 +30,26 @@ namespace ChickenFarmer.Model
 
             DefaultEggCapacity = 0;
             DefaultEggMaxCapacity = 5000;
+
             DefaultSeedCapacity = 1000;
-            DefaultVegetableCapacity = 0;
-            DefaultMeatCapacity = 0;
             DefaultSeedMaxCapacity = 10000;
+            DefaultSeedRackPrice= 10;
+            
+
+            DefaultVegetableCapacity = 0;
             DefaultVegetableMaxCapacity = 10000;
+            DefaultVegetableRackPrice = 15;
+            
+            DefaultMeatCapacity = 0;
             DefaultMeatMaxCapacity = 10000;
+            DefaultMeatRackPrice = 20;
         }
+
+        public static int DefaultSeedRackPrice { get; }
+
+        public static int DefaultVegetableRackPrice { get; }
+
+        public static int DefaultMeatRackPrice { get; }
 
         private static int DefaultStorageCapacity { get; }
 

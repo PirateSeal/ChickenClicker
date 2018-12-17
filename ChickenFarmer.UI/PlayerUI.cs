@@ -10,50 +10,48 @@ namespace ChickenFarmer.UI
 {
     public class PlayerUI : IDrawable
     {
-        Player _player ;
-        Texture _texture;
-        private FarmUI _ctxFarmUI;
-        int _animFrame;
-        Vector2f _spriteSize;
-        Vector2f _position;
-        Sprite _sprite;
-        int _direction;
+        public Player Player { get; }
+        public Texture Texture { get; }
+        public FarmUI CtxFarmUI { get; }
+        public Vector2f SpriteSize { get; }
+        public Vector2f Position { get; }
+        public Sprite Sprite { get; }
 
         public PlayerUI(FarmUI ctxFarmUI, Player player)
         {
-            _animFrame = 0;
-            _direction = 0;
-            _spriteSize = new Vector2f(16f, 32f);
-            _ctxFarmUI = ctxFarmUI;
-            _player = player;
-            _position = new Vector2f(player.Position.X, player.Position.Y);
-            _texture = new Texture("../../../../Data/SpriteSheet/Player/Player.png");
-            _sprite = new Sprite(_texture);
+            AnimFrame = 0;
+            Direction = 0;
+            SpriteSize = new Vector2f(16f, 32f);
+            CtxFarmUI = ctxFarmUI;
+            Player = player;
+            Position = new Vector2f(player.Position.X, player.Position.Y);
+            Texture = new Texture("../../../../Data/SpriteSheet/Player/Player.png");
+            Sprite = new Sprite(Texture);
         }
 
         public void AnimationLoop()
         {
             
-            _sprite.TextureRect = new IntRect(0, 0, 16, 32);
+            Sprite.TextureRect = new IntRect(0, 0, 16, 32);
 
-            if (_direction == 1)
+            if (Direction == 1)
             {
-                _sprite.TextureRect = new IntRect(_animFrame * 16, 64, 16, 32);
+                Sprite.TextureRect = new IntRect(AnimFrame * 16, 64, 16, 32);
             }
-            if (_direction == 2)
+            if (Direction == 2)
             {
-                _sprite.TextureRect = new IntRect(_animFrame * 16, 96, 16, 32);
+                Sprite.TextureRect = new IntRect(AnimFrame * 16, 96, 16, 32);
             }
-            if (_direction == 3)
+            if (Direction == 3)
             {
-                _sprite.TextureRect = new IntRect(_animFrame * 16, 32, 16, 32);
+                Sprite.TextureRect = new IntRect(AnimFrame * 16, 32, 16, 32);
             }
-            if (_direction == 4)
+            if (Direction == 4)
             {
-                _sprite.TextureRect = new IntRect(_animFrame * 16, 0, 16, 32);
+                Sprite.TextureRect = new IntRect(AnimFrame * 16, 0, 16, 32);
             }
 
-            if (_animFrame == 3) _animFrame = 0;
+            if (AnimFrame == 3) AnimFrame = 0;
             
             //Console.WriteLine("animFrame : {0} ", _animFrame);
 
@@ -61,7 +59,7 @@ namespace ChickenFarmer.UI
 
         public void Draw(IRenderTarget target, in RenderStates states)
         {
-            target.Draw(_sprite);
+            target.Draw(Sprite);
             
             //Console.WriteLine("sprite X : {0}  sprite Y : {1}  sprite.TextureREct : {2}", _sprite.Position.X, _sprite.Position.Y, _sprite.TextureRect);
             
@@ -69,22 +67,11 @@ namespace ChickenFarmer.UI
 
         public void UpdateSpritePosition()
         {
-            _sprite.Position = new Vector2f(_player.Position.X, _player.Position.Y);
+            Sprite.Position = new Vector2f(Player.Position.X, Player.Position.Y);
         }
 
-        public int AnimFrame
-        {
-            get { return _animFrame; }
-            set { _animFrame = value; }
-        }
+        public int AnimFrame { get; set; }
 
-
-        public int Direction
-        {
-            get { return _direction; }
-            set { _direction = value; }
-        }
-
-        
+        public int Direction { get; set; }
     }
 }

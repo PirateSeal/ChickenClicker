@@ -1,10 +1,4 @@
-﻿#region Usings
-
-using System;
-
-#endregion
-
-namespace ChickenFarmer.Model
+﻿namespace ChickenFarmer.Model
 {
     public interface IBuilding
     {
