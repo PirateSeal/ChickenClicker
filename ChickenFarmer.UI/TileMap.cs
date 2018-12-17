@@ -4,13 +4,13 @@ using System.Text;
 using TiledSharp;
 using SFML.Graphics;
 using SFML.System;
-
+using ChickenFarmer.Model;
 
 
 namespace ChickenFarmer.UI
 {
     // CECI EST UN EXEMPLE
-    internal class TileMap : IDrawable
+    public class TileMap : IDrawable
     {
         private static readonly Vector2f[] Direction = {
 
@@ -23,6 +23,7 @@ namespace ChickenFarmer.UI
         private TmxMap _map;
         public VertexArray[] UnderMap{ get; }
         private VertexArray _collide;
+        List<Texture> _textureList = new List<Texture>();
 
         public VertexArray[] OverMap { get; }
 
@@ -71,14 +72,21 @@ namespace ChickenFarmer.UI
 
         private void LoadTexture()
         {
+          
 
+            List<Texture> _textureList = new List<Texture>();
 
             _texturesArray = new Texture[5];
 
-            _texturesArray[0] = new Texture("..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Fall.png");
-            _texturesArray[1] = new Texture("..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Summer.png");
-            _texturesArray[2] = new Texture("..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Winter.png");
-            _texturesArray[3] = new Texture("..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Spring.png");
+            if (_map.Tilesets[0].Image.Source == "..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Fall.png")
+            {
+                _texturesArray[1] = new Texture("..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Summer.png");
+                _texturesArray[2] = new Texture("..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Winter.png");
+                _texturesArray[3] = new Texture("..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Spring.png");
+            }
+
+            _texturesArray[0] = new Texture(_map.Tilesets[0].Image.Source);
+          
 
             //_texturesArray = new Texture[_map.Tilesets.Count];
             //for (int i = 0; i < _map.Tilesets.Count; i ++)
@@ -131,8 +139,11 @@ namespace ChickenFarmer.UI
 
                         else
                         {
-                            Vector2i pos = new Vector2i(layer.Tiles[index].X * TileSize, layer.Tiles[index].Y * TileSize);
-                            Add(pos, layer.Tiles[index].Gid, _collide, _noColor);
+                            Vector pos = new Vector(layer.Tiles[index].X * TileSize, layer.Tiles[index].Y * TileSize);
+
+                            ConvertCollide(pos);
+
+                          //  Add(pos, layer.Tiles[index].Gid, _collide, _noColor);
                           
 
                         }
@@ -146,7 +157,6 @@ namespace ChickenFarmer.UI
             }
         
         }
-
 
 
 
@@ -184,7 +194,16 @@ namespace ChickenFarmer.UI
         
             
         }
-        
+
+
+
+
+        public void ConvertCollide(Vector pos)
+        {
+            if(_gameCtx != null) _gameCtx.FarmUI.Farm.CollideCollection.AddObject(pos, 16, 16);
+
+
+        }
 
         private void Add( Vector2i vertexPos, int gid,VertexArray vertexArray, Color color)
         {

@@ -69,8 +69,19 @@ namespace ChickenFarmer.UI
                 _ctxGameLoop.TileMap.changeSeason();
             }
 
+
+            if (Keyboard.IsKeyPressed(Keyboard.Key.V) && _oldUpdate.Add(_time) < current)
+            {
+                
+                _ctxGameLoop.TileMap = new TileMap("../../../../Data/map/henhouse.tmx", _ctxGameLoop);
+            }
+
+
             _ctxGameLoop.View.Center = new Vector2f(_ctxGameLoop.FarmUI.Farm.Player.Position.X, _ctxGameLoop.FarmUI.Farm.Player.Position.Y);
-            _ctxGameLoop.FarmUI.Farm.Player.Move(_deplacement);
+
+            
+                _ctxGameLoop.FarmUI.Farm.Player.Move(_deplacement);
+        
 
 
 
@@ -102,6 +113,8 @@ namespace ChickenFarmer.UI
                     buildingUI.DrawMenuState = false;
                 }
                 
+
+
             }
           
             if (Mouse.IsButtonPressed(Mouse.Button.Right) && _oldUpdate.Add(_time) < current)

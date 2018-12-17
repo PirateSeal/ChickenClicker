@@ -14,6 +14,7 @@ namespace ChickenFarmer.UI
         private GameLoop _ctxGame;
         private Vector2f _houseSize = new Vector2f( 64f, 96f );
         private Texture[] _textures;
+        TileMap _map;
        
 
         public HenhouseUi( FarmUI ctxFarm, Henhouse house, Vector2f pos )
@@ -22,7 +23,7 @@ namespace ChickenFarmer.UI
             _ctxGame = ctxFarm.CtxGame;
             Ctxhouse = house;
             //HouseMenu = new HouseMenu( _ctxGame, this );
-
+            _map = new TileMap(_ctxGame.FarmUI.FarmOptionsUI.MapPath[1],_ctxGame);
             HouseSprite = new RectangleShape( _houseSize ) { Position = HousePos1, };
             _textures = _textures = new Texture[]
             {
@@ -44,6 +45,13 @@ namespace ChickenFarmer.UI
             _ctxGame.Window.Draw( HouseSprite );
             //HouseMenu.DrawGui();
         }
+
+        public void GoIn()
+        {
+        _ctxGame.FarmUI.FarmOptionsUI.MapPath1.TryGetValue(typeof(HenhouseUi), out var value);
+        _ctxGame.TileMap = new TileMap(value[Ctxhouse.Lvl], _ctxGame);
+        }
+
 
         public Shape HouseSprite { get; private set; }
         //public HouseMenu HouseMenu { get; private set; }

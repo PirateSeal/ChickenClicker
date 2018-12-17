@@ -29,7 +29,7 @@ namespace ChickenFarmer.UI
             FarmUI = new FarmUI(this);
             _playerInput = new InputHandler(this);
 
-            _tileMap = new TileMap("../../../../Data/map/3Layers.tmx", this);
+            _tileMap = new TileMap(FarmUI.FarmOptionsUI.MapPath[0], this);
         }
 
         public View View { get; set; }
@@ -54,7 +54,7 @@ namespace ChickenFarmer.UI
             Vector2f buttonsize = new Vector2f(80f, 60f);
 
             View = new View(new FloatRect(new Vector2f(0f, 0f),
-                new Vector2f(1280, 720)));
+                new Vector2f(1280/2, 720/2)));
 
             Shape button = new RectangleShape(buttonsize)
             {

@@ -4,6 +4,11 @@ using System;
 
 #endregion
 
+
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+
 namespace ChickenFarmer.Model
 {
     public class Farm
@@ -15,14 +20,16 @@ namespace ChickenFarmer.Model
             Options = new FarmOptions();
             Market = new Market( this );
             Buildings = new BuildingCollection( this );
-
-
+            CollideCollection = new CollideCollection(this);
 
 
             Money = Options.DefaultMoney;
             Market.BuyChicken(1, Chicken.Breed.Tier1);
             Player = new Player(this);
         }
+
+
+        public CollideCollection CollideCollection { get; }
 
         public Player Player { get; } 
         public FarmOptions Options { get; }

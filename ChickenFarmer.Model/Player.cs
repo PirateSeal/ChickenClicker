@@ -13,6 +13,7 @@ namespace ChickenFarmer.Model
         public List<IBuilding> _inventory;
         public Farm _ctxFarm;
         public Vector _direction;
+        public CollideObject _boundingBox;
 
         public Player(Farm ctxFarm)
         {
@@ -21,6 +22,9 @@ namespace ChickenFarmer.Model
             _life = ctxFarm.Options.DefaultPlayerLife;
             _speed = _ctxFarm.Options.DefaultPlayerMaxSpeed;
             _inventory = new List<IBuilding>();
+
+            var _boundingBoxPos = new Vector(_position.X, Position.Y - 16);
+            _boundingBox = new CollideObject(_boundingBoxPos, 16, 16);
         }
 
         public void Move(Vector direction)
@@ -28,15 +32,27 @@ namespace ChickenFarmer.Model
             if ((direction.X == 5 || direction.X == -5) && (direction.Y == 5 || direction.Y == -5)) _direction = (direction / 1.5f);
             
             else _direction = direction;
-            
-           
-            //Console.WriteLine("direction X = {0} Y = {1}", _direction.X, _direction.Y);
+                     
             Vector movement = _direction * _speed;
             Vector newPosition = _position.Add(movement);
-            
-            _position = newPosition;
-            //Console.WriteLine("Position Joueur X = {0} Y = {1}", Position.X, Position.Y);
+            if (CanMove(movement))
+            {
+                
+                _position = newPosition;
+                _boundingBox.Origin = _position;
+            }
+             
+
         }
+
+        public bool CanMove(Vector direction)
+        {
+            var nextPos = _position + direction;
+            var _boundingBoxPos = new Vector(nextPos.X, nextPos.Y + 16);
+            var newbox = new CollideObject(_boundingBoxPos, 16, 16);
+            return !_ctxFarm.CollideCollection.IsCollide(newbox);
+        }
+
 
         public Vector Direction
         {

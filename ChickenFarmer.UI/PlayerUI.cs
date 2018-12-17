@@ -55,9 +55,11 @@ namespace ChickenFarmer.UI
 
             if (_animFrame == 3) _animFrame = 0;
             
-            //Console.WriteLine("animFrame : {0} ", _animFrame);
+   
 
         }
+
+    
 
         public void Draw(IRenderTarget target, in RenderStates states)
         {
@@ -69,6 +71,8 @@ namespace ChickenFarmer.UI
 
         public void UpdateSpritePosition()
         {
+
+
             _sprite.Position = new Vector2f(_player.Position.X, _player.Position.Y);
         }
 
@@ -85,6 +89,6 @@ namespace ChickenFarmer.UI
             set { _direction = value; }
         }
 
-        
+        public Sprite Sprite { get => _sprite; set => _sprite = value; }
     }
 }
