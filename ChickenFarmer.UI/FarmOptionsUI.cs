@@ -13,7 +13,6 @@ namespace ChickenFarmer.UI
 
             CtxFarmUI = ctxFarm;
 
-            TextureDictionary = new Dictionary<Type, Texture[]>();
             TextureTable = new[]
             {
                 new Texture( "../../../../Data/henhouse1.png" ),
@@ -34,18 +33,19 @@ namespace ChickenFarmer.UI
             };
 
 
-            };
 
             MapPath1 = new Dictionary<Type, string[]>()
             {
-                { typeof(TileMap), new[] { " ../../../../Data/map/3Layers.tmx" } }, 
-                { typeof(Model.Henhouse), new[] { "../../../../Data/map/henhouse1.tmx", "../../../../Data/map/henhouse2.tmx", "../../../../Data/map/henhouse3.tmx" } }
+                { typeof(TileMap), new string[] { "../../../../Data/map/3Layers.tmx" } }, 
+                { typeof(Model.Henhouse), new string[] { "../../../../Data/map/henhouse1.tmx", "../../../../Data/map/henhouse2.tmx", "../../../../Data/map/henhouse3.tmx" } }
             };
 
 
 
         }
-        public Dictionary<Type, Texture[]> TextureDictionary { get; }
+
+
+        public Dictionary<Type, string[]> MapPath1 { get; }
 
         public Texture[] TextureTable { get; set; }
 

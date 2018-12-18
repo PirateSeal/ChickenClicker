@@ -127,9 +127,9 @@ namespace ChickenFarmer.Model
 
         public bool CheckIfInside(InteractionZone interactionZone)
         {
-            if ()
+            return true;
         }
 
-        public bool IsInside => CheckIfInside();
+        
     }
 }

@@ -34,6 +34,7 @@ namespace ChickenFarmer.Model
 
             Vector movement = Direction * Speed;
             Vector newPosition = Position.Add(movement);
+
             if (CanMove(movement))
             {
 

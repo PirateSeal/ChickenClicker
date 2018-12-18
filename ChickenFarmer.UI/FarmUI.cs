@@ -12,9 +12,13 @@ namespace ChickenFarmer.UI
     {
         private const string FontLocation = "../../../../Data/pricedown.ttf";
 
+        private readonly Vector2f _buttonPos = new Vector2f(10f, 540f);
+
+        private readonly Vector2f _buttonSize = new Vector2f(80f, 60f);
+
         public FarmUI( GameLoop ctx )
         {
-            FarmOptionsUI = new FarmOptionsUI();
+            FarmOptionsUI = new FarmOptionsUI(this);
             Farm = new Farm();
 
 
@@ -28,6 +32,8 @@ namespace ChickenFarmer.UI
 
             Font font = new Font( FontLocation );
             Text = new Text( "", font );
+
+
 
             ButtonSellEggs = new RectangleShape( _buttonSize ) { Position = _buttonPos };
          
