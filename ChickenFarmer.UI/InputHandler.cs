@@ -29,8 +29,8 @@ namespace ChickenFarmer.UI
         public void Handle()
         {
             DateTime current = DateTime.Now;
-            Vector2i mpos = Mouse.GetPosition( _ctxGameLoop.Window);
-            Vector2f worldPos = _ctxGameLoop.Window.MapPixelToCoords(mpos);
+            Vector2i mpos = Mouse.GetPosition( CtxGameLoop.Window);
+            Vector2f worldPos = CtxGameLoop.Window.MapPixelToCoords(mpos);
     
 
             // var _menuBound = _ctxGameLoop.HouseMenu.Menu.GetGlobalBounds(); 
@@ -74,22 +74,22 @@ namespace ChickenFarmer.UI
             }
 
 
-            if (Keyboard.IsKeyPressed(Keyboard.Key.V) && _oldUpdate.Add(_time) < current)
+            if (Keyboard.IsKeyPressed(Keyboard.Key.V) && _oldUpdate.Add(Time) < current)
             {
                 
-                _ctxGameLoop.TileMap = new TileMap("../../../../Data/map/henhouse.tmx", _ctxGameLoop);
+                CtxGameLoop.TileMap = new TileMap("../../../../Data/map/henhouse.tmx", CtxGameLoop);
             }
 
 
-            _ctxGameLoop.View.Center = new Vector2f(_ctxGameLoop.FarmUI.Farm.Player.Position.X, _ctxGameLoop.FarmUI.Farm.Player.Position.Y);
+            CtxGameLoop.View.Center = new Vector2f(CtxGameLoop.FarmUI.Farm.Player.Position.X, CtxGameLoop.FarmUI.Farm.Player.Position.Y);
 
             
-                _ctxGameLoop.FarmUI.Farm.Player.Move(_deplacement);
+                CtxGameLoop.FarmUI.Farm.Player.Move(_deplacement);
         
 
 
 
-            foreach (BuildingUI buildingUI in _ctxGameLoop.FarmUI.BuildingCollectionUI.BuildingsUIList)
+            foreach (BuildingUI buildingUI in CtxGameLoop.FarmUI.BuildingCollectionUI.BuildingsUIList)
             {
                 if (buildingUI.Shape.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) &&
                      Mouse.IsButtonPressed(Mouse.Button.Left))

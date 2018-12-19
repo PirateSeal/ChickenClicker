@@ -11,11 +11,10 @@ namespace ChickenFarmer.UI
     public class FarmUI
     {
         private const string FontLocation = "../../../../Data/pricedown.ttf";
-        private readonly Vector2f _buttonPos = new Vector2f( 10f, 540f );
 
-        private readonly Vector2f _buttonSize = new Vector2f( 80f, 60f );
+        private readonly Vector2f _buttonPos = new Vector2f(10f, 540f);
 
-        PlayerUI _playerUI;
+        private readonly Vector2f _buttonSize = new Vector2f(80f, 60f);
 
         public FarmUI( GameLoop ctx )
         {
@@ -24,20 +23,24 @@ namespace ChickenFarmer.UI
 
 
             Farm.Buildings.Build<Henhouse>(600, 740);
-            Farm.Buildings.Build<Storage>(800, 740, Storage.StorageType.Eggs);
+            Farm.Buildings.Build<EggStorage>(800, 740);
 
 
             CtxGame = ctx;
             BuildingCollectionUI = new BuildingCollectionUI( this );
-            _playerUI = new PlayerUI(this, Farm.Player);
+            PlayerUI = new PlayerUI(this, Farm.Player);
 
             Font font = new Font( FontLocation );
             Text = new Text( "", font );
 
+
+
+            ButtonSellEggs = new RectangleShape( _buttonSize ) { Position = _buttonPos };
+         
         }
 
         public Text Text { get; }
-        public PlayerUI PlayerUI { get { return _playerUI; } }
+        public PlayerUI PlayerUI { get; }
         public Farm Farm { get; }
 
         public FarmOptionsUI FarmOptionsUI { get; }

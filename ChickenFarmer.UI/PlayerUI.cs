@@ -71,18 +71,12 @@ namespace ChickenFarmer.UI
         {
 
 
-            _sprite.Position = new Vector2f(_player.Position.X, _player.Position.Y);
+            Sprite.Position = new Vector2f(Player.Position.X, Player.Position.Y);
         }
 
         public int AnimFrame { get; set; }
 
 
-        public int Direction
-        {
-            get { return _direction; }
-            set { _direction = value; }
-        }
-
-        public Sprite Sprite { get => _sprite; set => _sprite = value; }
+        public int Direction { get; set; }
     }
 }

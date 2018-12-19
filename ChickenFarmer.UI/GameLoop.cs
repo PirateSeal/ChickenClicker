@@ -26,13 +26,16 @@ namespace ChickenFarmer.UI
             FarmUI = new FarmUI(this);
             PlayerInput = new InputHandler(this);
 
-            _tileMap = new TileMap(FarmUI.FarmOptionsUI.MapPath[0], this);
+
+            FarmUI.FarmOptionsUI.MapPath1.TryGetValue(typeof(TileMap), out var value);
+
+            TileMap = new TileMap(value[0], this);
         }
 
         public View View { get; set; }
         public RenderStates State { get; set; }
         public RenderWindow Window { get; }
-        public FarmUI FarmUI { get; set; }
+        public FarmUI FarmUI { get; }
         internal TileMap TileMap { get; set; }
 
         public static void Init()
