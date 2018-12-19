@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ChickenFarmer.Model
 {
@@ -10,8 +11,8 @@ namespace ChickenFarmer.Model
         public CollideCollection(Farm farm)
         {
             CtxFarm = farm;
-
         }
+
         public void AddObject(Vector pos, float width, float height)
         {
             CollideObject collidable = new CollideObject(pos, width, height);
@@ -19,6 +20,14 @@ namespace ChickenFarmer.Model
 
         }
 
+
+        public void LoadBuilingsCollide()
+        {
+            foreach (var item in CtxFarm.Buildings.BuildingList)
+            {
+                AddObject(item.PosVector, 64, 96);
+            }
+        }
 
         public bool IsCollide(CollideObject obj)
         {
@@ -31,6 +40,11 @@ namespace ChickenFarmer.Model
                 }
 
             return intersect;
+        }
+
+        public void Clear()
+        {
+            _collideList.Clear();
         }
 
         bool Collide(float x1, float y1, float width1, float height1, float x2, float y2, float width2, float height2)

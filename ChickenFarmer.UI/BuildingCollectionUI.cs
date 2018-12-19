@@ -39,7 +39,27 @@ namespace ChickenFarmer.UI
                     new Vector2i((int)building.PosVector.X,
                         (int)building.PosVector.Y));
 
-                Texture houseTexture = CtxfarmUI.FarmOptionsUI.TextureTable[building.Lvl];
+                Texture houseTexture;
+                if (building is Henhouse)
+                {
+                    houseTexture = CtxfarmUI.FarmOptionsUI.HenhouseTexture[building.Lvl];
+                    
+                }else if(building is SeedStorage) {
+
+                    houseTexture = CtxfarmUI.FarmOptionsUI.StorageTexture[building.Lvl];
+
+                } else if (building is EggStorage)
+                {
+                    houseTexture = CtxfarmUI.FarmOptionsUI.StorageTexture[building.Lvl];
+                }
+                else if (building is MeatStorage)
+                {
+                    houseTexture = CtxfarmUI.FarmOptionsUI.StorageTexture[building.Lvl];
+                }
+                else
+                {
+                    houseTexture = null;
+                }
 
                 BuildingsUIList.Add(new BuildingUI(this, building,
                     new RectangleShape((Vector2f)houseTexture.Size)

@@ -20,6 +20,7 @@ namespace ChickenFarmer.UI
             BuildingCtx = building;
             Menu = new ContextualMenu(this);
             DrawMenuState = false;
+         
         }
 
         public IBuilding BuildingCtx { get; set; }
@@ -29,6 +30,7 @@ namespace ChickenFarmer.UI
         public Vector2f Pos { get; }
         public ContextualMenu Menu { get; }
         public Texture BuildingTexture { get; set; }
+        public TileMap Interior { get; set; }
 
         public void Dispose() { Shape.Dispose(); Menu.Dispose(); }
 
