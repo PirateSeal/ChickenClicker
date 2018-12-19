@@ -32,11 +32,6 @@ namespace ChickenFarmer.UI
 
             };
 
-            MapPath = new[]
-            {
-                "../../../../Data/map/3Layers.tmx",
-                "../../../../Data/map/henhouse.tmx"
-
 
             MapPath1 = new Dictionary<Type, string[]>()
             {

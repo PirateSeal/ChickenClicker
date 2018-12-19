@@ -29,7 +29,7 @@ namespace ChickenFarmer.Model
         public BuildingCollection Buildings { get; }
         public int Money { get; set; }
         private int Chickencount => Buildings.ChickenCount();
-        public CollideCollection CollideCollection { get; set; }
+        
 
 
         public void AddEgg() { Buildings.FindStorage<EggStorage>().Capacity++; }

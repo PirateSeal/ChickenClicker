@@ -35,7 +35,7 @@ namespace ChickenFarmer.UI
 
 
 
-            ButtonSellEggs = new RectangleShape( _buttonSize ) { Position = _buttonPos };
+            //ButtonSellEggs = new RectangleShape( _buttonSize ) { Position = _buttonPos };
          
         }
 
