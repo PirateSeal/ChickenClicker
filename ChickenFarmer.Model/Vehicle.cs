@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ChickenFarmer.Model
+﻿namespace ChickenFarmer.Model
 {
     internal class Vehicle
     {
@@ -9,7 +6,5 @@ namespace ChickenFarmer.Model
         public float MovementSpeed { get; set; }
         public bool IsDriving { get; set; }
         public Vector PosVector { get; set; }
-
-        
     }
 }

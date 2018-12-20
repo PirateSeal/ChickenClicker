@@ -19,7 +19,7 @@ namespace ChickenFarmer.Model
         {
             { typeof(EggStorage), new EggStorageFactory() }, { typeof(SeedStorage), new SeedStorageFactory() },
             { typeof(VegetableStorage), new VegetableStorageFactory() },
-            { typeof(MeatStorage), new MeatStorageFactory() }, { typeof(Market), new MarketFactory() },
+            { typeof(MeatStorage), new MeatStorageFactory() }, { typeof(Market), new BuilderFactory() },
             { typeof(Henhouse), new HenhouseFactory() }
         };
 
@@ -41,7 +41,7 @@ namespace ChickenFarmer.Model
             return buildingList;
         }
 
-        public IBuilding Build<TBuildingType>(float xCoord, float yCoord) where TBuildingType : IBuilding
+        public void Build<TBuildingType>(float xCoord, float yCoord) where TBuildingType : IBuilding
         {
             if ( xCoord <= 0 ) throw new ArgumentOutOfRangeException(nameof(xCoord));
             if ( yCoord <= 0 ) throw new ArgumentOutOfRangeException(nameof(yCoord));
@@ -57,16 +57,6 @@ namespace ChickenFarmer.Model
             IBuilding building = factory.Create(this, new Vector(xCoord, yCoord));
 
             BuildingList.Add(building);
-            return building;
-        }
-
-        public int CountNbrBuilding<TBuildingType>() where TBuildingType : IBuilding
-        {
-            int count = 0;
-            foreach ( IBuilding building in BuildingList )
-                if ( building is TBuildingType )
-                    count ++;
-            return count;
         }
 
         public void Update()
@@ -91,9 +81,19 @@ namespace ChickenFarmer.Model
         public int ChickenCount()
         {
             int sum = 0;
-            foreach ( IBuilding building in CtxFarm.Buildings.BuildingList )
+            foreach ( IBuilding building in BuildingList )
                 if ( building is Henhouse house )
                     sum += house.ChickenCount;
+
+            return sum;
+        }
+
+        public int DyingChickenCount()
+        {
+            int sum = 0;
+            foreach ( IBuilding building in BuildingList )
+                if ( building is Henhouse house )
+                    sum += house.CountDyingChickens;
 
             return sum;
         }

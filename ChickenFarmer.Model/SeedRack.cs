@@ -24,15 +24,14 @@
         public int Fill(int amount)
         {
             int remain = 0;
-            if (Capacity + amount <= MaxCapacity && amount <= CtxHenhouse.
-                     CtxCollection.FindStorage<SeedStorage>().
-                     Capacity)
+            if ( Capacity + amount <= MaxCapacity && amount <= CtxHenhouse.CtxCollection.FindStorage<SeedStorage>().
+                     Capacity )
             {
                 CtxHenhouse.CtxCollection.FindStorage<SeedStorage>().
                     Capacity -= amount;
                 Capacity += amount;
             }
-            else if (Capacity + amount > MaxCapacity)
+            else if ( Capacity + amount > MaxCapacity )
             {
                 CtxHenhouse.CtxCollection.FindStorage<SeedStorage>().
                     Capacity -= amount;
@@ -43,6 +42,6 @@
             return remain;
         }
 
-        public void Upgrade() { Lvl++; }
+        public void Upgrade() { Lvl ++; }
     }
 }

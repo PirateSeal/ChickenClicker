@@ -6,5 +6,6 @@
         Vector PosVector { get; set; }
         int Lvl { get; set; }
         IBuildingFactory Factory { get; }
+        void Upgrade();
     }
 }

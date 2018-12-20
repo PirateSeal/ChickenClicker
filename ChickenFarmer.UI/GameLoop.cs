@@ -29,7 +29,7 @@ namespace ChickenFarmer.UI
 
             FarmUI.FarmOptionsUI.MapPath1.TryGetValue(typeof(TileMap), out var value);
 
-            TileMap = new TileMap(value[0], this);
+            if ( value != null ) TileMap = new TileMap(value[0], this);
         }
 
         public View View { get; set; }

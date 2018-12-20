@@ -1,6 +1,5 @@
 ﻿using SFML.Window;
 using System;
-using System.Linq;
 using System.Threading;
 using ChickenFarmer.Model;
 using SFML.Graphics;
@@ -14,8 +13,6 @@ namespace ChickenFarmer.UI
         public TimeSpan Time { get; } = new TimeSpan(0, 0, 0, 0, 500);
         private DateTime _oldUpdate = DateTime.Now;
         Vector _deplacement;
-
-        private Market Market => CtxGameLoop.FarmUI.Farm.Buildings.BuildingList.OfType<Market>().First();
 
         private static readonly Vector2f[] Direction = {
             new Vector2f( 5, 0),
@@ -124,80 +121,13 @@ namespace ChickenFarmer.UI
             if (Mouse.IsButtonPressed(Mouse.Button.Right) && _oldUpdate.Add(Time) < current)
             {
                 _oldUpdate = DateTime.Now;
-                Market.BuyHenhouse(worldPos.X, worldPos.Y);
+                Market.BuyBuilding<Henhouse>(worldPos.X, worldPos.Y);
                 CtxGameLoop.FarmUI.BuildingCollectionUI.LoadBuildings();
             }
 
 
             if (!Keyboard.IsKeyPressed(Keyboard.Key.Z) && !Keyboard.IsKeyPressed(Keyboard.Key.D) && !Keyboard.IsKeyPressed(Keyboard.Key.Q) && !Keyboard.IsKeyPressed(Keyboard.Key.S))
                 CtxGameLoop.FarmUI.PlayerUI.AnimFrame = 0;
-     
-         
-            /*foreach ( HenhouseUi house in _ctxGameLoop.FarmUI.BuildingCollectionUI.Henhouses )
-            {
-                if ( house.HouseSprite == null ) return;
-                FloatRect buyChickenBound = house.HouseMenu.ButtonBuyChicken.GetGlobalBounds();
-
-                Console.WriteLine("gb : {0}", house.HouseSprite.GetGlobalBounds());
-
-
-
-                if ( house.HouseSprite.GetGlobalBounds().Contains( mpos.X, mpos.Y ) &&
-                     Mouse.IsButtonPressed( Mouse.Button.Left ) &&
-                     house.HouseMenu.DrawState == false )
-                {
-                    foreach ( HenhouseUi item in _ctxGameLoop.FarmUI.BuildingCollectionUI.Henhouses )
-                    {
-                        if ( item != house )
-                        {
-                            if ( item.HouseMenu.DrawState )
-                            {
-                                item.HouseMenu.DrawState = false;
-                            }
-                        }
-                    }
-
-                    house.HouseMenu.DrawState = true;
-                    Console.WriteLine( "button HenHouse Menu clicked" );
-                    Thread.Sleep( 150 );
-                }
-
-                if ( !house.HouseMenu.Menu.GetGlobalBounds().Contains( mpos.X, mpos.Y ) &&
-                     house.HouseMenu.DrawState == true &&
-                     Mouse.IsButtonPressed( Mouse.Button.Left ) )
-                {
-                    house.HouseMenu.DrawState = false;
-                    Console.WriteLine( "button HenHouse Menu not clicked" );
-                    Thread.Sleep( 150 );
-                }
-
-                if ( house.HouseMenu.DrawState && buyChickenBound.Contains( mpos.X, mpos.Y ) &&
-                     Mouse.IsButtonPressed( Mouse.Button.Left ) )
-                {
-                    _ctxGameLoop.FarmUI.Farm.Market.BuyChicken( 1, Chicken.Breed.Tier1 );
-                    Console.WriteLine( "Chicken buyed" );
-
-                    Thread.Sleep( 50 );
-                }
-
-                if ( house.HouseMenu.DrawState &&
-                     house.HouseMenu.ButtonHenHouseUpgrade.GetGlobalBounds()
-                         .Contains( mpos.X, mpos.Y ) && Mouse.IsButtonPressed( Mouse.Button.Left ) )
-                {
-                    _ctxGameLoop.FarmUI.Farm.Market.UpgradeHouse( house.Ctxhouse );
-                    Console.WriteLine( "house upgrade" );
-
-                    Thread.Sleep( 50 );
-                }
-            }*/
-
-
-
-            //if ( buttonSellEggsBound.Contains( mpos.X, mpos.Y ) &&
-            //     Mouse.IsButtonPressed( Mouse.Button.Left ) )
-            //{
-                
-            //}
         }
     }
 }

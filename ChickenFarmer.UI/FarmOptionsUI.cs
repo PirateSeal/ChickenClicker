@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ChickenFarmer.Model;
 using SFML.Graphics;
 
 namespace ChickenFarmer.UI
@@ -34,10 +35,10 @@ namespace ChickenFarmer.UI
 
 
 
-            MapPath1 = new Dictionary<Type, string[]>()
+            MapPath1 = new Dictionary<Type, string[]>
             {
-                { typeof(TileMap), new string[] { "../../../../Data/map/3Layers.tmx" } }, 
-                { typeof(Model.Henhouse), new string[] { "../../../../Data/map/henhouse1.tmx", "../../../../Data/map/henhouse2.tmx", "../../../../Data/map/henhouse3.tmx" } }
+                { typeof(TileMap), new[] { "../../../../Data/map/3Layers.tmx" } }, 
+                { typeof(Henhouse), new[] { "../../../../Data/map/henhouse1.tmx", "../../../../Data/map/henhouse2.tmx", "../../../../Data/map/henhouse3.tmx" } }
             };
 
 

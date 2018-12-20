@@ -1,27 +1,25 @@
-#region Usings
+﻿#region Usings
 
 using System;
-using System.Collections.Generic;
 
 #endregion
 
 namespace ChickenFarmer.Model
 {
-    public class Player : ICharacter
+    internal class Pnj : ICharacter
     {
-        public Player(Farm ctxFarm)
+        public Pnj(Farm ctxFarm, float xCoord, float yCoord)
         {
+            if ( xCoord <= 0 ) throw new ArgumentOutOfRangeException(nameof(xCoord));
+            if ( yCoord <= 0 ) throw new ArgumentOutOfRangeException(nameof(yCoord));
             CtxFarm = ctxFarm ?? throw new ArgumentNullException(nameof(ctxFarm));
-            Position = new Vector(1280 / 2,
-                720 / 2); // divise par 2 pour centrer le joueur dans la view de la gameloop. A changer
+            Position = new Vector(xCoord, yCoord);
             Life = FarmOptions.DefaultPlayerLife;
             Speed = FarmOptions.DefaultPlayerMaxSpeed;
-            Inventory = new List<IBuilding>();
             Vector boundingBoxPos = new Vector(Position.X, Position.Y - 16);
             BoundingBox = new CollideObject(boundingBoxPos, 16, 16);
         }
 
-        public List<IBuilding> Inventory { get; }
         public int Life { get; }
         public float Speed { get; }
         public Vector Position { get; set; }

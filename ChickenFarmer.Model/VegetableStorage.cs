@@ -2,8 +2,7 @@
 {
     public class VegetableStorage : IStorage
     {
-        public VegetableStorage(BuildingCollection ctx, IStorageFactory factory,
-            Vector                                 posVector)
+        public VegetableStorage(BuildingCollection ctx, IStorageFactory factory, Vector posVector)
         {
             CtxCollection = ctx;
             PosVector = posVector;
@@ -20,6 +19,12 @@
         public int MaxCapacity { get; set; }
         public int Value => FarmOptions.VegetablePrice;
         public IStorageFactory Factory { get; }
+        public void Upgrade()
+        {
+            Lvl++;
+            MaxCapacity *= Lvl;
+        }
+
         IBuildingFactory IBuilding.Factory => Factory;
     }
 }

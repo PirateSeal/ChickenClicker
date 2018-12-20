@@ -18,6 +18,12 @@
         public int MaxCapacity { get; set; }
         public int Value => FarmOptions.EggValue;
         public IStorageFactory Factory { get; }
+        public void Upgrade()
+        {
+            Lvl++;
+            MaxCapacity *= Lvl;
+        }
+
         IBuildingFactory IBuilding.Factory => Factory;
     }
 }

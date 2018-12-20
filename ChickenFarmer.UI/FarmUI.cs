@@ -59,19 +59,13 @@ namespace ChickenFarmer.UI
             string infoToPrint = "";
 
             int i;
-            for (i = 0; i < 3; i ++)
-                switch (i)
-                {
-                    case 0:
-                        infoToPrint += "Argent : " + info[i] + "\n";
-                        break;
-                    case 1:
-                        infoToPrint += "Oeufs : " + info[i] + "\n";
-                        break;
-                    case 2:
-                        infoToPrint += "Poules : " + info[i] + "\n";
-                        break;
-                }
+            for (i = 0; i < info.Length; i ++)
+                if ( i == 0 )
+                    infoToPrint += "Argent : " + info[i] + "\n";
+                else if ( i == 1 )
+                    infoToPrint += "Oeufs : " + info[i] + "\n";
+                else if ( i == 2 ) infoToPrint += "Poules : " + info[i] + "\n";
+                else if ( i == 3 ) infoToPrint += "Poules mourrantes : " + info[i] + "\n";
 
             Text.DisplayedString = infoToPrint;
             Text.Position = new Vector2f(CtxGame.View.Center.X - CtxGame.View.Size.X / 2, CtxGame.View.Center.Y - CtxGame.View.Size.Y / 2);
