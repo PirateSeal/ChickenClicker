@@ -85,13 +85,6 @@ namespace ChickenFarmer.UI
                 _texturesArray[2] = new Texture("..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Winter.png");
                 _texturesArray[3] = new Texture("..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Spring.png");
             }
-            else
-            {
-                _texturesArray.SetValue(new Texture(_map.Tilesets[0].Image.Source), 1);
-                _texturesArray.SetValue(new Texture(_map.Tilesets[0].Image.Source), 2);
-                _texturesArray.SetValue(new Texture(_map.Tilesets[0].Image.Source), 3);
-
-            }
 
 
         }
@@ -99,15 +92,18 @@ namespace ChickenFarmer.UI
 
         public void ChangeSeason()
         {
-            if (Season < 3)
+            if (_map.Tilesets[0].Image.Source == "..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Fall.png")
             {
-                Season++;
-            }
-            else
-            {
-                Season = 0;
-            }
 
+                if (Season < 3)
+                {
+                    Season++;
+                }
+                else
+                {
+                    Season = 0;
+                }
+            }
 
         }
 

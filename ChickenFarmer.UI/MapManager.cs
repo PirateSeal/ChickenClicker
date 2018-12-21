@@ -14,19 +14,28 @@ namespace ChickenFarmer.UI
 
             _ctxGame = ctxGame;
 
-            _ctxGame.FarmUI.FarmOptionsUI.MapPath1.TryGetValue(typeof(TileMap), out var value);
+            _ctxGame.FarmUI.FarmOptionsUI.MapPath.TryGetValue((int)MapTypes.world,out var  value);
             _currentMap = new TileMap(value[0], _ctxGame);
         }
 
         internal TileMap CurrentMap { get => _currentMap; set => _currentMap = value; }
 
-        public void LoadMap(string file)
+        public void LoadMap(MapTypes type, int lvl = 0)
         {
             _ctxGame.FarmUI.Farm.CollideCollection.Clear();
 
-            _currentMap = new TileMap(file, _ctxGame);
+            if (type == MapTypes.InnerHenhouse)
+            {
+                _ctxGame.FarmUI.FarmOptionsUI.MapPath.TryGetValue((int)MapTypes.InnerHenhouse, out var file);
+                _currentMap = new TileMap(file[0], _ctxGame);
 
-            
+            }
+            else
+            {
+                _ctxGame.FarmUI.FarmOptionsUI.MapPath.TryGetValue((int)MapTypes.world, out var file);
+                _currentMap = new TileMap(file[0], _ctxGame);
+            }
+
         }
 
     }

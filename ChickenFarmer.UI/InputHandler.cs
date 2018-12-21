@@ -1,10 +1,8 @@
-﻿using SFML.Window;
+﻿using ChickenFarmer.Model;
+using SFML.System;
+using SFML.Window;
 using System;
 using System.Linq;
-using System.Threading;
-using ChickenFarmer.Model;
-using SFML.Graphics;
-using SFML.System;
 
 namespace ChickenFarmer.UI
 {
@@ -15,7 +13,7 @@ namespace ChickenFarmer.UI
         private DateTime _oldUpdate = DateTime.Now;
         Vector _deplacement;
 
-        private Market Market => CtxGameLoop.FarmUI.Farm.Buildings.BuildingList.OfType<Market>().First();
+        private Market Market => CtxGameLoop.FarmUI.Farm.Buildings.BuildingList.OfType<Market>().FirstOrDefault();
 
         private static readonly Vector2f[] Direction = {
             new Vector2f( 5, 0),
@@ -24,14 +22,14 @@ namespace ChickenFarmer.UI
             new Vector2f( 0, -5 )
         };
 
-        public InputHandler( GameLoop ctxGameLoop ) { CtxGameLoop = ctxGameLoop; }
+        public InputHandler(GameLoop ctxGameLoop) { CtxGameLoop = ctxGameLoop; }
 
         public void Handle()
         {
             DateTime current = DateTime.Now;
-            Vector2i mpos = Mouse.GetPosition( CtxGameLoop.Window);
+            Vector2i mpos = Mouse.GetPosition(CtxGameLoop.Window);
             Vector2f worldPos = CtxGameLoop.Window.MapPixelToCoords(mpos);
-    
+
 
             // var _menuBound = _ctxGameLoop.HouseMenu.Menu.GetGlobalBounds(); 
             //    var _buttonHenHouseUpgradeBound = _ctxGameLoop.HouseMenu.ButtonHenHouseUpgrade.GetGlobalBounds();
@@ -40,7 +38,7 @@ namespace ChickenFarmer.UI
 
             _deplacement = new Vector();
 
-            if ( Keyboard.IsKeyPressed( Keyboard.Key.Escape ) )
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Escape))
             {
                 CtxGameLoop.Window.Close();
             }
@@ -50,7 +48,7 @@ namespace ChickenFarmer.UI
             {
                 _deplacement += new Vector(Direction[3].X, Direction[3].Y);
                 CtxGameLoop.FarmUI.PlayerUI.Direction = 1;
-                
+
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.S))
             {
@@ -69,23 +67,24 @@ namespace ChickenFarmer.UI
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.C) && _oldUpdate.Add(Time) < current)
             {
-                _oldUpdate = DateTime.Now;
-                CtxGameLoop.TileMap.ChangeSeason();
+                // _oldUpdate = DateTime.Now;
+                // CtxGameLoop.FarmUI.FarmOptionsUI.MapPath.TryGetValue((int)MapTypes.InnerHenhouse, out var value);
+                // CtxGameLoop.MapManager.LoadMap(value[0],0);
             }
 
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.V) && _oldUpdate.Add(Time) < current)
             {
-                
+
                 CtxGameLoop.TileMap = new TileMap("../../../../Data/map/henhouse.tmx", CtxGameLoop);
             }
 
 
             CtxGameLoop.View.Center = new Vector2f(CtxGameLoop.FarmUI.Farm.Player.Position.X, CtxGameLoop.FarmUI.Farm.Player.Position.Y);
 
-            
-                CtxGameLoop.FarmUI.Farm.Player.Move(_deplacement);
-        
+
+            CtxGameLoop.FarmUI.Farm.Player.Move(_deplacement);
+
 
 
 
@@ -99,7 +98,7 @@ namespace ChickenFarmer.UI
                 }
                 for (int i = 0; i < buildingUI.Menu.ContextualButtons.ButtonRectShapeList.Count - 1; i++)
                 {
-                    if ( buildingUI.Menu.ContextualButtons.ButtonRectShapeList[0].GetGlobalBounds().Contains(worldPos.X, worldPos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left))
+                    if (buildingUI.Menu.ContextualButtons.ButtonRectShapeList[0].GetGlobalBounds().Contains(worldPos.X, worldPos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left))
                     {
                         Market.Sellegg(CtxGameLoop.FarmUI.Farm);
                         Console.WriteLine("button SellEggs clicked");
@@ -110,17 +109,26 @@ namespace ChickenFarmer.UI
                         Console.WriteLine("button BuyChicken clicked");
                     }
                 }
-            
+
                 if (!buildingUI.Shape.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) && !buildingUI.Menu.TotalMenu.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) &&
                      Mouse.IsButtonPressed(Mouse.Button.Left))
                 {
                     buildingUI.DrawMenuState = false;
                 }
-                
+
+
+                if (buildingUI.BuildingCtx is Henhouse henhouse)
+                {
+                    if (henhouse.InteractionZone.Isin(CtxGameLoop.FarmUI.Farm.Player.BoundingBox) && Keyboard.IsKeyPressed(Keyboard.Key.E))
+                    {
+                        CtxGameLoop.MapManager.LoadMap(buildingUI.MapTypes, henhouse.Lvl);
+                    }
+
+                }
 
 
             }
-          
+
             if (Mouse.IsButtonPressed(Mouse.Button.Right) && _oldUpdate.Add(Time) < current)
             {
                 _oldUpdate = DateTime.Now;
@@ -131,8 +139,8 @@ namespace ChickenFarmer.UI
 
             if (!Keyboard.IsKeyPressed(Keyboard.Key.Z) && !Keyboard.IsKeyPressed(Keyboard.Key.D) && !Keyboard.IsKeyPressed(Keyboard.Key.Q) && !Keyboard.IsKeyPressed(Keyboard.Key.S))
                 CtxGameLoop.FarmUI.PlayerUI.AnimFrame = 0;
-     
-         
+
+
             /*foreach ( HenhouseUi house in _ctxGameLoop.FarmUI.BuildingCollectionUI.Henhouses )
             {
                 if ( house.HouseSprite == null ) return;
@@ -196,7 +204,7 @@ namespace ChickenFarmer.UI
             //if ( buttonSellEggsBound.Contains( mpos.X, mpos.Y ) &&
             //     Mouse.IsButtonPressed( Mouse.Button.Left ) )
             //{
-                
+
             //}
         }
     }
