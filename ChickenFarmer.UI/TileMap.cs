@@ -9,7 +9,6 @@ using TiledSharp;
 
 namespace ChickenFarmer.UI
 {
-    // CECI EST UN EXEMPLE
     public class TileMap : IDrawable
     {
         private static readonly Vector2f[] Direction = {
@@ -72,9 +71,13 @@ namespace ChickenFarmer.UI
         {
           
 
-            List<Texture> textureList = new List<Texture>();
+     
+            List<Texture> _textureList = new List<Texture>();
 
-            _texturesArray = new Texture[5];
+            _texturesArray = new Texture[4];
+             
+            _texturesArray.SetValue(new Texture(_map.Tilesets[0].Image.Source), 0);
+
 
             if (_map.Tilesets[0].Image.Source == "..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Fall.png")
             {
@@ -83,28 +86,24 @@ namespace ChickenFarmer.UI
                 _texturesArray[3] = new Texture("..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Spring.png");
             }
 
-            _texturesArray[0] = new Texture(_map.Tilesets[0].Image.Source);
-          
 
-            //_texturesArray = new Texture[_map.Tilesets.Count];
-            //for (int i = 0; i < _map.Tilesets.Count; i ++)
-            //{
-            //    _texturesArray[i] = new Texture( _map.Tilesets[i].Image.Source );
-            //}
         }
 
 
         public void ChangeSeason()
         {
-            if (Season < 3)
+            if (_map.Tilesets[0].Image.Source == "..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Fall.png")
             {
-                Season++;
-            }
-            else
-            {
-                Season = 0;
-            }
 
+                if (Season < 3)
+                {
+                    Season++;
+                }
+                else
+                {
+                    Season = 0;
+                }
+            }
 
         }
 

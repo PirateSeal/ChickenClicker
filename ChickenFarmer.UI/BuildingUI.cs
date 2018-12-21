@@ -12,16 +12,19 @@ namespace ChickenFarmer.UI
     public class BuildingUI : IDrawable, IDisposable
     {
 
-        public BuildingUI(BuildingCollectionUI ctx, IBuilding building , RectangleShape shape, Vector2f pos)
+        public BuildingUI(BuildingCollectionUI ctx, IBuilding building , RectangleShape shape, Vector2f pos ,MapTypes type)
         {
+
             Shape = shape ?? throw new ArgumentNullException(nameof(shape));
             CtxBuildingCollectionUi = ctx;
             Pos = pos;
             BuildingCtx = building;
             Menu = new ContextualMenu(this);
             DrawMenuState = false;
+            MapTypes = type;
         }
 
+        public MapTypes MapTypes { get; }
         public IBuilding BuildingCtx { get; set; }
         public bool DrawMenuState { get; set; }
         public BuildingCollectionUI CtxBuildingCollectionUi { get; }
@@ -29,6 +32,7 @@ namespace ChickenFarmer.UI
         public Vector2f Pos { get; }
         public ContextualMenu Menu { get; }
         public Texture BuildingTexture { get; set; }
+       
 
         public void Dispose() { Shape.Dispose(); Menu.Dispose(); }
 

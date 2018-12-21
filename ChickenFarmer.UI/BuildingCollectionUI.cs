@@ -38,8 +38,39 @@ namespace ChickenFarmer.UI
                 CtxfarmUI.CtxGame.Window.MapPixelToCoords(
                     new Vector2i((int)building.PosVector.X,
                         (int)building.PosVector.Y));
+                MapTypes type = MapTypes.nothing;
+                Texture houseTexture;
+                if (building is Henhouse)
+                {
+                    houseTexture = CtxfarmUI.FarmOptionsUI.HenhouseTexture[building.Lvl];
+                    type = MapTypes.InnerHenhouse;
+                    
+                }else if(building is SeedStorage) {
 
-                Texture houseTexture = CtxfarmUI.FarmOptionsUI.TextureTable[building.Lvl];
+                    houseTexture = CtxfarmUI.FarmOptionsUI.StorageTexture[building.Lvl];
+
+                }
+                else if (building is EggStorage)
+                {
+                    houseTexture = CtxfarmUI.FarmOptionsUI.StorageTexture[building.Lvl];
+       
+                }
+                else if (building is MeatStorage)
+                {
+                    houseTexture = CtxfarmUI.FarmOptionsUI.StorageTexture[building.Lvl];
+
+                }
+                else if (building is Market)
+                {
+                    houseTexture = CtxfarmUI.FarmOptionsUI.StorageTexture[building.Lvl];
+                    type = MapTypes.InnerMarket;
+
+                }
+                else
+                {
+                    houseTexture = null;
+                    
+                }
 
                 BuildingsUIList.Add(new BuildingUI(this, building,
                     new RectangleShape((Vector2f)houseTexture.Size)
@@ -48,7 +79,9 @@ namespace ChickenFarmer.UI
                         Position = new Vector2f(building.PosVector.X,
                             building.PosVector.Y)
                     },
-                    new Vector2f(building.PosVector.X, building.PosVector.Y)));
+                    new Vector2f(building.PosVector.X, building.PosVector.Y),
+                    type
+                    ));
             }
         }
 

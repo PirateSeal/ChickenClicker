@@ -55,10 +55,10 @@ namespace ChickenFarmer.UI
                 
                 ButtonSize = new Vector2f(30, 30);
                 ButtonRectShape = new RectangleShape(ButtonSize);
+
                 ButtonPos1 = new Vector2f(CtxContextualMenu.MenuPos.X+30, CtxContextualMenu.MenuPos.Y+30);
                 ButtonRectShape.Position = ButtonPos1;
                 ButtonRectShape.FillColor = Color.Cyan;
-
                 ButtonRectShapeList.Add(ButtonRectShape);
 
                 return ButtonRectShapeList;
