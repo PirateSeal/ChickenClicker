@@ -72,7 +72,7 @@ namespace ChickenFarmer.UI
           
 
      
-            List<Texture> _textureList = new List<Texture>();
+            List<Texture> textureList = new List<Texture>();
 
             _texturesArray = new Texture[4];
              

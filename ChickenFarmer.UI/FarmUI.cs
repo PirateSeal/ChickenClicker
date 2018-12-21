@@ -12,9 +12,9 @@ namespace ChickenFarmer.UI
     {
         private const string FontLocation = "../../../../Data/pricedown.ttf";
 
-        private readonly Vector2f _buttonPos = new Vector2f(10f, 540f);
+        public Vector2f ButtonPos { get; } = new Vector2f(10f, 540f);
 
-        private readonly Vector2f _buttonSize = new Vector2f(80f, 60f);
+        public Vector2f ButtonSize { get; } = new Vector2f(80f, 60f);
 
         public FarmUI( GameLoop ctx )
         {

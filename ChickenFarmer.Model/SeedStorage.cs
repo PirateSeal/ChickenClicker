@@ -19,9 +19,10 @@
         public int MaxCapacity { get; set; }
         public int Value => FarmOptions.SeedPrice;
         public IStorageFactory Factory { get; }
+
         public void Upgrade()
         {
-            Lvl++;
+            Lvl ++;
             MaxCapacity *= Lvl;
         }
 

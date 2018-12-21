@@ -20,8 +20,8 @@ namespace ChickenFarmer.Model
             Lvl = 0;
             Chikens = new List<Chicken>(MaxCapacity * Lvl);
             DyingChickens = new List<Chicken>();
-            var interactionZonePos = new Vector(posVector.X+20, PosVector.Y + 96);
-            InteractionZone = new InteractionZone(interactionZonePos,15 , 15);
+            var interactionZonePos = new Vector(posVector.X + 20, PosVector.Y + 96);
+            InteractionZone = new InteractionZone(interactionZonePos, 15, 15);
         }
 
         public List<IRack> Racks { get; }

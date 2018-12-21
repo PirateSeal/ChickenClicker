@@ -38,7 +38,7 @@ namespace ChickenFarmer.UI
                 CtxfarmUI.CtxGame.Window.MapPixelToCoords(
                     new Vector2i((int)building.PosVector.X,
                         (int)building.PosVector.Y));
-                MapTypes type = MapTypes.nothing;
+                MapTypes type = MapTypes.None;
                 Texture houseTexture;
                 if (building is Henhouse)
                 {
@@ -60,28 +60,19 @@ namespace ChickenFarmer.UI
                     houseTexture = CtxfarmUI.FarmOptionsUI.StorageTexture[building.Lvl];
 
                 }
-                else if (building is Market)
-                {
-                    houseTexture = CtxfarmUI.FarmOptionsUI.StorageTexture[building.Lvl];
-                    type = MapTypes.InnerMarket;
-
-                }
                 else
                 {
                     houseTexture = null;
                     
                 }
 
-                BuildingsUIList.Add(new BuildingUI(this, building,
-                    new RectangleShape((Vector2f)houseTexture.Size)
-                    {
-                        Texture = houseTexture,
-                        Position = new Vector2f(building.PosVector.X,
-                            building.PosVector.Y)
-                    },
-                    new Vector2f(building.PosVector.X, building.PosVector.Y),
-                    type
-                    ));
+                if ( houseTexture != null )
+                    BuildingsUIList.Add(new BuildingUI(this, building,
+                        new RectangleShape(( Vector2f ) houseTexture.Size)
+                        {
+                            Texture = houseTexture,
+                            Position = new Vector2f(building.PosVector.X, building.PosVector.Y)
+                        }, new Vector2f(building.PosVector.X, building.PosVector.Y), type));
             }
         }
 

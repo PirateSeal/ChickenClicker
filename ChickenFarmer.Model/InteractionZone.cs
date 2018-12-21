@@ -9,9 +9,10 @@
             Height = height;
         }
 
-       public bool Isin(CollideObject obj)
+        public bool Isin(CollideObject obj)
         {
-            return !(Origin.X > obj.Origin.X + obj.Width || Origin.X + Width < obj.Origin.X || Origin.Y > obj.Origin.Y + obj.Height || Origin.Y + Height < obj.Origin.Y);
+            return!(Origin.X > obj.Origin.X + obj.Width || Origin.X + Width < obj.Origin.X ||
+                    Origin.Y > obj.Origin.Y + obj.Height || Origin.Y + Height < obj.Origin.Y);
         }
     }
 }

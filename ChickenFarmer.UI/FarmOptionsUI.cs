@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using ChickenFarmer.Model;
+﻿using System.Collections.Generic;
 using SFML.Graphics;
 
 namespace ChickenFarmer.UI
@@ -34,15 +32,15 @@ namespace ChickenFarmer.UI
             };
 
 
-            MapPath = new Dictionary<int, string[]>()
+            MapPath = new Dictionary<int, string[]>
             {
                 {
-                    (int)MapTypes.world,
-                    new string[] { "../../../../Data/map/3Layers.tmx" }
+                    (int)MapTypes.World,
+                    new[] { "../../../../Data/map/3Layers.tmx" }
                 },
                 {
                     (int)MapTypes.InnerHenhouse,
-                    new string[] {
+                    new[] {
                         "../../../../Data/map/insideHenhouse.tmx",
                         "../../../../Data/map/insideHenhouse.tmx",
                         "../../../../Data/map/insideHenhouse.tmx"
@@ -50,7 +48,7 @@ namespace ChickenFarmer.UI
                 },
                 {
                     (int)MapTypes.InnerMarket,
-                    new string[] {
+                    new[] {
                         "../../../../Data/map/henhouse1.tmx",
                         "../../../../Data/map/henhouse2.tmx",
                         "../../../../Data/map/henhouse3.tmx"
@@ -58,12 +56,12 @@ namespace ChickenFarmer.UI
                 },
                 {
                     (int)MapTypes.InnerBuilder,
-                    new string[] {
+                    new[] {
                         "../../../../Data/map/henhouse1.tmx",
                         "../../../../Data/map/henhouse2.tmx",
                         "../../../../Data/map/henhouse3.tmx"
                     }
-                },
+                }
             };
 
         }

@@ -71,7 +71,7 @@ namespace ChickenFarmer.Model
         public static void Sellegg()
         {
             CtxFarm.Money += 2 * CtxFarm.Buildings.FindStorage<EggStorage>().
-                              Capacity;
+                                 Capacity;
             CtxFarm.Buildings.FindStorage<EggStorage>().
                 Capacity = 0;
         }

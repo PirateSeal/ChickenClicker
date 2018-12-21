@@ -6,8 +6,8 @@ namespace ChickenFarmer.UI
 {
     public enum MapTypes
     {
-        nothing = 0,
-        world = 1,
+        None = 0,
+        World = 1,
         InnerHenhouse = 2,
         InnerMarket = 3,
         InnerBuilder = 4,

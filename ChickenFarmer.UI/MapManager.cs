@@ -1,42 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ChickenFarmer.UI
+﻿namespace ChickenFarmer.UI
 {
     public class MapManager
     {
-        TileMap _currentMap;
-        GameLoop _ctxGame;
-
         public MapManager(GameLoop ctxGame)
         {
+            CtxGame = ctxGame;
 
-            _ctxGame = ctxGame;
-
-            _ctxGame.FarmUI.FarmOptionsUI.MapPath.TryGetValue((int)MapTypes.world,out var  value);
-            _currentMap = new TileMap(value[0], _ctxGame);
+            CtxGame.FarmUI.FarmOptionsUI.MapPath.TryGetValue(( int ) MapTypes.World, out string[] value);
+            CurrentMap = new TileMap(value?[0], CtxGame);
         }
 
-        internal TileMap CurrentMap { get => _currentMap; set => _currentMap = value; }
+        internal TileMap CurrentMap { get; set; }
+        public GameLoop CtxGame { get; }
 
         public void LoadMap(MapTypes type, int lvl = 0)
         {
-            _ctxGame.FarmUI.Farm.CollideCollection.Clear();
+            CtxGame.FarmUI.Farm.CollideCollection.Clear();
 
-            if (type == MapTypes.InnerHenhouse)
+            if ( type == MapTypes.InnerHenhouse )
             {
-                _ctxGame.FarmUI.FarmOptionsUI.MapPath.TryGetValue((int)MapTypes.InnerHenhouse, out var file);
-                _currentMap = new TileMap(file[0], _ctxGame);
-
+                CtxGame.FarmUI.FarmOptionsUI.MapPath.TryGetValue(( int ) MapTypes.InnerHenhouse, out string[] file);
+                CurrentMap = new TileMap(file?[0], CtxGame);
             }
             else
             {
-                _ctxGame.FarmUI.FarmOptionsUI.MapPath.TryGetValue((int)MapTypes.world, out var file);
-                _currentMap = new TileMap(file[0], _ctxGame);
+                CtxGame.FarmUI.FarmOptionsUI.MapPath.TryGetValue(( int ) MapTypes.World, out string[] file);
+                CurrentMap = new TileMap(file?[0], CtxGame);
             }
-
         }
-
     }
 }
