@@ -100,7 +100,7 @@ namespace ChickenFarmer.UI
                 {
                     if ( buildingUI.Menu.ContextualButtons.ButtonRectShapeList[0].GetGlobalBounds().Contains(worldPos.X, worldPos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left))
                     {
-                        Market.Sellegg(CtxGameLoop.FarmUI.Farm);
+                        Market.Sellegg();
                         Console.WriteLine("button SellEggs clicked");
                     }
                     else if (buildingUI.Menu.ContextualButtons.ButtonRectShapeList[1].GetGlobalBounds().Contains(worldPos.X, worldPos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left))
