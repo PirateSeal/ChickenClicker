@@ -11,42 +11,57 @@ namespace ChickenFarmer.UI
 {
     public class ContextualMenuButton : IDrawable
     {
-        ContextualMenu _ctxContextualMenu;
-        Vector2f _buttonSize;
-        RectangleShape _buttonRectShape;
-        Vector2f _buttonPos;
-        Color _buttonColor;
-        Vector2f _menuPos;
+        public ContextualMenu CtxContextualMenu { get; }
+        public Vector2f ButtonSize { get; private set; }
+        public List<RectangleShape> ButtonRectShapeList { get; } = new List<RectangleShape>();
+        public RectangleShape ButtonRectShape2 { get; private set; }
+        public Vector2f ButtonPos1 { get; private set; }
+        public Vector2f ButtonPos2 { get; private set; }
+        public Vector2f MenuPos { get; }
 
         public ContextualMenuButton( ContextualMenu ctxContextualMenu, Vector2f menuPos)
         {
-            _ctxContextualMenu = ctxContextualMenu;
-            _menuPos = menuPos;
-            _buttonRectShape = ButtonBuildingType();
+            CtxContextualMenu = ctxContextualMenu;
+            MenuPos = menuPos;
+            ButtonRectShapeList = ButtonBuildingType();
         }
 
-        public RectangleShape ButtonBuildingType()
+        public List<RectangleShape> ButtonBuildingType()
         {
-            if (_ctxContextualMenu.CtxBuildingUI.BuildingCtx is Henhouse )
+            if (CtxContextualMenu.CtxBuildingUI.BuildingCtx is Henhouse )
             {
                 
-                _buttonSize = new Vector2f(30, 30);
-                _buttonRectShape = new RectangleShape(_buttonSize);
-                _buttonPos = new Vector2f(_menuPos.X+30, _menuPos.Y+30);
-                _buttonRectShape.Position = _buttonPos;
-                _buttonRectShape.FillColor = Color.Blue;
-                
-                return _buttonRectShape;
+                ButtonSize = new Vector2f(30, 30);
+                ButtonRectShape = new RectangleShape(ButtonSize);
+                ButtonPos1 = new Vector2f(MenuPos.X+30, MenuPos.Y+30);
+                ButtonRectShape.Position = ButtonPos1;
+                ButtonRectShape.FillColor = Color.Blue;
+
+                ButtonRectShapeList.Add(ButtonRectShape);
+
+                ButtonRectShape2 = new RectangleShape(ButtonSize);
+                ButtonPos2 = new Vector2f(MenuPos.X + 70, MenuPos.Y + 30);
+                ButtonRectShape2.Position = ButtonPos2;
+                ButtonRectShape2.FillColor = Color.Green;
+
+                ButtonRectShapeList.Add(ButtonRectShape2);
+
+                return ButtonRectShapeList;
+
+
             }
             else
             {
                 
-                _buttonSize = new Vector2f(30, 30);
-                _buttonRectShape = new RectangleShape(_buttonSize);
-                _buttonPos = new Vector2f(_ctxContextualMenu.MenuPos.X+30, _ctxContextualMenu.MenuPos.Y+30);
-                _buttonRectShape.Position = _buttonPos;
-                _buttonRectShape.FillColor = Color.Cyan;
-                return _buttonRectShape;
+                ButtonSize = new Vector2f(30, 30);
+                ButtonRectShape = new RectangleShape(ButtonSize);
+
+                ButtonPos1 = new Vector2f(CtxContextualMenu.MenuPos.X+30, CtxContextualMenu.MenuPos.Y+30);
+                ButtonRectShape.Position = ButtonPos1;
+                ButtonRectShape.FillColor = Color.Cyan;
+                ButtonRectShapeList.Add(ButtonRectShape);
+
+                return ButtonRectShapeList;
             }
         }
 
@@ -54,12 +69,13 @@ namespace ChickenFarmer.UI
         {
             //Console.WriteLine("button X : {0}, button Y : {1}", _ctxContextualMenu.ContextualButtons._buttonPos.X, _ctxContextualMenu.ContextualButtons._buttonPos.Y);
             //Console.WriteLine("Menu X : {0}, Menu Y : {1}", _ctxContextualMenu.MenuPos.X, _ctxContextualMenu.MenuPos.Y);
-            _ctxContextualMenu.CtxBuildingUI.CtxBuildingCollectionUi.CtxfarmUI.CtxGame.Window.Draw(_buttonRectShape);
+            foreach (RectangleShape item in ButtonRectShapeList)
+            {
+                CtxContextualMenu.CtxBuildingUI.CtxBuildingCollectionUi.CtxfarmUI.CtxGame.Window.Draw(item);
+            }
+            
         }
 
-        public RectangleShape ButtonRectShape
-        {
-            get { return _buttonRectShape; }
-        }
+        public RectangleShape ButtonRectShape { get; private set; }
     }
 }

@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using TiledSharp;
 using SFML.Graphics;
 using SFML.System;
-
+using ChickenFarmer.Model;
+using TiledSharp;
 
 
 namespace ChickenFarmer.UI
 {
-    // CECI EST UN EXEMPLE
-    internal class TileMap : IDrawable
+    public class TileMap : IDrawable
     {
         private static readonly Vector2f[] Direction = {
 
@@ -22,34 +21,33 @@ namespace ChickenFarmer.UI
 
         private TmxMap _map;
         public VertexArray[] UnderMap{ get; }
-        private VertexArray _collide;
 
         public VertexArray[] OverMap { get; }
 
-        public int _season { get; set; }
+        public int Season { get; set; }
 
-       const int _underLayer = 2;                        // define how many layers of the tmx are draw under the player
+       const int UnderLayer = 2;                        // define how many layers of the tmx are draw under the player
 
 
         private Texture[] _texturesArray;
-        private GameLoop _gameCtx;
+        public GameLoop GameCtx { get; }
 
-        private bool _disposed;
+        public bool Disposed { get; private set; }
 
-        Color _color = new Color(255, 255, 255,255);
-        Color _noColor = new Color(255,0,255,0);
+        public Color Color { get; } = new Color(255, 255, 255);
+        public Color NoColor { get; } = new Color(255, 0, 255, 0);
 
         public int TileSize { get; }
         public int MapSize { get; }
         public int TileSetSize { get; }
-        public VertexArray Collide { get => _collide; set => _collide = value; }
+        public VertexArray Collide { get; set; }
 
         public TileMap( string file, GameLoop gameCtx )
         {
-            _gameCtx = gameCtx;
+            GameCtx = gameCtx;
             _map = new TmxMap( file );
-            UnderMap = new VertexArray[_underLayer];
-            OverMap = new VertexArray[_map.Layers.Count-_underLayer];
+            UnderMap = new VertexArray[UnderLayer];
+            OverMap = new VertexArray[_map.Layers.Count-UnderLayer];
 
             MapSize = _map.Height;
             TileSize = _map.TileHeight;
@@ -58,10 +56,10 @@ namespace ChickenFarmer.UI
             int? imageWidth = _map.Tilesets[0].Image.Width; //check for null expression
             if ( imageWidth != null ) TileSetSize = ( int ) imageWidth;
 
-            _collide = new VertexArray(PrimitiveType.Quads, 4 * (uint)(_map.Width * _map.Height));
+            Collide = new VertexArray(PrimitiveType.Quads, 4 * (uint)(_map.Width * _map.Height));
 
             ConvertLayers();
-            _season = 0;
+            Season = 0;
 
              
         }
@@ -71,34 +69,41 @@ namespace ChickenFarmer.UI
 
         private void LoadTexture()
         {
+          
+
+     
+            List<Texture> textureList = new List<Texture>();
+
+            _texturesArray = new Texture[4];
+             
+            _texturesArray.SetValue(new Texture(_map.Tilesets[0].Image.Source), 0);
 
 
-            _texturesArray = new Texture[5];
+            if (_map.Tilesets[0].Image.Source == "..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Fall.png")
+            {
+                _texturesArray[1] = new Texture("..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Summer.png");
+                _texturesArray[2] = new Texture("..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Winter.png");
+                _texturesArray[3] = new Texture("..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Spring.png");
+            }
 
-            _texturesArray[0] = new Texture("..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Fall.png");
-            _texturesArray[1] = new Texture("..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Summer.png");
-            _texturesArray[2] = new Texture("..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Winter.png");
-            _texturesArray[3] = new Texture("..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Spring.png");
 
-            //_texturesArray = new Texture[_map.Tilesets.Count];
-            //for (int i = 0; i < _map.Tilesets.Count; i ++)
-            //{
-            //    _texturesArray[i] = new Texture( _map.Tilesets[i].Image.Source );
-            //}
         }
 
 
-        public void changeSeason()
+        public void ChangeSeason()
         {
-            if (_season < 3)
+            if (_map.Tilesets[0].Image.Source == "..\\..\\..\\..\\Data\\map\\../SpriteSheet/mixed/Fall.png")
             {
-                _season++;
-            }
-            else
-            {
-                _season = 0;
-            }
 
+                if (Season < 3)
+                {
+                    Season++;
+                }
+                else
+                {
+                    Season = 0;
+                }
+            }
 
         }
 
@@ -109,44 +114,43 @@ namespace ChickenFarmer.UI
             int layerIdx=0;
             foreach (var layer in _map.Layers)
             {              
-                VertexArray _vertexArrayUnder = new VertexArray(PrimitiveType.Quads, 4 * (uint)(_map.Width * _map.Height));
-                VertexArray _vertexArrayOver = new VertexArray(PrimitiveType.Quads, 4 * (uint)(_map.Width * _map.Height));
+                VertexArray vertexArrayUnder = new VertexArray(PrimitiveType.Quads, 4 * (uint)(_map.Width * _map.Height));
+                VertexArray vertexArrayOver = new VertexArray(PrimitiveType.Quads, 4 * (uint)(_map.Width * _map.Height));
 
 
-                for (int index = 0; index < layer.Tiles.Count; index++)
+                foreach ( TmxLayerTile tile in layer.Tiles )
                 {
-                   
-                    if (layer.Tiles[index].Gid != 0)
+                    if (tile.Gid != 0)
                     {
                         if (layerIdx < 2)
                         {
-                            Vector2i pos = new Vector2i(layer.Tiles[index].X * TileSize, layer.Tiles[index].Y * TileSize);
-                            Add(pos, layer.Tiles[index].Gid, _vertexArrayUnder, _color);
+                            Vector2i pos = new Vector2i(tile.X * TileSize, tile.Y * TileSize);
+                            Add(pos, tile.Gid, vertexArrayUnder, Color);
                             
                         }else if (layerIdx >= 2 && layerIdx < _map.Layers.Count - 1)
                         {
-                            Vector2i pos = new Vector2i(layer.Tiles[index].X * TileSize, layer.Tiles[index].Y * TileSize);
-                            Add(pos, layer.Tiles[index].Gid, _vertexArrayOver, _color);
+                            Vector2i pos = new Vector2i(tile.X * TileSize, tile.Y * TileSize);
+                            Add(pos, tile.Gid, vertexArrayOver, Color);
                         }
 
                         else
                         {
-                            Vector2i pos = new Vector2i(layer.Tiles[index].X * TileSize, layer.Tiles[index].Y * TileSize);
-                            Add(pos, layer.Tiles[index].Gid, _collide, _noColor);
+                            Vector pos = new Vector(tile.X * TileSize, tile.Y * TileSize);
+
+                            ConvertCollide(pos);
+
+                            //  Add(pos, layer.Tiles[index].Gid, _collide, _noColor);
                           
 
                         }
                     }
-                    
-
                 }
-                if (layerIdx < 2) UnderMap[layerIdx++] = _vertexArrayUnder;
-                else OverMap[(-2)+layerIdx++] = _vertexArrayOver ;
+                if (layerIdx < 2) UnderMap[layerIdx++] = vertexArrayUnder;
+                else OverMap[(-2)+layerIdx++] = vertexArrayOver ;
 
             }
         
         }
-
 
 
 
@@ -155,7 +159,7 @@ namespace ChickenFarmer.UI
             foreach (var item in UnderMap)
             {
                 item?.Dispose();
-                _disposed = true;
+                Disposed = true;
             }         
             
         }
@@ -163,8 +167,8 @@ namespace ChickenFarmer.UI
 
         public void DrawOver(IRenderTarget target, in RenderStates states)
         {
-            if (_disposed) throw new ObjectDisposedException(typeof(Vertex).Name);
-            RenderStates state = new RenderStates(_texturesArray[_season]);
+            if (Disposed) throw new ObjectDisposedException(typeof(Vertex).Name);
+            RenderStates state = new RenderStates(_texturesArray[Season]);
 
             foreach (var item in OverMap)
             {
@@ -174,8 +178,8 @@ namespace ChickenFarmer.UI
 
         public void Draw( IRenderTarget target, in RenderStates states )
         {
-            if ( _disposed ) throw new ObjectDisposedException( typeof( Vertex ).Name );
-            RenderStates state = new RenderStates(_texturesArray[_season]);
+            if ( Disposed ) throw new ObjectDisposedException( typeof( Vertex ).Name );
+            RenderStates state = new RenderStates(_texturesArray[Season]);
 
             foreach (var item in UnderMap)
             {
@@ -184,7 +188,14 @@ namespace ChickenFarmer.UI
         
             
         }
-        
+
+
+
+
+        public void ConvertCollide(Vector pos)
+        {
+            GameCtx?.FarmUI.Farm.CollideCollection.AddObject(pos, 16, 16);
+        }
 
         private void Add( Vector2i vertexPos, int gid,VertexArray vertexArray, Color color)
         {

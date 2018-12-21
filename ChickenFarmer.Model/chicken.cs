@@ -17,9 +17,9 @@ namespace ChickenFarmer.Model
             Tier4 = 4
         }
 
-        public Chicken( Henhouse ctxHenhouse, Breed chikenBreed )
+        public Chicken(Henhouse ctxHenhouse, Breed chikenBreed)
         {
-            CtxHenhouse = ctxHenhouse ?? throw new ArgumentNullException( nameof(ctxHenhouse) );
+            CtxHenhouse = ctxHenhouse ?? throw new ArgumentNullException(nameof(ctxHenhouse));
             ChikenBreed = chikenBreed;
             Hunger = 100;
         }
@@ -31,24 +31,61 @@ namespace ChickenFarmer.Model
         public float Hunger { get; private set; }
 
         private Henhouse CtxHenhouse { get; set; }
-        private FarmOptions Options => CtxHenhouse.CtxCollection.CtxFarm.Options;
 
         public void Update()
         {
-            Hunger -= Options.DefaultFoodConsumption * ( int ) ChikenBreed;
+            Hunger -= FarmOptions.DefaultFoodConsumption * ( int ) ChikenBreed;
+            Peck();
             Lay();
         }
 
         public void ChickenFeed()
         {
             if ( CtxHenhouse != null )
-                CtxHenhouse.CtxCollection.FindStorageByType(Storage.StorageType.Seeds).Capacity -=
-                    ( int ) Math.Round( Hunger );
+                CtxHenhouse.CtxCollection.FindStorage<SeedStorage>().
+                    Capacity -= ( int ) Math.Round(Hunger);
             Hunger = 100;
+        }
+
+        public void Peck()
+        {
+            foreach ( IRack rack in CtxHenhouse.Racks )
+            {
+                if ( !(rack is MeatRack) )
+                {
+                    if ( !(rack is VegetableRack) )
+                    {
+                        if ( !(rack is SeedRack) ) throw new InvalidOperationException("Incorrect Rack type");
+                        if ( rack.Capacity > 0 )
+                        {
+                            rack.Capacity --;
+                            Hunger ++;
+                            break;
+                        }
+                    }
+
+                    if ( rack.Capacity > 0 )
+                    {
+                        rack.Capacity --;
+                        Hunger += 2;
+                        break;
+                    }
+                }
+
+                if ( rack.Capacity > 0 )
+                {
+                    rack.Capacity --;
+                    Hunger += 5;
+                    break;
+                }
+            }
         }
 
         internal void Die() { CtxHenhouse = null; }
 
-        private void Lay() { CtxHenhouse.CtxCollection.CtxFarm.AddEgg(); }
+        private void Lay()
+        {
+            if ( Hunger > 20 ) CtxHenhouse.CtxCollection.CtxFarm.AddEgg();
+        }
     }
 }

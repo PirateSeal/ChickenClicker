@@ -1,15 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using SFML.Graphics;
 
 namespace ChickenFarmer.UI
 {
     public class FarmOptionsUI
     {
-        public FarmOptionsUI( )
+        public FarmUI CtxFarmUI { get; }
+
+        public FarmOptionsUI(FarmUI ctxFarm)
         {
-            TextureDictionary = new Dictionary<Type, Texture[]>();
-            TextureTable = new[]
+
+            CtxFarmUI = ctxFarm;
+
+            HenhouseTexture = new[]
             {
                 new Texture( "../../../../Data/henhouse1.png" ),
                 new Texture( "../../../../Data/henhouse1.png" ),
@@ -18,7 +21,7 @@ namespace ChickenFarmer.UI
                 new Texture( "../../../../Data/henhouse1.png" )             
             };
 
-            TextureTableStorage = new[]
+            StorageTexture = new[]
            {
                 new Texture( "../../../../Data/henhouse1.png" ),
                 new Texture( "../../../../Data/henhouse1.png" ),
@@ -29,12 +32,45 @@ namespace ChickenFarmer.UI
             };
 
 
+            MapPath = new Dictionary<int, string[]>
+            {
+                {
+                    (int)MapTypes.World,
+                    new[] { "../../../../Data/map/3Layers.tmx" }
+                },
+                {
+                    (int)MapTypes.InnerHenhouse,
+                    new[] {
+                        "../../../../Data/map/insideHenhouse.tmx",
+                        "../../../../Data/map/insideHenhouse.tmx",
+                        "../../../../Data/map/insideHenhouse.tmx"
+                    }
+                },
+                {
+                    (int)MapTypes.InnerMarket,
+                    new[] {
+                        "../../../../Data/map/henhouse1.tmx",
+                        "../../../../Data/map/henhouse2.tmx",
+                        "../../../../Data/map/henhouse3.tmx"
+                    }
+                },
+                {
+                    (int)MapTypes.InnerBuilder,
+                    new[] {
+                        "../../../../Data/map/henhouse1.tmx",
+                        "../../../../Data/map/henhouse2.tmx",
+                        "../../../../Data/map/henhouse3.tmx"
+                    }
+                }
+            };
+
         }
-        public Dictionary<Type, Texture[]> TextureDictionary { get; }
 
-        public Texture[] TextureTable { get; set; }
+        public Dictionary<int, string[]> MapPath { get; }
 
-        public Texture[] TextureTableStorage { get; set; }
+        public Texture[] HenhouseTexture { get; set; }
+
+        public Texture[] StorageTexture { get; set; }
         
 
     }

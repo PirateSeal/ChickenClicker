@@ -1,62 +1,58 @@
+#region Usings
+
 using System;
 using System.Collections.Generic;
 
-
+#endregion
 
 namespace ChickenFarmer.Model
 {
-    public class Player
+    public class Player : ICharacter
     {
-        public int _life;
-        public float _speed;
-        public Vector _position;
-        public List<IBuilding> _inventory;
-        public Farm _ctxFarm;
-        public Vector _direction;
-
         public Player(Farm ctxFarm)
         {
-            _ctxFarm = ctxFarm ?? throw new ArgumentNullException(nameof(ctxFarm));
-            _position = new Vector(1280/2, 720/2); // divise par 2 pour centrer le joueur dans la view de la gameloop. A changer
-            _life = ctxFarm.Options.DefaultPlayerLife;
-            _speed = _ctxFarm.Options.DefaultPlayerMaxSpeed;
-            _inventory = new List<IBuilding>();
+            CtxFarm = ctxFarm ?? throw new ArgumentNullException(nameof(ctxFarm));
+            Position = new Vector(1280 / 2,
+                720 / 2); // divise par 2 pour centrer le joueur dans la view de la gameloop. A changer
+            Life = FarmOptions.DefaultPlayerLife;
+            Speed = FarmOptions.DefaultPlayerMaxSpeed;
+            Inventory = new List<IBuilding>();
+            Vector boundingBoxPos = new Vector(Position.X, Position.Y - 16);
+            BoundingBox = new CollideObject(boundingBoxPos, 16, 16);
         }
+
+        public List<IBuilding> Inventory { get; }
+        public int Life { get; }
+        public float Speed { get; }
+        public Vector Position { get; set; }
+        public Farm CtxFarm { get; }
+        public Vector Direction { get; set; }
+        public CollideObject BoundingBox { get; }
 
         public void Move(Vector direction)
         {
-            if ((direction.X == 5 || direction.X == -5) && (direction.Y == 5 || direction.Y == -5)) _direction = (direction / 1.5f);
-            
-            else _direction = direction;
-            
-           
-            //Console.WriteLine("direction X = {0} Y = {1}", _direction.X, _direction.Y);
-            Vector movement = _direction * _speed;
-            Vector newPosition = _position.Add(movement);
-            
-            _position = newPosition;
-            //Console.WriteLine("Position Joueur X = {0} Y = {1}", Position.X, Position.Y);
+            if ( (direction.X == 5 || direction.X == -5) && (direction.Y == 5 || direction.Y == -5) )
+                Direction = direction / 1.5f;
+
+            else
+                Direction = direction;
+
+            Vector movement = Direction * Speed;
+            Vector newPosition = Position.Add(movement);
+
+            if ( CanMove(movement) )
+            {
+                Position = newPosition;
+                BoundingBox.Origin = Position;
+            }
         }
 
-        public Vector Direction
+        public bool CanMove(Vector direction)
         {
-            get { return _direction; }
+            Vector nextPos = Position + direction;
+            Vector boundingBoxPos = new Vector(nextPos.X, nextPos.Y + 16);
+            CollideObject newbox = new CollideObject(boundingBoxPos, 16, 16);
+            return!CtxFarm.CollideCollection.IsCollide(newbox);
         }
-        public Vector Position
-        {
-            get { return _position; }
-            set { _position = value; }
-        }
-        
-        
-
-
-        
-        
-
-        
-
-             
-    
     }
 }
