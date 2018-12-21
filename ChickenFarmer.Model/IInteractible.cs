@@ -4,7 +4,5 @@
     {
         InteractionZone InteractionZone { get; set; }
         bool CheckIfInside(InteractionZone interactionZone);
-      
-
     }
 }

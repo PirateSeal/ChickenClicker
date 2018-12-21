@@ -15,6 +15,7 @@
         public Vector PosVector { get; set; }
         public int Lvl { get; set; }
         IBuildingFactory IBuilding.Factory => Factory;
+        public void Upgrade() { Lvl++; MaxCapacity *= Lvl; }
 
         public int Capacity { get; set; }
         public int MaxCapacity { get; set; }

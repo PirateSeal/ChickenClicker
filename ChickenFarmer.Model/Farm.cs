@@ -37,14 +37,9 @@ namespace ChickenFarmer.Model
         public void Update()
         {
             Buildings.Update();
-            Info();
         }
 
-        public int[] UIinfo() { return new[] { Money, Buildings.FindStorage<EggStorage>().Capacity, Chickencount }; }
+        public int[] UIinfo() { return new[] { Money, Buildings.FindStorage<EggStorage>().Capacity, Chickencount, Buildings.DyingChickenCount() }; }
 
-        private void Info()
-        {
-            //Console.WriteLine("money : {0} , " + "egg :{1} ," + " chicken {2} ", Money, Buildings.FindStorage<EggStorage>().Capacity,Chickencount);
-        }
     }
 }

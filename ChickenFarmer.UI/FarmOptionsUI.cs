@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ChickenFarmer.Model;
 using SFML.Graphics;
 
 namespace ChickenFarmer.UI

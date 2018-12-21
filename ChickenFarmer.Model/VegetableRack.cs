@@ -11,6 +11,7 @@
 
         public Henhouse CtxHenhouse { get; set; }
         public int Capacity { get; set; }
+
         public int MaxCapacity
         {
             get => 350;
@@ -23,13 +24,13 @@
         public int Fill(int amount)
         {
             int remain = 0;
-            if (Capacity + amount <= MaxCapacity && amount <= CtxHenhouse.
-                    CtxCollection.FindStorage<VegetableStorage>().
-                    Capacity)
+            if ( Capacity + amount <= MaxCapacity && amount <= CtxHenhouse.CtxCollection.
+                     FindStorage<VegetableStorage>().
+                     Capacity )
             {
                 Capacity += amount;
             }
-            else if (Capacity + amount > MaxCapacity)
+            else if ( Capacity + amount > MaxCapacity )
             {
                 CtxHenhouse.CtxCollection.FindStorage<VegetableStorage>().
                     Capacity -= amount;
@@ -40,6 +41,6 @@
             return remain;
         }
 
-        public void Upgrade() { Lvl++; }
+        public void Upgrade() { Lvl ++; }
     }
 }
