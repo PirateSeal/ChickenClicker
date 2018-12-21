@@ -1,53 +1,41 @@
 ﻿#region Usings
 
-using System;
-
 #endregion
 
 namespace ChickenFarmer.Model
 {
     public class Farm
     {
-        
-
         public Farm()
         {
-            Options = new FarmOptions();
-            Market = new Market( this );
-            Buildings = new BuildingCollection( this );
-
-
-
-            Buildings.Build<Henhouse>(600, 740);
-            Buildings.Build<Storage>(800, 740, Storage.StorageType.Eggs);
-
-
-            Money = Options.DefaultMoney;
-            Market.BuyChicken(1, Chicken.Breed.Tier1);
+            Buildings = new BuildingCollection(this);
+            CollideCollection = new CollideCollection(this);
+            Money = FarmOptions.DefaultMoney;
             Player = new Player(this);
         }
 
-        public Player Player { get; } 
-        public FarmOptions Options { get; }
-        public Market Market { get; }
+        public CollideCollection CollideCollection { get; }
+        public Player Player { get; }
         public BuildingCollection Buildings { get; }
         public int Money { get; set; }
         private int Chickencount => Buildings.ChickenCount();
 
-        public void AddEgg() { Buildings.FindStorageByType( Storage.StorageType.Eggs ).Capacity++; }
-
-        public void Update()
+        public void AddEgg()
         {
-            Buildings.Update();
-            Info();
+            Buildings.FindStorage<EggStorage>().
+                Capacity ++;
         }
 
-        public int[] UIinfo() { return new[] { Money, Buildings.FindStorageByType(Storage.StorageType.Eggs).Capacity, Chickencount }; }
+        public void Update() { Buildings.Update(); }
 
-        private void Info()
+        public int[] UIinfo()
         {
-        //    Console.WriteLine( "money : {0} , " + "egg :{1} ," + " chicken {2} ", Money, Buildings.FindStorageByType(Storage.StorageType.Eggs).Capacity,
-//Chickencount );
+            return new[]
+            {
+                Money, Buildings.FindStorage<EggStorage>().
+                    Capacity,
+                Chickencount, Buildings.DyingChickenCount()
+            };
         }
     }
 }
