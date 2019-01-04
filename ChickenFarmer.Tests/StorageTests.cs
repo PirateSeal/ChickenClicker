@@ -1,88 +1,95 @@
-﻿using ChickenFarmer.Model;
-using NUnit.Framework;
-using System;
+﻿//#region Usings
 
-namespace ChickenFarmer.Tests
-{
-    [TestFixture]
-    class StorageTests
-    {
-        [Test]
-        public void Create_Storage_On_Farm_Creation()
-        {
-            Farm farm = new Farm();
+//using System;
+//using System.Reflection;
+//using ChickenFarmer.Model;
+//using NUnit.Framework;
 
-            Assert.That(farm.Storage.SeedCapacity == 1000);
-        }
+//#endregion
 
-        [TestCase(150, Market.StorageType.Seed)]
-        [TestCase(150, Market.StorageType.Vegetable)]
-        [TestCase(150, Market.StorageType.Meat)]
-        [TestCase(150, Market.StorageType.None)]
-        public void Buy_Food(int amount, Market.StorageType storageType)
-        {
-            Farm farm = new Farm { Money = 5000 };
+//namespace ChickenFarmer.Tests
+//{
+//    [TestFixture]
+//    public class StorageTests
+//    {
+//        [TestCase(150, typeof(SeedStorage))]
+//        [TestCase(150, typeof(VegetableStorage))]
+//        [TestCase(150, typeof(MeatStorage))]
+//        [TestCase(150, typeof(EggStorage))]
+//        public void Buy_Food(int amount, Type type)
+//        {
+//            Type testsType = typeof(StorageTests);
+//            MethodInfo method = testsType.GetMethod(nameof(Buy_Food),
+//                BindingFlags.NonPublic | BindingFlags.Instance, null,
+//                new[] { typeof(int) }, null);
+//            method = method?.MakeGenericMethod(type);
+//            method?.Invoke(this, new object[] { amount });
+//        }
 
-            switch (storageType)
-            {
-                case Market.StorageType.Seed:
-                    farm.Market.BuyFood(amount, storageType);
-                    Assert.That(farm.Storage.SeedCapacity == farm.Options.DefaultSeedCapacity + amount);
-                    Assert.That(farm.Money == (5000 - amount * farm.Options.SeedPrice));
-                    break;
-                case Market.StorageType.Vegetable:
-                    farm.Market.BuyFood(amount, storageType);
-                    Assert.That(farm.Storage.VegetableCapacity == farm.Options.DefaultVegetableCapacity + amount);
-                    Assert.That(farm.Money == (5000 - amount * farm.Options.VegetablePrice));
-                    break;
-                case Market.StorageType.Meat:
-                    farm.Market.BuyFood(amount, storageType);
-                    Assert.That(farm.Storage.MeatCapacity == farm.Options.DefaultMeatCapacity + amount);
-                    Assert.That(farm.Money == (5000 - amount * farm.Options.MeatPrice));
-                    break;
-                default:
-                    Assert.Throws<ArgumentException>(() => farm.Market.BuyFood(150, storageType));
-                    break;
-            }
-        }
+//        private void Buy_Food<TStorageType>(int amount)
+//            where TStorageType : IStorage
+//        {
+//            Farm farm = new Farm { Money = 5000 };
+//            farm.Buildings.Build<TStorageType>(1, 1);
+//            farm.Buildings.Build<Market>(1, 2);
 
-        [TestCase(Market.StorageType.Seed)]
-        [TestCase(Market.StorageType.Vegetable)]
-        [TestCase(Market.StorageType.Meat)]
-        [TestCase(Market.StorageType.Egg)]
-        [TestCase(Market.StorageType.None)]
-        public void Upgrade_All_Storages(Market.StorageType storageType)
-        {
-            Farm farm = new Farm { Money = 5000 };
-            Storage storage = farm.Storage;
+//            farm.Buildings.FindBuilding<Market>(1, 2).
+//                BuyFood<TStorageType>(amount);
+//            IStorage storage = farm.Buildings.FindStorage<TStorageType>();
+//            Assert.That(storage.Capacity,
+//                Is.EqualTo(storage.Factory.DefaultCapacity + amount));
+//            Assert.That(farm.Money == 5000 - amount * storage.Value);
+//        }
 
+//        [TestCase(typeof(SeedStorage))]
+//        [TestCase(typeof(VegetableStorage))]
+//        [TestCase(typeof(MeatStorage))]
+//        [TestCase(typeof(EggStorage))]
+//        public void Upgrade_All_Storages(Type type)
+//        {
+//            Type testsType = typeof(StorageTests);
+//            MethodInfo method = testsType.GetMethod(
+//                nameof(Upgrade_All_Storages),
+//                BindingFlags.NonPublic | BindingFlags.Instance, null,
+//                new[] { typeof(int) }, null);
+//            method = method?.MakeGenericMethod(type);
+//            method?.Invoke(this, null);
+//        }
 
-            switch (storageType)
-            {
-                case Market.StorageType.Seed:
-                    farm.Market.UpgradeStorage(storageType);
-                    Assert.That(farm.Money == (5000 - (farm.Options.DefaultStorageUpgradeCost * (storage.SeedCapacityLevel))));
-                    Assert.That(storage.SeedMaxCapacity == 20000);
-                    break;
-                case Market.StorageType.Vegetable:
-                    farm.Market.UpgradeStorage(storageType);
-                    Assert.That(farm.Money == (5000 - (farm.Options.DefaultStorageUpgradeCost * (storage.VegetableCapacityLevel))));
-                    Assert.That(storage.VegetableMaxCapacity == 20000);
-                    break;
-                case Market.StorageType.Meat:
-                    farm.Market.UpgradeStorage(storageType);
-                    Assert.That(farm.Money == (5000 - (farm.Options.DefaultStorageUpgradeCost * (storage.MeatCapacityLevel))));
-                    Assert.That(storage.MeatMaxCapacity == 20000);
-                    break;
-                case Market.StorageType.Egg:
-                    farm.Market.UpgradeStorage(storageType);
-                    Assert.That(farm.Money == (5000 - (farm.Options.DefaultStorageUpgradeCost * (storage.EggCapacityLevel))));
-                    Assert.That(storage.EggMaxCapacity == 10000);
-                    break;
-                default:
-                    Assert.Throws<ArgumentException>(() => farm.Market.UpgradeStorage(storageType));
-                    break;
-            }
-        }
-    }
-}
+//        private void Upgrade_All_Storages<TStorageType>()
+//            where TStorageType : class, IStorage
+//        {
+//            Farm farm = new Farm { Money = 5000 };
+//            farm.Buildings.Build<TStorageType>(1, 1);
+//            farm.Buildings.Build<Market>(1, 2);
+
+//            if ( typeof(TStorageType) == typeof(IStorage) )
+//            {
+//                farm.Buildings.FindBuilding<Market>(1, 2).
+//                    UpgradeStorage<TStorageType>();
+//                Assert.That(farm.Money == 5000 -
+//                            FarmOptions.DefaultStorageUpgradeCost * farm.
+//                                Buildings.FindBuilding<TStorageType>(1, 1).
+//                                Lvl);
+//                Assert.That(farm.Buildings.FindBuilding<TStorageType>(1, 1).
+//                                MaxCapacity == 20000);
+//            }
+//            else
+//            {
+//                Assert.Throws<ArgumentException>(() => farm.Buildings.
+//                    FindBuilding<Market>(1, 2).
+//                    UpgradeStorage<TStorageType>());
+//            }
+//        }
+
+//        [Test]
+//        public void Create_Storage_On_Farm_Creation()
+//        {
+//            Farm farm = new Farm();
+//            farm.Buildings.Build<SeedStorage>(1, 1);
+
+//            Assert.That(farm.Buildings.FindStorage<SeedStorage>().
+//                Capacity, Is.EqualTo(1000));
+//        }
+//    }
+//}

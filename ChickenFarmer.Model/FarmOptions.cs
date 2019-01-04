@@ -1,124 +1,116 @@
+#region Usings
+
+using System;
+using System.Collections.Generic;
+
+#endregion
+
 namespace ChickenFarmer.Model
 {
-    public class FarmOptions
+    public static class FarmOptions
     {
-        int _defaultMoney;
-        int _defaultCapacity;
-        int _defaultHenhouseLimit;
-        int[] _upgradeHouseCost;
-        int _defaultLayByMinute;
-        int[] _defaultChickenCost;
-        int _defaultHenHouseCost;
-        int _defaultStorageUpgradeCost;
-
-        int _defaultEggCapacity;
-        readonly int _defaultEggMaxCapacity;
-
-        readonly int _defaultFoodConsumption;
-        readonly int _defaultStorageLevel;
-        readonly int _defaultStorageMaxLevel;
-
-        readonly int _defaultSeedPrice;
-        readonly int _defaultVegetablePrice;
-        readonly int _defaultMeatPrice;
-
-        readonly int _defaultSeedCapacity;
-        readonly int _defaultSeedMaxCapacity;
-        readonly int _defaultVegetableCapacity;
-        readonly int _defaultVegetableMaxCapacity;
-        readonly int _defaultMeatCapacity;
-        readonly int _defaultMeatMaxCapacity;
-
-        public FarmOptions()
+        static FarmOptions()
         {
-            _defaultMoney = 100;
-            _defaultCapacity = 4;
-            _defaultHenhouseLimit = 10;
-            _upgradeHouseCost = new int[] { 10, 20, 30, 40 };
-            _defaultLayByMinute = 0;
-            _defaultChickenCost = new int[] { 10, 20, 30, 40 };
-            _defaultHenHouseCost = 150;
-            _defaultFoodConsumption = 2;
-            _defaultStorageLevel = 0;
-            _defaultStorageMaxLevel = 3;
-            _defaultStorageUpgradeCost = 250;
+            DefaultPlayerLife = 10;
+            DefaultPlayerMaxSpeed = 0.5f;
+            DefaultMoney = 100;
+            DefaultHenhouseCapacity = 4;
+            DefaultStorageCapacity = 1;
+            DefaultHenHouseLimit = 10;
+            DefaultMaxUpgrade = 4;
+            DefaultLayByMinute = 0;
+            DefaultChickenCost = new[] { 10, 20, 30, 40 };
 
-            _defaultSeedPrice = 3;
-            _defaultVegetablePrice = 5;
-            _defaultMeatPrice = 10;
+            DefaultHenhouseBuildTime = 20;
 
-            _defaultEggCapacity = 0;
-            _defaultEggMaxCapacity = 5000;
-            _defaultSeedCapacity = 1000;
-            _defaultVegetableCapacity = 0;
-            _defaultMeatCapacity = 0;
-            _defaultSeedMaxCapacity = 10000;
-            _defaultVegetableMaxCapacity = 10000;
-            _defaultMeatMaxCapacity = 10000;
+            DefaultFoodConsumption = 0.1f;
+            DefaultStorageLevel = 0;
+            DefaultStorageMaxLevel = 3;
+
+            SeedPrice = 3;
+            VegetablePrice = 5;
+            MeatPrice = 10;
+            EggValue = 2;
+
+            DefaultBuildingPrices = new Dictionary<Type, int>
+            {
+                { typeof(Henhouse), 20 }, { typeof(StorageSeed), 10 }, { typeof(StorageVegetable), 20 },
+                { typeof(StorageMeat), 30 }
+            };
+
+            DefaultUpgradePrices = new Dictionary<Type, int>
+            {
+                { typeof(Henhouse), 10 }, { typeof(StorageSeed), 10 }, { typeof(StorageVegetable), 20 },
+                { typeof(StorageMeat), 30 }
+            };
+
+            DefaultEggCapacity = 0;
+            DefaultEggMaxCapacity = 5000;
+
+            DefaultSeedCapacity = 1000;
+            DefaultSeedMaxCapacity = 10000;
+            DefaultSeedRackPrice = 10;
+
+            DefaultVegetableCapacity = 0;
+            DefaultVegetableMaxCapacity = 10000;
+            DefaultVegetableRackPrice = 15;
+
+            DefaultMeatCapacity = 0;
+            DefaultMeatMaxCapacity = 10000;
+            DefaultMeatRackPrice = 20;
         }
 
-        public int DefaultMoney
-        {
-            get => _defaultMoney;
-            set => _defaultMoney = value;
-        }
+        public static int DefaultVegetableStorageCost { get; set; }
 
-        public int DefaultCapacity
-        {
-            get => _defaultCapacity;
-            set => _defaultCapacity = value;
-        }
+        public static int DefaultMeatStorageCost { get; set; }
 
-        public int DefaultHenHouseLimit
-        {
-            get => _defaultHenhouseLimit;
-            set => _defaultHenhouseLimit = value;
-        }
+        public static int DefaultSeedStorageCost { get; set; }
 
-        public int[] UpgradeHouseCost
-        {
-            get => _upgradeHouseCost;
-            set => _upgradeHouseCost = value;
-        }
+        public static Dictionary<Type, int> DefaultBuildingPrices { get; }
+        public static int DefaultSeedRackPrice { get; }
 
-        public int DefaultLayByMinute
-        {
-            get => _defaultLayByMinute;
-            set => _defaultLayByMinute = value;
-        }
+        public static int DefaultVegetableRackPrice { get; }
 
-        public int[] DefaultChickenCost
-        {
-            get => _defaultChickenCost;
-            set => _defaultChickenCost = value;
-        }
+        public static int DefaultMeatRackPrice { get; }
 
-        public int DefaultHenHouseCost
-        {
-            get => _defaultHenHouseCost;
-            set => _defaultHenHouseCost = value;
-        }
+        private static int DefaultStorageCapacity { get; }
 
-        public int SeedPrice => _defaultSeedPrice;
-        public int VegetablePrice => _defaultVegetablePrice;
-        public int MeatPrice => _defaultMeatPrice;
+        public static int DefaultMoney { get; }
 
+        public static int DefaultHenHouseLimit { get; }
 
-        public int DefaultFoodConsumption => _defaultFoodConsumption;
-        public int DefaultStorageLevel => _defaultStorageLevel;
-        public int DefaultStorageMaxLevel => _defaultStorageMaxLevel;
-        public int DefaultStorageUpgradeCost => _defaultStorageUpgradeCost;
+        private static int DefaultLayByMinute { get; }
 
-        public int DefaultSeedCapacity => _defaultSeedCapacity;
-        public int DefaultSeedMaxCapacity => _defaultSeedMaxCapacity;
+        public static int[] DefaultChickenCost { get; }
 
-        public int DefaultVegetableCapacity => _defaultVegetableCapacity;
-        public int DefaultVegetableMaxCapacity => _defaultVegetableMaxCapacity;
+        public static int SeedPrice { get; }
+        public static int VegetablePrice { get; }
+        public static int MeatPrice { get; }
 
-        public int DefaultMeatCapacity => _defaultMeatCapacity;
-        public int DefaultMeatMaxCapacity => _defaultMeatMaxCapacity;
+        public static float DefaultFoodConsumption { get; }
+        public static int DefaultStorageLevel { get; }
+        public static int DefaultStorageMaxLevel { get; }
 
-        public int DefaultEggCapacity => _defaultEggCapacity;
-        public int DefaultEggMaxCapacity => _defaultEggMaxCapacity;
+        public static int DefaultSeedCapacity { get; }
+        public static int DefaultSeedMaxCapacity { get; }
+
+        public static int DefaultVegetableCapacity { get; }
+        public static int DefaultVegetableMaxCapacity { get; }
+
+        public static int DefaultMeatCapacity { get; }
+        public static int DefaultMeatMaxCapacity { get; }
+
+        public static int DefaultEggCapacity { get; }
+        public static int DefaultEggMaxCapacity { get; }
+
+        public static int DefaultMaxUpgrade { get; }
+
+        public static int DefaultHenhouseCapacity { get; }
+
+        public static int DefaultHenhouseBuildTime { get; }
+        public static int DefaultPlayerLife { get; }
+        public static float DefaultPlayerMaxSpeed { get; }
+        public static int EggValue { get; }
+        public static Dictionary<Type, int> DefaultUpgradePrices { get; }
     }
 }

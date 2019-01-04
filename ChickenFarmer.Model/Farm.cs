@@ -1,43 +1,41 @@
-﻿using System;
+﻿#region Usings
+
+#endregion
 
 namespace ChickenFarmer.Model
 {
     public class Farm
     {
-
-        readonly FarmOptions _options;
-        readonly Storage _storage;
-        readonly Market _market;
-        HenhouseCollections _Houses;
-        int _money;
-        int _TotalEgg;
-
         public Farm()
         {
-            _options = new FarmOptions();
-            _storage = new Storage(this, _options);
-            _market = new Market(this, _options);
-            _Houses = new HenhouseCollections(this, _options);
-            _money = _options.DefaultMoney;
-            _TotalEgg = 0;
+            Buildings = new BuildingCollection(this);
+            CollideCollection = new CollideCollection(this);
+            Money = FarmOptions.DefaultMoney;
+            Player = new Player(this);
         }
 
-        public void AddEgg() => _TotalEgg++;
+        public CollideCollection CollideCollection { get; }
+        public Player Player { get; }
+        public BuildingCollection Buildings { get; }
+        public int Money { get; set; }
+        private int Chickencount => Buildings.ChickenCount();
 
-        public void Update()
+        public void AddEgg()
         {
-            _Houses.Update();
-            Info();
+            Buildings.FindStorage<StorageEgg>().
+                Capacity ++;
         }
 
-        public void Info() => Console.WriteLine("money : {0} , " + "egg :{1} ," + " chicken {2} ", _money, _TotalEgg, Chickencount);
+        public void Update() { Buildings.Update(); }
 
-        public FarmOptions Options => _options;
-        public Storage Storage => _storage;
-        public int Money { get => _money; set => _money = value; }
-        public int TotalEgg { get => _TotalEgg; set => _TotalEgg = value; }
-        public HenhouseCollections Houses => _Houses;
-        public Market Market => _market;
-        public int Chickencount => _Houses.ChickenCount();
+        public int[] UIinfo()
+        {
+            return new[]
+            {
+                Money, Buildings.FindStorage<StorageEgg>().
+                    Capacity,
+                Chickencount, Buildings.DyingChickenCount()
+            };
+        }
     }
 }

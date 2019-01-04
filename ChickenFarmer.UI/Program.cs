@@ -2,11 +2,11 @@
 
 namespace ChickenFarmer.UI
 {
-    class Program
+    internal static class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
-            Game game = new Game(AppContext.BaseDirectory);
+            GameLoop game = new GameLoop();
             game.Run();
         }
     }
