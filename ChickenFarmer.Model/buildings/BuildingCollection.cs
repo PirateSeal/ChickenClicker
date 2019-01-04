@@ -17,9 +17,9 @@ namespace ChickenFarmer.Model
 
         public Dictionary<Type, IBuildingFactory> BuildingFactories { get; } = new Dictionary<Type, IBuildingFactory>
         {
-            { typeof(EggStorage), new EggStorageFactory() }, { typeof(SeedStorage), new SeedStorageFactory() },
-            { typeof(VegetableStorage), new VegetableStorageFactory() },
-            { typeof(MeatStorage), new MeatStorageFactory() }, { typeof(Market), new BuilderFactory() },
+            { typeof(StorageEgg), new EggStorageFactory() }, { typeof(StorageSeed), new SeedStorageFactory() },
+            { typeof(StorageVegetable), new VegetableStorageFactory() },
+            { typeof(StorageMeat), new MeatStorageFactory() }, { typeof(Market), new BuilderFactory() },
             { typeof(Henhouse), new HenhouseFactory() }
         };
 

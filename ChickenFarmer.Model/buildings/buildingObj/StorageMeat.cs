@@ -1,8 +1,8 @@
 ﻿namespace ChickenFarmer.Model
 {
-    public class MeatStorage : IStorage
+    public class StorageMeat : IStorage
     {
-        public MeatStorage(BuildingCollection ctx, IStorageFactory factory, Vector posVector)
+        public StorageMeat(BuildingCollection ctx, IStorageFactory factory, Vector posVector)
         {
             CtxCollection = ctx;
             PosVector = posVector;

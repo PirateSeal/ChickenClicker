@@ -1,8 +1,8 @@
 ﻿namespace ChickenFarmer.Model
 {
-    public class MeatRack : IRack
+    public class RackSeed : IRack
     {
-        public MeatRack(Henhouse ctx)
+        public RackSeed(Henhouse ctx)
         {
             CtxHenhouse = ctx;
             Capacity = 0;
@@ -14,24 +14,26 @@
 
         public int MaxCapacity
         {
-            get => 250;
+            get => 500;
             set { }
         }
 
         public int Lvl { get; set; }
-        public int UpgrageCost => FarmOptions.DefaultMeatRackPrice * Lvl;
+        public int UpgrageCost => FarmOptions.DefaultSeedRackPrice * Lvl;
 
         public int Fill(int amount)
         {
             int remain = 0;
-            if ( Capacity + amount <= MaxCapacity && amount <= CtxHenhouse.CtxCollection.FindStorage<MeatStorage>().
+            if ( Capacity + amount <= MaxCapacity && amount <= CtxHenhouse.CtxCollection.FindStorage<StorageSeed>().
                      Capacity )
             {
+                CtxHenhouse.CtxCollection.FindStorage<StorageSeed>().
+                    Capacity -= amount;
                 Capacity += amount;
             }
             else if ( Capacity + amount > MaxCapacity )
             {
-                CtxHenhouse.CtxCollection.FindStorage<MeatStorage>().
+                CtxHenhouse.CtxCollection.FindStorage<StorageSeed>().
                     Capacity -= amount;
                 Capacity = MaxCapacity;
                 remain = Capacity + amount - MaxCapacity;

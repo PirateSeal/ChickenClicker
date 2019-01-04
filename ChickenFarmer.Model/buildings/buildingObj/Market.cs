@@ -70,17 +70,17 @@ namespace ChickenFarmer.Model
 
         public static void Sellegg()
         {
-            CtxFarm.Money += 2 * CtxFarm.Buildings.FindStorage<EggStorage>().
+            CtxFarm.Money += 2 * CtxFarm.Buildings.FindStorage<StorageEgg>().
                                  Capacity;
-            CtxFarm.Buildings.FindStorage<EggStorage>().
+            CtxFarm.Buildings.FindStorage<StorageEgg>().
                 Capacity = 0;
         }
 
         public static void BuyRack<TRackType>(Henhouse henhouse) where TRackType : IRack
         {
-            if ( typeof(VegetableRack).IsAssignableFrom(typeof(TRackType)) &&
+            if ( typeof(RackVegetable).IsAssignableFrom(typeof(TRackType)) &&
                  CtxFarm.Money > FarmOptions.DefaultVegetableRackPrice )
-                henhouse.Racks.Add(new VegetableRack(henhouse));
+                henhouse.Racks.Add(new RackVegetable(henhouse));
             else if ( typeof(MeatRack).IsAssignableFrom(typeof(TRackType)) &&
                       CtxFarm.Money > FarmOptions.DefaultMeatRackPrice )
                 henhouse.Racks.Add(new MeatRack(henhouse));

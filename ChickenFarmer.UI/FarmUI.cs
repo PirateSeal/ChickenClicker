@@ -23,7 +23,7 @@ namespace ChickenFarmer.UI
 
 
             Farm.Buildings.Build<Henhouse>(600, 740);
-            Farm.Buildings.Build<EggStorage>(800, 740);
+            Farm.Buildings.Build<StorageEgg>(800, 740);
 
 
             CtxGame = ctx;

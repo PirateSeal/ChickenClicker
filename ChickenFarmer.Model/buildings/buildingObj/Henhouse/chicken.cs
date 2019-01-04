@@ -42,7 +42,7 @@ namespace ChickenFarmer.Model
         public void ChickenFeed()
         {
             if ( CtxHenhouse != null )
-                CtxHenhouse.CtxCollection.FindStorage<SeedStorage>().
+                CtxHenhouse.CtxCollection.FindStorage<StorageSeed>().
                     Capacity -= ( int ) Math.Round(Hunger);
             Hunger = 100;
         }
@@ -51,11 +51,11 @@ namespace ChickenFarmer.Model
         {
             foreach ( IRack rack in CtxHenhouse.Racks )
             {
-                if ( !(rack is MeatRack) )
+                if ( !(rack is RackMeat) )
                 {
-                    if ( !(rack is VegetableRack) )
+                    if ( !(rack is RackVegetable) )
                     {
-                        if ( !(rack is SeedRack) ) throw new InvalidOperationException("Incorrect Rack type");
+                        if ( !(rack is RackSeed) ) throw new InvalidOperationException("Incorrect Rack type");
                         if ( rack.Capacity > 0 )
                         {
                             rack.Capacity --;

@@ -14,7 +14,7 @@ namespace ChickenFarmer.Model
         {
             CtxCollection = ctx ?? throw new ArgumentNullException(nameof(ctx));
             PosVector = posVector;
-            Racks = new List<IRack> { new SeedRack(this) };
+            Racks = new List<IRack> { new RackSeed(this) };
             Factory = factory;
             MaxCapacity = FarmOptions.DefaultHenHouseLimit;
             Lvl = 0;
@@ -57,7 +57,7 @@ namespace ChickenFarmer.Model
 
         public void FeedAllChicken()
         {
-            if ( CtxCollection.FindStorage<SeedStorage>().
+            if ( CtxCollection.FindStorage<StorageSeed>().
                      Capacity < ToFeed(Chikens) )
                 return;
             foreach ( Chicken chicken in Chikens ) chicken.ChickenFeed();
@@ -65,7 +65,7 @@ namespace ChickenFarmer.Model
 
         public void FeedAllDyingChicken()
         {
-            if ( CtxCollection.FindStorage<SeedStorage>().
+            if ( CtxCollection.FindStorage<StorageSeed>().
                      Capacity < ToFeed(DyingChickens) )
                 return;
             foreach ( Chicken chicken in DyingChickens ) chicken.ChickenFeed();

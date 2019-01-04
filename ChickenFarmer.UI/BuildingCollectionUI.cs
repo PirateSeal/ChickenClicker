@@ -45,17 +45,17 @@ namespace ChickenFarmer.UI
                     houseTexture = CtxfarmUI.FarmOptionsUI.HenhouseTexture[building.Lvl];
                     type = MapTypes.InnerHenhouse;
                     
-                }else if(building is SeedStorage) {
+                }else if(building is StorageSeed) {
 
                     houseTexture = CtxfarmUI.FarmOptionsUI.StorageTexture[building.Lvl];
 
                 }
-                else if (building is EggStorage)
+                else if (building is StorageEgg)
                 {
                     houseTexture = CtxfarmUI.FarmOptionsUI.StorageTexture[building.Lvl];
        
                 }
-                else if (building is MeatStorage)
+                else if (building is StorageMeat)
                 {
                     houseTexture = CtxfarmUI.FarmOptionsUI.StorageTexture[building.Lvl];
 

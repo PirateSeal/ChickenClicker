@@ -22,7 +22,7 @@ namespace ChickenFarmer.Model
 
         public void AddEgg()
         {
-            Buildings.FindStorage<EggStorage>().
+            Buildings.FindStorage<StorageEgg>().
                 Capacity ++;
         }
 
@@ -32,7 +32,7 @@ namespace ChickenFarmer.Model
         {
             return new[]
             {
-                Money, Buildings.FindStorage<EggStorage>().
+                Money, Buildings.FindStorage<StorageEgg>().
                     Capacity,
                 Chickencount, Buildings.DyingChickenCount()
             };

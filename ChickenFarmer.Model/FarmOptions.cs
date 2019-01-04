@@ -34,14 +34,14 @@ namespace ChickenFarmer.Model
 
             DefaultBuildingPrices = new Dictionary<Type, int>
             {
-                { typeof(Henhouse), 20 }, { typeof(SeedStorage), 10 }, { typeof(VegetableStorage), 20 },
-                { typeof(MeatStorage), 30 }
+                { typeof(Henhouse), 20 }, { typeof(StorageSeed), 10 }, { typeof(StorageVegetable), 20 },
+                { typeof(StorageMeat), 30 }
             };
 
             DefaultUpgradePrices = new Dictionary<Type, int>
             {
-                { typeof(Henhouse), 10 }, { typeof(SeedStorage), 10 }, { typeof(VegetableStorage), 20 },
-                { typeof(MeatStorage), 30 }
+                { typeof(Henhouse), 10 }, { typeof(StorageSeed), 10 }, { typeof(StorageVegetable), 20 },
+                { typeof(StorageMeat), 30 }
             };
 
             DefaultEggCapacity = 0;
