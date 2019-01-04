@@ -17,18 +17,22 @@ namespace ChickenFarmer.Model
 
         public Dictionary<Type, IBuildingFactory> BuildingFactories { get; } = new Dictionary<Type, IBuildingFactory>
         {
-            { typeof(StorageEgg), new EggStorageFactory() }, { typeof(StorageSeed), new SeedStorageFactory() },
+            { typeof(StorageEgg), new EggStorageFactory() },
+            { typeof(StorageSeed), new SeedStorageFactory() },
             { typeof(StorageVegetable), new VegetableStorageFactory() },
-            { typeof(StorageMeat), new MeatStorageFactory() }, { typeof(Market), new BuilderFactory() },
-            { typeof(Henhouse), new HenhouseFactory() }
+            { typeof(StorageMeat), new MeatStorageFactory() },
+            { typeof(Market), new BuilderFactory() },
+            { typeof(Henhouse), new HenhouseFactory() },
+            {typeof(Builder),new BuilderFactory() },
+            {typeof(ChickenStore),new ChickenStoreFactory() }
         };
 
         public Farm CtxFarm { get; }
         public List<IBuilding> BuildingList { get; }
 
-        public IStorage FindStorage<TStorageType>()
+        public IStorage FindStorage<TStorageType>() where  TStorageType : IStorage
         {
-            return BuildingList.Find(storage => storage is TStorageType) as IStorage;
+            return ( IStorage ) BuildingList.Find(storage => storage is TStorageType);
         }
 
         public List<TBuildingType> GetBuildingInListByType<TBuildingType>() where TBuildingType : IBuilding
@@ -51,7 +55,7 @@ namespace ChickenFarmer.Model
 
             BuildingFactories.TryGetValue(typeof(TBuildingType), out IBuildingFactory factory);
             if ( factory == null )
-                throw new InvalidOperationException("This building doesn't have a factory to create it");
+                throw new InvalidOperationException($"This building ({typeof(TBuildingType)}) doesn't have a factory to create it");
             if ( !factory.IsEnabled )
                 throw new InvalidOperationException("Factory not enabled. Max building limit reached !");
             IBuilding building = factory.Create(this, new Vector(xCoord, yCoord));

@@ -7,7 +7,8 @@
             CtxCollection = ctx;
             PosVector = posVector;
             Factory = factory;
-            Capacity = FarmOptions.DefaultVegetableCapacity;
+            FarmOptions.DefaultStorageCapacity.TryGetValue(typeof(StorageVegetable), out int capacity);
+            Capacity = capacity;
             MaxCapacity = FarmOptions.DefaultVegetableMaxCapacity;
         }
 

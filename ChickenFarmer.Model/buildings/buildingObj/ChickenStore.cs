@@ -1,6 +1,6 @@
 ﻿namespace ChickenFarmer.Model
 {
-    internal class ChickenStore : IBuilding
+    public class ChickenStore : IBuilding
     {
         public ChickenStore(BuildingCollection ctxCollection, IBuildingFactory factory, Vector posVector)
         {

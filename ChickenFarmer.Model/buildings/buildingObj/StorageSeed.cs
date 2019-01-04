@@ -8,7 +8,8 @@
             CtxCollection = ctx;
             PosVector = posVector;
             Factory = factory;
-            Capacity = FarmOptions.DefaultSeedCapacity;
+            FarmOptions.DefaultStorageCapacity.TryGetValue(typeof(StorageSeed), out int capacity);
+            Capacity = capacity;
             MaxCapacity = FarmOptions.DefaultSeedMaxCapacity;
         }
 

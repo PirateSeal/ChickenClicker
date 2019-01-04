@@ -7,7 +7,8 @@
             CtxCollection = ctx;
             PosVector = posVector;
             Factory = factory;
-            Capacity = FarmOptions.DefaultMeatCapacity;
+            FarmOptions.DefaultStorageCapacity.TryGetValue(typeof(StorageMeat), out int capacity);
+            Capacity = capacity;
             MaxCapacity = FarmOptions.DefaultMeatMaxCapacity;
         }
 
@@ -18,7 +19,7 @@
 
         public void Upgrade()
         {
-            Lvl ++;
+            Lvl++;
             MaxCapacity *= Lvl;
         }
 

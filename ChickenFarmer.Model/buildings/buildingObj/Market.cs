@@ -12,9 +12,9 @@ using System;
 
 namespace ChickenFarmer.Model
 {
-    public abstract class Market
+    public class Market
     {
-        protected Market(Farm ctx) { CtxFarm = ctx; }
+        internal Market(Farm ctx) { CtxFarm = ctx; }
 
         public static Farm CtxFarm { get; set; }
 
@@ -81,9 +81,9 @@ namespace ChickenFarmer.Model
             if ( typeof(RackVegetable).IsAssignableFrom(typeof(TRackType)) &&
                  CtxFarm.Money > FarmOptions.DefaultVegetableRackPrice )
                 henhouse.Racks.Add(new RackVegetable(henhouse));
-            else if ( typeof(MeatRack).IsAssignableFrom(typeof(TRackType)) &&
+            else if ( typeof(RackMeat).IsAssignableFrom(typeof(TRackType)) &&
                       CtxFarm.Money > FarmOptions.DefaultMeatRackPrice )
-                henhouse.Racks.Add(new MeatRack(henhouse));
+                henhouse.Racks.Add(new RackMeat(henhouse));
         }
 
         public static void BuyBuilding<TBuildingType>(float xCoord, float yCoord) where TBuildingType : IBuilding

@@ -1,8 +1,8 @@
 ﻿namespace ChickenFarmer.Model
 {
-    public class MeatRack : IRack
+    public class RackMeat : IRack
     {
-        public MeatRack(Henhouse ctx)
+        public RackMeat(Henhouse ctx)
         {
             CtxHenhouse = ctx;
             Capacity = 0;

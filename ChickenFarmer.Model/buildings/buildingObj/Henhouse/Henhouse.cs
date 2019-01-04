@@ -61,6 +61,7 @@ namespace ChickenFarmer.Model
                      Capacity < ToFeed(Chikens) )
                 return;
             foreach ( Chicken chicken in Chikens ) chicken.ChickenFeed();
+            DyingChickens.Clear();
         }
 
         public void FeedAllDyingChicken()

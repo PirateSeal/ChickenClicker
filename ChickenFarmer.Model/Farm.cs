@@ -12,8 +12,10 @@ namespace ChickenFarmer.Model
             CollideCollection = new CollideCollection(this);
             Money = FarmOptions.DefaultMoney;
             Player = new Player(this);
+            Market = new Market(this);
         }
 
+        private Market Market { get; }
         public CollideCollection CollideCollection { get; }
         public Player Player { get; }
         public BuildingCollection Buildings { get; }

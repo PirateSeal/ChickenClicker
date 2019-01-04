@@ -15,7 +15,6 @@ namespace ChickenFarmer.Model
             DefaultPlayerMaxSpeed = 0.5f;
             DefaultMoney = 100;
             DefaultHenhouseCapacity = 4;
-            DefaultStorageCapacity = 1;
             DefaultHenHouseLimit = 10;
             DefaultMaxUpgrade = 4;
             DefaultLayByMinute = 0;
@@ -34,28 +33,37 @@ namespace ChickenFarmer.Model
 
             DefaultBuildingPrices = new Dictionary<Type, int>
             {
-                { typeof(Henhouse), 20 }, { typeof(StorageSeed), 10 }, { typeof(StorageVegetable), 20 },
+                { typeof(Henhouse), 20 },
+                { typeof(StorageSeed), 10 },
+                { typeof(StorageVegetable), 20 },
                 { typeof(StorageMeat), 30 }
             };
 
             DefaultUpgradePrices = new Dictionary<Type, int>
             {
-                { typeof(Henhouse), 10 }, { typeof(StorageSeed), 10 }, { typeof(StorageVegetable), 20 },
+                { typeof(Henhouse), 10 },
+                { typeof(StorageSeed), 10 },
+                { typeof(StorageVegetable), 20 },
                 { typeof(StorageMeat), 30 }
+            };
+
+            DefaultStorageCapacity = new Dictionary<Type, int>
+            {
+                {typeof(StorageEgg), 0 },
+                {typeof(StorageSeed),0 },
+                {typeof(StorageVegetable),0},
+                {typeof(StorageMeat),0 }
             };
 
             DefaultEggCapacity = 0;
             DefaultEggMaxCapacity = 5000;
 
-            DefaultSeedCapacity = 1000;
             DefaultSeedMaxCapacity = 10000;
             DefaultSeedRackPrice = 10;
 
-            DefaultVegetableCapacity = 0;
             DefaultVegetableMaxCapacity = 10000;
             DefaultVegetableRackPrice = 15;
 
-            DefaultMeatCapacity = 0;
             DefaultMeatMaxCapacity = 10000;
             DefaultMeatRackPrice = 20;
         }
@@ -73,7 +81,7 @@ namespace ChickenFarmer.Model
 
         public static int DefaultMeatRackPrice { get; }
 
-        private static int DefaultStorageCapacity { get; }
+        public static Dictionary<Type, int> DefaultStorageCapacity { get; }
 
         public static int DefaultMoney { get; }
 
@@ -91,13 +99,10 @@ namespace ChickenFarmer.Model
         public static int DefaultStorageLevel { get; }
         public static int DefaultStorageMaxLevel { get; }
 
-        public static int DefaultSeedCapacity { get; }
         public static int DefaultSeedMaxCapacity { get; }
 
-        public static int DefaultVegetableCapacity { get; }
         public static int DefaultVegetableMaxCapacity { get; }
 
-        public static int DefaultMeatCapacity { get; }
         public static int DefaultMeatMaxCapacity { get; }
 
         public static int DefaultEggCapacity { get; }
