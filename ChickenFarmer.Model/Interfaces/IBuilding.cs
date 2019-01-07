@@ -1,4 +1,6 @@
-﻿namespace ChickenFarmer.Model
+﻿using System.Xml.Linq;
+
+namespace ChickenFarmer.Model
 {
     public interface IBuilding
     {
@@ -7,5 +9,6 @@
         int Lvl { get; set; }
         IBuildingFactory Factory { get; }
         void Upgrade();
+        XElement Serialize();
     }
 }
