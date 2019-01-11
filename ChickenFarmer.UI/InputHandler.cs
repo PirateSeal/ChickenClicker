@@ -152,6 +152,9 @@ namespace ChickenFarmer.UI
                  !Keyboard.IsKeyPressed(Keyboard.Key.Q) && !Keyboard.IsKeyPressed(Keyboard.Key.S) )
                 CtxGameLoop.FarmUI.PlayerUI.AnimFrame = 0;
 
+            if (!Keyboard.IsKeyPressed(Keyboard.Key.Z) && !Keyboard.IsKeyPressed(Keyboard.Key.D) && !Keyboard.IsKeyPressed(Keyboard.Key.Q) && !Keyboard.IsKeyPressed(Keyboard.Key.S))
+                CtxGameLoop.FarmUI.PlayerUI.AnimFrame = 0;
+
          
         }
     }
