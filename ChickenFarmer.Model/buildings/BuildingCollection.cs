@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -17,24 +18,24 @@ namespace ChickenFarmer.Model
             BuildingList = new List<IBuilding>();
         }
 
-        public BuildingCollection(Farm ctx, XContainer xElement) : this(ctx)
+        public BuildingCollection(Farm ctx, XElement buildings) : this(ctx)
         {
-            XElement xBuildingCollection = xElement.Element("BuildingCollection");
-            XElement xBuildingList = xBuildingCollection?.Element("BuildingList");
-            
+            BuildingList.AddRange(  buildings.Elements().Select( element => BuildingFactories[ Type.GetType( "ChickenFarmer.Model." + element.Name ) ?? throw new InvalidOperationException(nameof(element)) ].Create(this, element )  ) );
         }
 
-        public XContainer Serialize()
+        public XElement ToXml()
         {
-            return new XElement("BuildingCollection",
-                new XElement("BuildingList", BuildingList.Select(building => building.Serialize())));
+            return new XElement("Buildings", BuildingList.Select(building => building.ToXml()));
         }
 
         public Dictionary<Type, IBuildingFactory> BuildingFactories { get; } = new Dictionary<Type, IBuildingFactory>
         {
-            { typeof(StorageEgg), new EggStorageFactory() }, { typeof(StorageSeed), new SeedStorageFactory() },
+            { typeof(StorageEgg), new EggStorageFactory() },
+            { typeof(StorageSeed), new SeedStorageFactory() },
             { typeof(StorageVegetable), new VegetableStorageFactory() },
-            { typeof(StorageMeat), new MeatStorageFactory() }, { typeof(Market), new BuilderFactory() },
+            { typeof(StorageMeat), new MeatStorageFactory() },
+            { typeof(Builder), new BuilderFactory() },
+            { typeof(ChickenStore), new ChickenStoreFactory() },
             { typeof(Henhouse), new HenhouseFactory() }
         };
 

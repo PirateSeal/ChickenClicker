@@ -9,6 +9,6 @@ namespace ChickenFarmer.Model
         int Lvl { get; set; }
         IBuildingFactory Factory { get; }
         void Upgrade();
-        XElement Serialize();
+        XElement ToXml();
     }
 }

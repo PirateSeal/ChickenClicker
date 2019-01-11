@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 
 #endregion
 
@@ -20,8 +21,20 @@ namespace ChickenFarmer.Model
             Lvl = 0;
             Chikens = new List<Chicken>(MaxCapacity * Lvl);
             DyingChickens = new List<Chicken>();
-            var interactionZonePos = new Vector(posVector.X + 20, PosVector.Y + 96);
+            Vector interactionZonePos = new Vector(posVector.X + 20, PosVector.Y + 96);
             InteractionZone = new InteractionZone(interactionZonePos, 15, 15);
+        }
+
+        public XElement ToXml()
+        {
+            return new XElement("Henhouse",
+                new XAttribute("xCoord",PosVector.X),
+                new XAttribute("yCoord",PosVector.Y),
+                new XAttribute("MaxCapacity",MaxCapacity),
+                new XAttribute("Level",Lvl),
+                new XElement("ChickenList",Chikens.Select(chicken => chicken.ToXml())),
+                new XElement("Racks",Racks.Select(rack => rack.ToXml()))
+                );
         }
 
         public List<IRack> Racks { get; }
@@ -94,8 +107,12 @@ namespace ChickenFarmer.Model
                 if ( chicken.CheckIfStarving && !FindDyingChicken(chicken) ) DyingChickens.Add(chicken);
             }
 
-            if ( !CheckIfAllDyingAreFed() ) KillStarvingChicken();
+            if ( !CheckIfAllDyingAreFed() ) CleanupDiedChicken();
         }
+
+        public IEnumerable<Chicken> DyingChickens2 => Chikens.Where(c => c.Hunger <= 25);
+        public IEnumerable<Chicken> DiedChickens => Chikens.Where(c => c.Hunger <= 0);
+
 
         private bool CheckIfAllDyingAreFed()
         {
@@ -105,10 +122,9 @@ namespace ChickenFarmer.Model
             return true;
         }
 
-        private void KillStarvingChicken()
+        private void CleanupDiedChicken()
         {
-            foreach ( Chicken chicken in DyingChickens )
-                if ( chicken.Hunger <= 0 )
+            foreach ( Chicken chicken in DiedChickens.ToList() )
                 {
                     chicken.Die();
                     Chikens.Remove(chicken);

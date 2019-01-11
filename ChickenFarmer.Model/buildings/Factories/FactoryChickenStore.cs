@@ -1,12 +1,16 @@
-﻿namespace ChickenFarmer.Model
+﻿using System.Xml.Linq;
+
+namespace ChickenFarmer.Model
 {
     internal class ChickenStoreFactory : IBuildingFactory
     {
         public IBuilding Create(BuildingCollection ctx, Vector posVector)
         {
             NbrBuilt ++;
-            return new Builder(ctx, this, posVector);
+            return new ChickenStore(ctx, this, posVector);
         }
+
+        public IBuilding Create(BuildingCollection ctx, XElement xElement) { throw new System.NotImplementedException(); }
 
         public void OnRemove(IBuilding building) { NbrBuilt --; }
         public int NbrBuilt { get; set; }

@@ -1,4 +1,6 @@
-﻿namespace ChickenFarmer.Model
+﻿using System.Xml.Linq;
+
+namespace ChickenFarmer.Model
 {
     internal class EggStorageFactory : IStorageFactory
     {
@@ -7,6 +9,8 @@
             NbrBuilt ++;
             return new StorageEgg(ctx, this, posVector);
         }
+
+        public IBuilding Create(BuildingCollection ctx, XElement xElement) { throw new System.NotImplementedException(); }
 
         public void OnRemove(IBuilding building) { NbrBuilt --; }
 

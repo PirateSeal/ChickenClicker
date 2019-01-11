@@ -19,7 +19,7 @@
 //            Assert.That(henhouse.Racks.Count, Is.EqualTo(3));
 //            //Assert.That(henhouse.Racks.Find(rack => rack is SeedRack).Lvl, Is.EqualTo(1));
 //            Assert.That(henhouse.Racks.Find(rack => rack is VegetableRack).Lvl, Is.EqualTo(0));
-//            Assert.That(henhouse.Racks.Find(rack => rack is MeatRack).Lvl, Is.EqualTo(0));
+//            Assert.That(henhouse.Racks.Find(rack => rack is RackMeat).Lvl, Is.EqualTo(0));
 
 //            Assert.That(henhouse.Racks.Find(rack => rack is SeedRack).CtxHenhouse, Is.EqualTo(henhouse));
 //            Assert.That(henhouse.Racks.Find(rack => rack is SeedRack).Capacity, Is.EqualTo(0));
@@ -28,7 +28,7 @@
 
 //        [TestCase(150, typeof(SeedRack))]
 //        [TestCase(150, typeof(VegetableRack))]
-//        [TestCase(150, typeof(MeatRack))]
+//        [TestCase(150, typeof(RackMeat))]
 //        public void Fill_Rack(int amount, Type rackType)
 //        {
 //            Type testsType = typeof(RacksTests);

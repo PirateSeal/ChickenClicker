@@ -15,21 +15,22 @@ namespace ChickenFarmer.Model
             CollideCollection = new CollideCollection(this);
             Money = FarmOptions.DefaultMoney;
             Player = new Player(this);
+            Market = new Market(this);
         }
 
-        internal Farm(XContainer xElement) : this()
+        public Farm(XContainer xElement) : this()
         {
             Money = int.Parse(xElement.Element("Money")?.Value ?? throw new InvalidOperationException("No money saved found"));
             XElement xBuildings = xElement.Element("Buildings");
             BuildingCollection buildingCollection = new BuildingCollection(this, xBuildings);
         }
 
-        public XElement Serialize()
+        public XElement ToXml()
         {
             return new XElement("Farm",
-                new XElement("Money", Money),
-                new XElement("Buildings", Buildings.Serialize()),
-                new XElement("Player", Player.Serialize()));
+                new XAttribute("Money", Money),
+                new XElement("Farm.Buildings", Buildings.ToXml()),
+                new XElement("Farm.Player", Player.ToXml()));
         }
 
         private Market Market { get; }
