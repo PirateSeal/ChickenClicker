@@ -1,9 +1,8 @@
 ﻿#region Usings
-using System;
+
 using System.Xml.Linq;
 
 #endregion
-
 
 namespace ChickenFarmer.Model
 {
@@ -18,19 +17,13 @@ namespace ChickenFarmer.Model
             Market = new Market(this);
         }
 
-        public Farm(XContainer xElement) : this()
+        public Farm(XElement xElement)
         {
-            Money = int.Parse(xElement.Element("Money")?.Value ?? throw new InvalidOperationException("No money saved found"));
+            Money = int.Parse(( string ) xElement.Attribute("Money"));
+            CollideCollection = new CollideCollection(this);
             XElement xBuildings = xElement.Element("Buildings");
-            BuildingCollection buildingCollection = new BuildingCollection(this, xBuildings);
-        }
-
-        public XElement ToXml()
-        {
-            return new XElement("Farm",
-                new XAttribute("Money", Money),
-                new XElement("Farm.Buildings", Buildings.ToXml()),
-                new XElement("Farm.Player", Player.ToXml()));
+            Buildings = new BuildingCollection(this, xBuildings);
+            Player = new Player(this, xElement);
         }
 
         private Market Market { get; }
@@ -39,11 +32,12 @@ namespace ChickenFarmer.Model
         public BuildingCollection Buildings { get; }
         public int Money { get; set; }
 
-        public void AddEgg()
+        public XElement ToXml()
         {
-            Buildings.FindStorage<StorageEgg>().
-                Capacity++;
+            return new XElement("Farm", new XAttribute("Money", Money), Buildings.ToXml(), Player.ToXml());
         }
+
+        public void AddEgg() { Buildings.FindStorage<StorageEgg>().Capacity ++; }
 
         public void Update() { Buildings.Update(); }
 
@@ -51,9 +45,8 @@ namespace ChickenFarmer.Model
         {
             return new[]
             {
-                Money, Buildings.FindStorage<StorageEgg>().
-                    Capacity,
-                Buildings.ChickenCount(), Buildings.DyingChickenCount()
+                Money, Buildings.FindStorage<StorageEgg>().Capacity, Buildings.ChickenCount(),
+                Buildings.DyingChickenCount()
             };
         }
     }

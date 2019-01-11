@@ -1,4 +1,8 @@
-﻿using System.Xml.Linq;
+﻿#region Usings
+
+using System.Xml.Linq;
+
+#endregion
 
 namespace ChickenFarmer.Model
 {
@@ -13,7 +17,7 @@ namespace ChickenFarmer.Model
         public IBuilding Create(BuildingCollection ctx, XElement xElement)
         {
             NbrBuilt ++;
-            return new StorageMeat(ctx, this,  xElement);
+            return new StorageMeat(ctx, this, xElement);
         }
 
         public void OnRemove(IBuilding building) { NbrBuilt --; }

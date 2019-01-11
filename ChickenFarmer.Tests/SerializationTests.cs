@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Configuration;
+using System.IO;
 using System.Xml.Linq;
 using ChickenFarmer.Model;
 using NUnit.Framework;
@@ -29,6 +30,8 @@ namespace ChickenFarmer.Tests
             Farm resultFarm = new Farm(xElement);
 
             Assert.That(resultFarm.Money, Is.EqualTo(farm.Money));
+            Assert.That(resultFarm.Buildings.BuildingList.Count, Is.EqualTo(farm.Buildings.BuildingList.Count));
+            Assert.That(resultFarm.Buildings.ChickenCount(), Is.EqualTo(farm.Buildings.ChickenCount()));
         }
     }
 }

@@ -1,4 +1,8 @@
-﻿using System.Xml.Linq;
+﻿#region Usings
+
+using System.Xml.Linq;
+
+#endregion
 
 namespace ChickenFarmer.Model
 {
@@ -8,6 +12,6 @@ namespace ChickenFarmer.Model
         bool IsEnabled { get; }
         IBuilding Create(BuildingCollection ctx, Vector posVector);
         IBuilding Create(BuildingCollection ctx, XElement xElement);
-        void OnRemove(IBuilding        building);
+        void      OnRemove(IBuilding building);
     }
 }

@@ -47,7 +47,7 @@ namespace ChickenFarmer.Model
             DefaultEggCapacity = 0;
             DefaultEggMaxCapacity = 5000;
 
-            DefaultSeedCapacity = 1000;
+            DefaultSeedCapacity = 0;
             DefaultSeedMaxCapacity = 10000;
             DefaultSeedRackPrice = 10;
 

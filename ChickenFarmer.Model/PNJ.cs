@@ -10,9 +10,9 @@ namespace ChickenFarmer.Model
     {
         public Pnj(Farm ctxFarm, float xCoord, float yCoord)
         {
-            if ( xCoord <= 0 ) throw new ArgumentOutOfRangeException(nameof(xCoord));
-            if ( yCoord <= 0 ) throw new ArgumentOutOfRangeException(nameof(yCoord));
-            CtxFarm = ctxFarm ?? throw new ArgumentNullException(nameof(ctxFarm));
+            if ( xCoord <= 0 ) throw new ArgumentOutOfRangeException(nameof( xCoord ));
+            if ( yCoord <= 0 ) throw new ArgumentOutOfRangeException(nameof( yCoord ));
+            CtxFarm = ctxFarm ?? throw new ArgumentNullException(nameof( ctxFarm ));
             Position = new Vector(xCoord, yCoord);
             Life = FarmOptions.DefaultPlayerLife;
             Speed = FarmOptions.DefaultPlayerMaxSpeed;
