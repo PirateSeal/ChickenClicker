@@ -2,6 +2,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Xml.Linq;
 
 #endregion
 
@@ -15,27 +18,40 @@ namespace ChickenFarmer.Model
             BuildingList = new List<IBuilding>();
         }
 
+        public BuildingCollection(Farm ctx, XElement buildings) : this(ctx)
+        {
+            BuildingList.AddRange(  buildings.Elements().Select( element => BuildingFactories[ Type.GetType( "ChickenFarmer.Model." + element.Name ) ?? throw new InvalidOperationException(nameof(element)) ].Create(this, element )  ) );
+        }
+
+        public XElement ToXml()
+        {
+            return new XElement("Buildings", BuildingList.Select(building => building.ToXml()));
+        }
+
         public Dictionary<Type, IBuildingFactory> BuildingFactories { get; } = new Dictionary<Type, IBuildingFactory>
         {
-            { typeof(StorageEgg), new EggStorageFactory() }, { typeof(StorageSeed), new SeedStorageFactory() },
+            { typeof(StorageEgg), new EggStorageFactory() },
+            { typeof(StorageSeed), new SeedStorageFactory() },
             { typeof(StorageVegetable), new VegetableStorageFactory() },
-            { typeof(StorageMeat), new MeatStorageFactory() }, { typeof(Market), new BuilderFactory() },
+            { typeof(StorageMeat), new MeatStorageFactory() },
+            { typeof(Builder), new BuilderFactory() },
+            { typeof(ChickenStore), new ChickenStoreFactory() },
             { typeof(Henhouse), new HenhouseFactory() }
         };
 
         public Farm CtxFarm { get; }
         public List<IBuilding> BuildingList { get; }
 
-        public IStorage FindStorage<TStorageType>()
+        public IStorage FindStorage<TStorageType>() where TStorageType : IStorage
         {
-            return BuildingList.Find(storage => storage is TStorageType) as IStorage;
+            return (IStorage)BuildingList.Find(storage => storage is TStorageType);
         }
 
         public List<TBuildingType> GetBuildingInListByType<TBuildingType>() where TBuildingType : IBuilding
         {
             List<TBuildingType> buildingList = new List<TBuildingType>();
-            foreach ( IBuilding building in BuildingList )
-                if ( building.GetType() == typeof(TBuildingType) )
+            foreach (IBuilding building in BuildingList)
+                if (building.GetType() == typeof(TBuildingType))
                     buildingList.Add(building is TBuildingType type ? type : default(TBuildingType));
 
             return buildingList;
@@ -43,16 +59,16 @@ namespace ChickenFarmer.Model
 
         public void Build<TBuildingType>(float xCoord, float yCoord) where TBuildingType : IBuilding
         {
-            if ( xCoord <= 0 ) throw new ArgumentOutOfRangeException(nameof(xCoord));
-            if ( yCoord <= 0 ) throw new ArgumentOutOfRangeException(nameof(yCoord));
-            foreach ( IBuilding item in BuildingList )
-                if ( Math.Abs(item.PosVector.X - xCoord) < 0.1f && Math.Abs(item.PosVector.Y - yCoord) < 0.1f )
+            if (xCoord <= 0) throw new ArgumentOutOfRangeException(nameof(xCoord));
+            if (yCoord <= 0) throw new ArgumentOutOfRangeException(nameof(yCoord));
+            foreach (IBuilding item in BuildingList)
+                if (Math.Abs(item.PosVector.X - xCoord) < 0.1f && Math.Abs(item.PosVector.Y - yCoord) < 0.1f)
                     throw new ArgumentException("Invalid Coordinates, change xCoord or yCoord");
 
             BuildingFactories.TryGetValue(typeof(TBuildingType), out IBuildingFactory factory);
-            if ( factory == null )
-                throw new InvalidOperationException("This building doesn't have a factory to create it");
-            if ( !factory.IsEnabled )
+            if (factory == null)
+                throw new InvalidOperationException($"This building ({typeof(TBuildingType)}) doesn't have a factory to create it");
+            if (!factory.IsEnabled)
                 throw new InvalidOperationException("Factory not enabled. Max building limit reached !");
             IBuilding building = factory.Create(this, new Vector(xCoord, yCoord));
 
@@ -61,7 +77,7 @@ namespace ChickenFarmer.Model
 
         public void Update()
         {
-            foreach ( IBuilding building in BuildingList )
+            foreach (IBuilding building in BuildingList)
             {
                 Henhouse item = building as Henhouse;
                 item?.Update(); // "?" = check for null
@@ -71,9 +87,9 @@ namespace ChickenFarmer.Model
         public TBuildingType FindBuilding<TBuildingType>(float xCoord, float yCoord)
             where TBuildingType : class, IBuilding
         {
-            foreach ( IBuilding building in BuildingList )
-                if ( Math.Abs(building.PosVector.X - xCoord) < 0.1f && Math.Abs(building.PosVector.Y - yCoord) < 0.1f &&
-                     building is TBuildingType )
+            foreach (IBuilding building in BuildingList)
+                if (Math.Abs(building.PosVector.X - xCoord) < 0.1f && Math.Abs(building.PosVector.Y - yCoord) < 0.1f &&
+                     building is TBuildingType)
                     return building as TBuildingType;
             return null;
         }
@@ -81,8 +97,8 @@ namespace ChickenFarmer.Model
         public int ChickenCount()
         {
             int sum = 0;
-            foreach ( IBuilding building in BuildingList )
-                if ( building is Henhouse house )
+            foreach (IBuilding building in BuildingList)
+                if (building is Henhouse house)
                     sum += house.ChickenCount;
 
             return sum;
@@ -91,8 +107,8 @@ namespace ChickenFarmer.Model
         public int DyingChickenCount()
         {
             int sum = 0;
-            foreach ( IBuilding building in BuildingList )
-                if ( building is Henhouse house )
+            foreach (IBuilding building in BuildingList)
+                if (building is Henhouse house)
                     sum += house.CountDyingChickens;
 
             return sum;

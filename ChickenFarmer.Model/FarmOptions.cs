@@ -44,6 +44,8 @@ namespace ChickenFarmer.Model
                 { typeof(StorageMeat), 30 }
             };
 
+            HenhouseSpawn = new Vector(305, 434);
+
             DefaultEggCapacity = 0;
             DefaultEggMaxCapacity = 5000;
 
@@ -112,5 +114,6 @@ namespace ChickenFarmer.Model
         public static float DefaultPlayerMaxSpeed { get; }
         public static int EggValue { get; }
         public static Dictionary<Type, int> DefaultUpgradePrices { get; }
+        public static Vector HenhouseSpawn { get; private set; }
     }
 }

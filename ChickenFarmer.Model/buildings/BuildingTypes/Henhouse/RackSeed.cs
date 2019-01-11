@@ -1,4 +1,6 @@
-﻿namespace ChickenFarmer.Model
+﻿using System.Xml.Linq;
+
+namespace ChickenFarmer.Model
 {
     public class RackSeed : IRack
     {
@@ -43,5 +45,14 @@
         }
 
         public void Upgrade() { Lvl ++; }
+
+        public XElement ToXml()
+        {
+            return new XElement("SeedRack",
+                new XAttribute(nameof(Capacity),Capacity),
+                new XAttribute(nameof(MaxCapacity), MaxCapacity),
+                new XAttribute(nameof(Lvl), Lvl)
+                );
+        }
     }
 }

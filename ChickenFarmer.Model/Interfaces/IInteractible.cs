@@ -2,7 +2,8 @@
 {
     internal interface IInteractible
     {
-        InteractionZone InteractionZone { get; set; }
+        InteractionZone EntryZone { get; set; }
+        InteractionZone LeaveZone { get; set; }
         bool CheckIfInside(InteractionZone interactionZone);
     }
 }

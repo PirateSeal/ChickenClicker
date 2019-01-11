@@ -1,4 +1,6 @@
-﻿namespace ChickenFarmer.Model
+﻿using System.Xml.Linq;
+
+namespace ChickenFarmer.Model
 {
     public interface IRack
     {
@@ -16,5 +18,6 @@
         int Fill(int amount);
 
         void Upgrade();
+        XElement ToXml();
     }
 }

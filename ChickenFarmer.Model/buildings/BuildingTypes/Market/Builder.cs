@@ -1,4 +1,6 @@
-﻿namespace ChickenFarmer.Model
+﻿using System.Xml.Linq;
+
+namespace ChickenFarmer.Model
 {
     public class Builder : IBuilding
     {
@@ -9,11 +11,20 @@
             PosVector = posVector;
         }
 
+        public XElement ToXml()
+        {
+            return new XElement("Builder",
+                new XAttribute("xCoord", PosVector.X),
+                new XAttribute("yCoord", PosVector.Y),
+                new XAttribute("Level", Lvl)
+                );
+        }
+
         public BuildingCollection CtxCollection { get; set; }
         public Vector PosVector { get; set; }
         public int Lvl { get; set; }
         public IBuildingFactory Factory { get; }
-        public void Upgrade() { Lvl ++; }
+        public void Upgrade() { Lvl++; }
 
         public void BuyBuilding<TBuildingType>(float xCoord, float yCoord) where TBuildingType : IBuilding
         {

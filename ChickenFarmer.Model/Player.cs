@@ -2,6 +2,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
 
 #endregion
 
@@ -21,6 +23,24 @@ namespace ChickenFarmer.Model
             BoundingBox = new CollideObject(boundingBoxPos, 16, 16);
         }
 
+        public Player(Farm ctxFarm, XContainer xElement) : this(ctxFarm)
+        {
+            XElement xPlayer = xElement.Element("Player");
+            string xXCoord = xPlayer?.Element("xCoord")?.Value;
+            string xYCoord = xPlayer?.Element("yCoord")?.Value;
+            string xLife = xPlayer?.Element("Life")?.Value;
+            Position = new Vector(float.Parse(xXCoord ?? throw new InvalidOperationException()), float.Parse(xYCoord ?? throw new InvalidOperationException()));
+            Life = int.Parse(xLife ?? throw new InvalidOperationException());
+        }
+
+        public XElement ToXml()
+        {
+            return new XElement("Player",
+                new XAttribute("xCoord", Position.X),
+                new XAttribute("yCoord", Position.Y),
+                new XAttribute("Life", Life));
+        }
+
         public List<IBuilding> Inventory { get; }
         public int Life { get; }
         public float Speed { get; }
@@ -31,7 +51,7 @@ namespace ChickenFarmer.Model
 
         public void Move(Vector direction)
         {
-            if ( (direction.X == 5 || direction.X == -5) && (direction.Y == 5 || direction.Y == -5) )
+            if ((direction.X == 5 || direction.X == -5) && (direction.Y == 5 || direction.Y == -5))
                 Direction = direction / 1.5f;
 
             else
@@ -40,7 +60,7 @@ namespace ChickenFarmer.Model
             Vector movement = Direction * Speed;
             Vector newPosition = Position.Add(movement);
 
-            if ( CanMove(movement) )
+            if (CanMove(movement))
             {
                 Position = newPosition;
                 BoundingBox.Origin = Position;
@@ -52,7 +72,7 @@ namespace ChickenFarmer.Model
             Vector nextPos = Position + direction;
             Vector boundingBoxPos = new Vector(nextPos.X, nextPos.Y + 16);
             CollideObject newbox = new CollideObject(boundingBoxPos, 16, 16);
-            return!CtxFarm.CollideCollection.IsCollide(newbox);
+            return !CtxFarm.CollideCollection.IsCollide(newbox);
         }
     }
 }

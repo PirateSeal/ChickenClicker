@@ -1,4 +1,6 @@
-﻿namespace ChickenFarmer.Model
+﻿using System.Xml.Linq;
+
+namespace ChickenFarmer.Model
 {
     internal class MeatStorageFactory : IStorageFactory
     {
@@ -6,6 +8,12 @@
         {
             NbrBuilt ++;
             return new StorageMeat(ctx, this, posVector);
+        }
+
+        public IBuilding Create(BuildingCollection ctx, XElement xElement)
+        {
+            NbrBuilt ++;
+            return new StorageMeat(ctx, this,  xElement);
         }
 
         public void OnRemove(IBuilding building) { NbrBuilt --; }

@@ -1,12 +1,22 @@
-﻿namespace ChickenFarmer.Model
+﻿using System.Xml.Linq;
+
+namespace ChickenFarmer.Model
 {
-    internal class ChickenStore : IBuilding
+    public class ChickenStore : IBuilding
     {
         public ChickenStore(BuildingCollection ctxCollection, IBuildingFactory factory, Vector posVector)
         {
             CtxCollection = ctxCollection;
             Factory = factory;
             PosVector = posVector;
+        }
+        public XElement ToXml()
+        {
+            return new XElement("ChickenStore",
+                new XAttribute("xCoord", PosVector.X),
+                new XAttribute("yCoord", PosVector.Y),
+                new XAttribute("Level", Lvl)
+            );
         }
 
         public BuildingCollection CtxCollection { get; set; }

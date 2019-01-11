@@ -12,4 +12,5 @@ namespace ChickenFarmer.UI
         InnerMarket = 3,
         InnerBuilder = 4,
     }
+
 }

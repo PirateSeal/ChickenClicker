@@ -59,7 +59,12 @@ namespace ChickenFarmer.UI
                 {
                     houseTexture = CtxfarmUI.FarmOptionsUI.StorageTexture[building.Lvl];
 
+                }else if(building is Builder)
+                {
+                   CtxfarmUI.FarmOptionsUI.MapTextures.TryGetValue(MapTypes.World, out var value);
+                    houseTexture = CtxfarmUI.FarmOptionsUI.BuilderTexture;
                 }
+
                 else
                 {
                     houseTexture = null;
