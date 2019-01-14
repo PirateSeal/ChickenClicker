@@ -19,25 +19,21 @@ namespace ChickenFarmer.Tests
         public void Buy_Food(int amount, Type type)
         {
             Type testsType = typeof(StorageTests);
-            MethodInfo method = testsType.GetMethod(nameof(Buy_Food),
-                BindingFlags.NonPublic | BindingFlags.Instance, null,
-                new[] { typeof(int) }, null);
+            MethodInfo method = testsType.GetMethod(nameof( Buy_Food ), BindingFlags.NonPublic | BindingFlags.Instance, null,
+                                                    new[] { typeof(int) }, null);
             method = method?.MakeGenericMethod(type);
             method?.Invoke(this, new object[] { amount });
         }
 
-        private void Buy_Food<TStorageType>(int amount)
-            where TStorageType : IStorage
+        private void Buy_Food<TStorageType>(int amount) where TStorageType : IStorage
         {
             Farm farm = new Farm { Money = 5000 };
             farm.Buildings.Build<TStorageType>(1, 1);
             farm.Buildings.Build<ChickenStore>(1, 2);
 
-            farm.Buildings.FindBuilding<ChickenStore>(1, 2).
-                BuyFood<TStorageType>(amount);
+            farm.Buildings.FindBuilding<ChickenStore>(1, 2).BuyFood<TStorageType>(amount);
             IStorage storage = farm.Buildings.FindStorage<TStorageType>();
-            Assert.That(storage.Capacity,
-                Is.EqualTo(storage.Factory.DefaultCapacity + amount));
+            Assert.That(storage.Capacity, Is.EqualTo(storage.Factory.DefaultCapacity + amount));
             Assert.That(farm.Money == 5000 - amount * storage.Value);
         }
 
@@ -48,16 +44,14 @@ namespace ChickenFarmer.Tests
         public void Upgrade_All_Storages(Type type)
         {
             Type testsType = typeof(StorageTests);
-            MethodInfo method = testsType.GetMethod(
-                nameof(Upgrade_All_Storages),
-                BindingFlags.NonPublic | BindingFlags.Instance, null,
-                new[] { typeof(int) }, null);
+            MethodInfo method = testsType.GetMethod(nameof( Upgrade_All_Storages ),
+                                                    BindingFlags.NonPublic | BindingFlags.Instance, null,
+                                                    new[] { typeof(int) }, null);
             method = method?.MakeGenericMethod(type);
             method?.Invoke(this, null);
         }
 
-        private void Upgrade_All_Storages<TStorageType>()
-            where TStorageType : class, IStorage
+        private void Upgrade_All_Storages<TStorageType>() where TStorageType : class, IStorage
         {
             Farm farm = new Farm { Money = 5000 };
             farm.Buildings.Build<TStorageType>(1, 1);
@@ -76,8 +70,7 @@ namespace ChickenFarmer.Tests
             Farm farm = new Farm();
             farm.Buildings.Build<StorageSeed>(1, 1);
 
-            Assert.That(farm.Buildings.FindStorage<StorageSeed>().
-                Capacity, Is.EqualTo(0));
+            Assert.That(farm.Buildings.FindStorage<StorageSeed>().Capacity, Is.EqualTo(0));
         }
     }
 }

@@ -1,10 +1,10 @@
 ﻿#region Usings
 
 using System;
-using ChickenFarmer.Model;
-using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using ChickenFarmer.Model;
+using NUnit.Framework;
 
 #endregion
 
@@ -28,7 +28,6 @@ namespace ChickenFarmer.Tests
 
             Assert.That(farm.Buildings.FindBuilding<Henhouse>(1, 1), Is.TypeOf<Henhouse>());
             Assert.That(farm.Buildings.FindBuilding<Henhouse>(1, 1).PosVector, Is.EqualTo(new Vector(1, 1)));
-
         }
 
         [Test]
@@ -43,11 +42,9 @@ namespace ChickenFarmer.Tests
             farm.Buildings.Build<Henhouse>(4, 1);
 
             Assert.That(farm.Buildings.BuildingList.Count, Is.EqualTo(5));
-            Assert.That(farm.Buildings.BuildingList.
-                Count(building => building is Henhouse), Is.EqualTo(4));
+            Assert.That(farm.Buildings.BuildingList.Count(building => building is Henhouse), Is.EqualTo(4));
 
-            Assert.Throws<InvalidOperationException>(()
-                => farm.Buildings.Build<Henhouse>(6, 6));
+            Assert.Throws<InvalidOperationException>(() => farm.Buildings.Build<Henhouse>(6, 6));
         }
 
         [Test]
