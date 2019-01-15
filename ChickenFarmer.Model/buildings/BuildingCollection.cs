@@ -73,6 +73,8 @@ namespace ChickenFarmer.Model
             IBuilding building = factory.Create(this, new Vector(xCoord, yCoord));
 
             BuildingList.Add(building);
+            
+
         }
 
         public void Update()

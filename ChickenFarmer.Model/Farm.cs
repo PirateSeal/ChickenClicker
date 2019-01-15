@@ -16,7 +16,7 @@ namespace ChickenFarmer.Model
             Money = FarmOptions.DefaultMoney;
             Player = new Player(this);
             Market = new Market(this);
-            Buildings.Build<Builder>(300, 300);    
+            Buildings.Build<Builder>(200, 200);    
         }
 
         public Farm(XContainer xElement) : this()

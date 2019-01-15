@@ -22,7 +22,9 @@ namespace ChickenFarmer.Model
             Chikens = new List<Chicken>(MaxCapacity * Lvl);
             DyingChickens = new List<Chicken>();
             Vector interactionZonePos = new Vector(posVector.X + 20, PosVector.Y + 96);
-            InteractionZone = new InteractionZone(interactionZonePos, 15, 15);
+            EntryZone = new InteractionZone(interactionZonePos, 50, 50);
+            LeaveZone = new InteractionZone(FarmOptions.HenhouseSpawn, 50, 50);
+
         }
 
         public XElement ToXml()
@@ -59,7 +61,10 @@ namespace ChickenFarmer.Model
             MaxCapacity *= Lvl;
         }
 
-        public InteractionZone InteractionZone { get; set; }
+
+        public InteractionZone EntryZone { get; set; }
+        public InteractionZone LeaveZone { get; set; }
+
 
         public bool CheckIfInside(InteractionZone interactionZone) { return true; }
 

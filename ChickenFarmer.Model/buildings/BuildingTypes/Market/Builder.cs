@@ -2,13 +2,18 @@
 
 namespace ChickenFarmer.Model
 {
-    public class Builder : IBuilding
+    public class Builder : IBuilding ,IInteractible
     {
         public Builder(BuildingCollection ctxCollection, IBuildingFactory factory, Vector posVector)
         {
             CtxCollection = ctxCollection;
             Factory = factory;
             PosVector = posVector;
+            Vector interactionZonePos = new Vector(posVector.X + 20, PosVector.Y + 96);
+            EntryZone = new InteractionZone(interactionZonePos, 15, 15);
+
+            FarmOptions.SpawnPos.TryGetValue(typeof(Builder),out var value);
+            LeaveZone = new InteractionZone(value, 75, 75);
         }
 
         public XElement ToXml()
@@ -25,6 +30,8 @@ namespace ChickenFarmer.Model
         public int Lvl { get; set; }
         public IBuildingFactory Factory { get; }
         public void Upgrade() { Lvl++; }
+        public InteractionZone EntryZone { get; set; }
+        public InteractionZone LeaveZone { get; set; }
 
         public void BuyBuilding<TBuildingType>(float xCoord, float yCoord) where TBuildingType : IBuilding
         {
@@ -45,5 +52,7 @@ namespace ChickenFarmer.Model
         {
             Market.UpgradeHenhouseRack<TRackType>(henhouse);
         }
+
+    
     }
 }

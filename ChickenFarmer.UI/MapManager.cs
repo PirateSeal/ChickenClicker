@@ -1,4 +1,6 @@
-﻿namespace ChickenFarmer.UI
+﻿using SFML.System;
+
+namespace ChickenFarmer.UI
 {
     public class MapManager
     {
@@ -19,18 +21,31 @@
         {
             CtxGame.FarmUI.Farm.CollideCollection.Clear();
 
-            if ( type == MapTypes.InnerHenhouse )
+            if ( type != MapTypes.World )
             {
-                CtxGame.FarmUI.FarmOptionsUI.MapPath.TryGetValue(( int ) MapTypes.InnerHenhouse, out string[] file);
+                CtxGame.FarmUI.FarmOptionsUI.MapPath.TryGetValue(( int ) type, out string[] file);
                 CurrentMap = new TileMap(file?[0], CtxGame);
-                CtxGame.FarmUI.Farm.Player.Position = Model.FarmOptions.HenhouseSpawn;
                 
+         
+
+                if(type == MapTypes.InnerHenhouse)
+                {
+                    Model.FarmOptions.SpawnPos.TryGetValue(typeof(Model.Henhouse), out var value1);
+                    CtxGame.FarmUI.Farm.Player.Position = value1;
+                }
+                if (type == MapTypes.InnerBuilder)
+                {
+                    Model.FarmOptions.SpawnPos.TryGetValue(typeof(Model.Builder), out var value1);
+                    CtxGame.FarmUI.Farm.Player.Position = value1;
+                }
+
+
             }
             else
             {
                 CtxGame.FarmUI.FarmOptionsUI.MapPath.TryGetValue(( int ) MapTypes.World, out string[] file);
                 CurrentMap = new TileMap(file?[0], CtxGame);
-
+                CtxGame.FarmUI.Farm.Player.Position = new Model.Vector(CtxGame.FarmUI.PlayerUI.OldPos.X, CtxGame.FarmUI.PlayerUI.OldPos.Y);
 
             }
             CurrentType = type;

@@ -7,7 +7,7 @@ namespace ChickenFarmer.UI
     public class FarmOptionsUI
     {
         public FarmUI CtxFarmUI { get; }
-        public Vector2f[] spawnPos { get; private set; }
+        public Dictionary<MapTypes,Vector2f> SpawnPos { get; private set; }
 
         public FarmOptionsUI(FarmUI ctxFarm)
         {
@@ -37,6 +37,13 @@ namespace ChickenFarmer.UI
 
             BuilderTexture = new Texture("../../../../Data/SpriteSheet/buildings/Builder.png");
 
+            SpawnPos = new Dictionary<MapTypes, Vector2f>
+            {
+                { MapTypes.World, new Vector2f(100,200) },
+                { MapTypes.InnerHenhouse, new Vector2f(305,434) },
+                { MapTypes.InnerBuilder, new Vector2f(570,624) },
+
+            };
 
             MapPath = new Dictionary<int, string[]>
             {
@@ -63,9 +70,9 @@ namespace ChickenFarmer.UI
                 {
                     (int)MapTypes.InnerBuilder,
                     new[] {
-                        "../../../../Data/map/henhouse1.tmx",
-                        "../../../../Data/map/henhouse2.tmx",
-                        "../../../../Data/map/henhouse3.tmx"
+                        "../../../../Data/map/InsideBuilder.tmx",
+                        "../../../../Data/map/InsierBuilder.tmx",
+                        "../../../../Data/map/InsideBuilder.tmx"
                     }
                 }
             };

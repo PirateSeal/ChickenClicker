@@ -78,5 +78,6 @@ namespace ChickenFarmer.UI
 
 
         public int Direction { get; set; }
+        public Vector2f OldPos { get; internal set; }
     }
 }
