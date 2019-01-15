@@ -1,4 +1,8 @@
-﻿using System.Xml.Linq;
+﻿#region Usings
+
+using System.Xml.Linq;
+
+#endregion
 
 namespace ChickenFarmer.Model
 {
@@ -10,13 +14,22 @@ namespace ChickenFarmer.Model
             Factory = factory;
             PosVector = posVector;
         }
+
+        public ChickenStore(BuildingCollection ctxCollection, IBuildingFactory factory, XElement xElement)
+        {
+            CtxCollection = ctxCollection;
+            Factory = factory;
+
+            PosVector = new Vector(( float ) xElement?.Attribute(nameof( PosVector.X )),
+                                   ( float ) xElement?.Attribute(nameof( PosVector.Y )));
+
+            Lvl = ( int ) xElement?.Attribute(nameof( Lvl ));
+        }
+
         public XElement ToXml()
         {
-            return new XElement("ChickenStore",
-                new XAttribute("xCoord", PosVector.X),
-                new XAttribute("yCoord", PosVector.Y),
-                new XAttribute("Level", Lvl)
-            );
+            return new XElement("ChickenStore", new XAttribute(nameof( PosVector.X ), PosVector.X),
+                                new XAttribute(nameof( PosVector.Y ), PosVector.Y), new XAttribute(nameof( Lvl ), Lvl));
         }
 
         public BuildingCollection CtxCollection { get; set; }
@@ -25,10 +38,7 @@ namespace ChickenFarmer.Model
         public IBuildingFactory Factory { get; }
         public void Upgrade() { Lvl ++; }
 
-        public void BuyFood<TStorageType>(int amount) where TStorageType : IStorage
-        {
-            Market.BuyFood<TStorageType>(amount);
-        }
+        public void BuyFood<TStorageType>(int amount) where TStorageType : IStorage { Market.BuyFood<TStorageType>(amount); }
 
         public void BuyChicken(int amount, Chicken.Breed breed) { Market.BuyChicken(amount, breed); }
 

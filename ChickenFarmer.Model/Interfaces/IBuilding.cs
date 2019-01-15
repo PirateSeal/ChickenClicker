@@ -1,4 +1,8 @@
-﻿using System.Xml.Linq;
+﻿#region Usings
+
+using System.Xml.Linq;
+
+#endregion
 
 namespace ChickenFarmer.Model
 {
@@ -8,7 +12,7 @@ namespace ChickenFarmer.Model
         Vector PosVector { get; set; }
         int Lvl { get; set; }
         IBuildingFactory Factory { get; }
-        void Upgrade();
+        void     Upgrade();
         XElement ToXml();
     }
 }

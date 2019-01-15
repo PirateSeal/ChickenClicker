@@ -1,4 +1,8 @@
-﻿using System.Xml.Linq;
+﻿#region Usings
+
+using System.Xml.Linq;
+
+#endregion
 
 namespace ChickenFarmer.Model
 {
@@ -17,7 +21,7 @@ namespace ChickenFarmer.Model
         /// <returns></returns>
         int Fill(int amount);
 
-        void Upgrade();
+        void     Upgrade();
         XElement ToXml();
     }
 }

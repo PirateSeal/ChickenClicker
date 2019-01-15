@@ -28,15 +28,15 @@ namespace ChickenFarmer.Model
 
         public void LoadBuilingsCollide()
         {
-            foreach ( var item in CtxFarm.Buildings.BuildingList ) AddObject(item.PosVector, 64, 96);
+            foreach ( IBuilding item in CtxFarm.Buildings.BuildingList ) AddObject(item.PosVector, 64, 96);
         }
 
         public bool IsCollide(CollideObject obj)
         {
             bool intersect = false;
             foreach ( CollideObject item in _collideList )
-                if ( Collide(obj.Origin.X, obj.Origin.Y, obj.Width, obj.Height, item.Origin.X, item.Origin.Y,
-                    item.Width, item.Height) )
+                if ( Collide(obj.Origin.X, obj.Origin.Y, obj.Width, obj.Height, item.Origin.X,
+                             item.Origin.Y, item.Width, item.Height) )
                 {
                     intersect = true;
                     break;
@@ -47,8 +47,8 @@ namespace ChickenFarmer.Model
 
         public void Clear() { _collideList.Clear(); }
 
-        private bool Collide(float x1, float y1, float width1, float height1, float x2, float y2, float width2,
-            float                  height2)
+        private bool Collide(float x1, float y1, float width1, float height1, float x2,
+            float y2, float width2, float height2)
         {
             return!(x1 > x2 + width2 || x1 + width1 < x2 || y1 > y2 + height2 || y1 + height1 < y2);
         }

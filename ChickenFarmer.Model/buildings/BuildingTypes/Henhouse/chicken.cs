@@ -11,30 +11,27 @@ namespace ChickenFarmer.Model
     {
         public enum Breed
         {
-            None = 0
-            , Tier1 = 1
-            , Tier2 = 2
-            , Tier3 = 3
-            , Tier4 = 4
+            None = 0,
+            Tier1 = 1,
+            Tier2 = 2,
+            Tier3 = 3,
+            Tier4 = 4
         }
 
         public Chicken(Henhouse ctxHenhouse, Breed chikenBreed)
         {
-            CtxHenhouse = ctxHenhouse ?? throw new ArgumentNullException(nameof(ctxHenhouse));
+            CtxHenhouse = ctxHenhouse ?? throw new ArgumentNullException(nameof( ctxHenhouse ));
             ChikenBreed = chikenBreed;
             Hunger = 100;
         }
 
         public Chicken(Henhouse ctxHenhouse, XElement xElement)
         {
-            XElement xChicken = xElement.Element("Chicken");
             CtxHenhouse = ctxHenhouse;
-            ChikenBreed = ( Breed ) int.Parse(xChicken?.Element(nameof(ChikenBreed))?.Value ??
-                                              throw new InvalidOperationException(nameof(Breed)));
-            Hunger = float.Parse(xChicken.Element(nameof(Hunger))?.Value ?? throw new InvalidOperationException());
+            ChikenBreed = ( Breed ) int.Parse(xElement?.Attribute(nameof( ChikenBreed ))?.Value ??
+                                              throw new InvalidOperationException(nameof( Breed )));
+            Hunger = float.Parse(xElement.Attribute(nameof( Hunger ))?.Value ?? throw new InvalidOperationException());
         }
-
-        public bool CheckIfStarving => Hunger <= 25;
 
         private Breed ChikenBreed { get; }
 
@@ -44,8 +41,8 @@ namespace ChickenFarmer.Model
 
         public XElement ToXml()
         {
-            return new XElement("Chicken", new XAttribute(nameof(ChikenBreed), ( int ) ChikenBreed)
-                , new XAttribute(nameof(Hunger), Hunger));
+            return new XElement("Chicken", new XAttribute(nameof( ChikenBreed ), ( int ) ChikenBreed),
+                                new XAttribute(nameof( Hunger ), Hunger));
         }
 
         public void Update()

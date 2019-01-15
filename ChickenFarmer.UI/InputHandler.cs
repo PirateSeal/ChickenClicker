@@ -1,9 +1,9 @@
 ﻿#region Usings
 
+using System;
 using ChickenFarmer.Model;
 using SFML.System;
 using SFML.Window;
-using System;
 
 #endregion
 
@@ -35,26 +35,26 @@ namespace ChickenFarmer.UI
 
             _deplacement = new Vector();
 
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Escape)) CtxGameLoop.Window.Close();
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Z))
+            if ( Keyboard.IsKeyPressed(Keyboard.Key.Escape) ) CtxGameLoop.Window.Close();
+            if ( Keyboard.IsKeyPressed(Keyboard.Key.Z) )
             {
                 _deplacement += new Vector(Direction[3].X, Direction[3].Y);
                 CtxGameLoop.FarmUI.PlayerUI.Direction = 1;
             }
 
-            if (Keyboard.IsKeyPressed(Keyboard.Key.S))
+            if ( Keyboard.IsKeyPressed(Keyboard.Key.S) )
             {
                 _deplacement += new Vector(Direction[2].X, Direction[2].Y);
                 CtxGameLoop.FarmUI.PlayerUI.Direction = 4;
             }
 
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
+            if ( Keyboard.IsKeyPressed(Keyboard.Key.Q) )
             {
                 _deplacement += new Vector(Direction[1].X, Direction[1].Y);
                 CtxGameLoop.FarmUI.PlayerUI.Direction = 2;
             }
 
-            if (Keyboard.IsKeyPressed(Keyboard.Key.D))
+            if ( Keyboard.IsKeyPressed(Keyboard.Key.D) )
             {
                 _deplacement += new Vector(Direction[0].X, Direction[0].Y);
                 CtxGameLoop.FarmUI.PlayerUI.Direction = 3;
@@ -74,10 +74,7 @@ namespace ChickenFarmer.UI
 
             CtxGameLoop.FarmUI.Farm.Player.Move(_deplacement);
 
-
-
-
-            foreach (BuildingUI buildingUI in CtxGameLoop.FarmUI.BuildingCollectionUI.BuildingsUIList)
+            foreach ( BuildingUI buildingUI in CtxGameLoop.FarmUI.BuildingCollectionUI.BuildingsUIList )
             {
 
 
@@ -143,7 +140,7 @@ namespace ChickenFarmer.UI
 
             }
 
-            if (Mouse.IsButtonPressed(Mouse.Button.Right) && _oldUpdate.Add(Time) < current)
+            if ( Mouse.IsButtonPressed(Mouse.Button.Right) && _oldUpdate.Add(Time) < current )
             {
                 _oldUpdate = DateTime.Now;
                 Market.BuyBuilding<Henhouse>(worldPos.X, worldPos.Y);
