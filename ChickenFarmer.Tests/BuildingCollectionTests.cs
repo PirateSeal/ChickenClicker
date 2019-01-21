@@ -24,10 +24,12 @@ namespace ChickenFarmer.Tests
             Assert.That(farm.Buildings.BuildingList.Count, Is.EqualTo(2));
 
             Assert.That(farm.Buildings.FindBuilding<StorageEgg>(5, 5), Is.TypeOf<StorageEgg>());
-            Assert.That(farm.Buildings.FindBuilding<StorageEgg>(5, 5).PosVector, Is.EqualTo(new Vector(5, 5)));
+            Assert.That(farm.Buildings.FindBuilding<StorageEgg>(5, 5).
+                PosVector, Is.EqualTo(new Vector(5, 5)));
 
             Assert.That(farm.Buildings.FindBuilding<Henhouse>(1, 1), Is.TypeOf<Henhouse>());
-            Assert.That(farm.Buildings.FindBuilding<Henhouse>(1, 1).PosVector, Is.EqualTo(new Vector(1, 1)));
+            Assert.That(farm.Buildings.FindBuilding<Henhouse>(1, 1).
+                PosVector, Is.EqualTo(new Vector(1, 1)));
         }
 
         [Test]
@@ -55,7 +57,8 @@ namespace ChickenFarmer.Tests
             farm.Buildings.Build<Henhouse>(1, 2);
             farm.Buildings.Build<Henhouse>(1, 3);
 
-            List<IBuilding> henhouses = farm.Buildings.BuildingList.Where(b => b is Henhouse).ToList();
+            List<IBuilding> henhouses = farm.Buildings.BuildingList.Where(b => b is Henhouse).
+                ToList();
 
             Assert.That(henhouses.Count, Is.EqualTo(2));
         }

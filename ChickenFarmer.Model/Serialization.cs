@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#region Usings
+
 using System.Xml.Linq;
+
+#endregion
 
 namespace ChickenFarmer.Model
 {
@@ -11,7 +10,7 @@ namespace ChickenFarmer.Model
     {
         public static void Save(string path, Farm farm)
         {
-            XElement xElement =  farm.ToXml();
+            XElement xElement = farm.ToXml();
             xElement.Save(path);
         }
 

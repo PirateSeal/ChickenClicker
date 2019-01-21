@@ -8,7 +8,8 @@ namespace ChickenFarmer.Model
 {
     public class StorageEgg : Storage
     {
-        public StorageEgg(BuildingCollection ctx, IStorageFactory factory, Vector posVector) : base(ctx, factory, posVector)
+        public StorageEgg(BuildingCollection ctx, IStorageFactory factory, Vector posVector) : base(ctx, factory,
+            posVector)
         {
         }
 

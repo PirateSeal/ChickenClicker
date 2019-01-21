@@ -20,16 +20,16 @@ namespace ChickenFarmer.Model
             CtxCollection = ctxCollection;
             Factory = factory;
 
-            PosVector = new Vector(( float ) xElement?.Attribute(nameof( PosVector.X )),
-                                   ( float ) xElement?.Attribute(nameof( PosVector.Y )));
+            PosVector = new Vector(( float ) xElement?.Attribute(nameof(PosVector.X)),
+                ( float ) xElement?.Attribute(nameof(PosVector.Y)));
 
-            Lvl = ( int ) xElement?.Attribute(nameof( Lvl ));
+            Lvl = ( int ) xElement?.Attribute(nameof(Lvl));
         }
 
         public XElement ToXml()
         {
-            return new XElement("Builder", new XAttribute(nameof( PosVector.X ), PosVector.X),
-                                new XAttribute(nameof( PosVector.Y ), PosVector.Y), new XAttribute(nameof( Lvl ), Lvl));
+            return new XElement("Builder", new XAttribute(nameof(PosVector.X), PosVector.X),
+                new XAttribute(nameof(PosVector.Y), PosVector.Y), new XAttribute(nameof(Lvl), Lvl));
         }
 
         public BuildingCollection CtxCollection { get; set; }
@@ -48,7 +48,10 @@ namespace ChickenFarmer.Model
             Market.UpgradeBuilding(building);
         }
 
-        public void BuyRack<TRackType>(Henhouse henhouse) where TRackType : IRack { Market.BuyRack<TRackType>(henhouse); }
+        public void BuyRack<TRackType>(Henhouse henhouse) where TRackType : IRack
+        {
+            Market.BuyRack<TRackType>(henhouse);
+        }
 
         public void UpgradeRack<TRackType>(Henhouse henhouse) where TRackType : IRack
         {

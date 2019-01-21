@@ -8,13 +8,13 @@ namespace ChickenFarmer.Model
 {
     public class StorageVegetable : Storage
     {
-        public StorageVegetable(BuildingCollection ctx, IStorageFactory factory, Vector posVector) :
-            base(ctx, factory, posVector)
+        public StorageVegetable(BuildingCollection ctx, IStorageFactory factory, Vector posVector) : base(ctx, factory,
+            posVector)
         {
         }
 
-        public StorageVegetable(BuildingCollection ctx, IStorageFactory factory, XElement xElement) :
-            base(ctx, factory, xElement)
+        public StorageVegetable(BuildingCollection ctx, IStorageFactory factory, XElement xElement) : base(ctx, factory,
+            xElement)
         {
         }
 

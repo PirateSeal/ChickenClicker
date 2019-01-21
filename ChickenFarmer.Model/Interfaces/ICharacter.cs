@@ -8,7 +8,7 @@
         Farm CtxFarm { get; }
         Vector Direction { get; set; }
         CollideObject BoundingBox { get; }
-        void Move(Vector direction);
+        void Move(Vector    direction);
         bool CanMove(Vector direction);
     }
 }

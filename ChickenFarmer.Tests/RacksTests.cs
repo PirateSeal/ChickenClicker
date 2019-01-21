@@ -18,8 +18,8 @@ namespace ChickenFarmer.Tests
         public void Fill_Rack(int amount, Type rackType)
         {
             Type testsType = typeof(RacksTests);
-            MethodInfo method = testsType.GetMethod(nameof( Fill_Rack ), BindingFlags.NonPublic | BindingFlags.Instance,
-                                                    null, new[] { typeof(int) }, null);
+            MethodInfo method = testsType.GetMethod(nameof(Fill_Rack), BindingFlags.NonPublic | BindingFlags.Instance,
+                null, new[] { typeof(int) }, null);
             method = method?.MakeGenericMethod(rackType);
             method?.Invoke(this, new object[] { amount });
         }
@@ -44,18 +44,24 @@ namespace ChickenFarmer.Tests
 
             if ( typeof(TRackType) == typeof(RackSeed) )
             {
-                Assert.That(farm.Buildings.FindStorage<StorageSeed>().Capacity, Is.EqualTo(0));
-                Assert.That(house.Racks.Find(rack => rack is RackSeed).Capacity, Is.EqualTo(150));
+                Assert.That(farm.Buildings.FindStorage<StorageSeed>().
+                    Capacity, Is.EqualTo(0));
+                Assert.That(house.Racks.Find(rack => rack is RackSeed).
+                    Capacity, Is.EqualTo(150));
             }
             else if ( typeof(TRackType) == typeof(RackVegetable) )
             {
-                Assert.That(farm.Buildings.FindStorage<StorageVegetable>().Capacity, Is.EqualTo(0));
-                Assert.That(house.Racks.Find(rack => rack is RackVegetable).Capacity, Is.EqualTo(150));
+                Assert.That(farm.Buildings.FindStorage<StorageVegetable>().
+                    Capacity, Is.EqualTo(0));
+                Assert.That(house.Racks.Find(rack => rack is RackVegetable).
+                    Capacity, Is.EqualTo(150));
             }
             else if ( typeof(TRackType) == typeof(RackMeat) )
             {
-                Assert.That(farm.Buildings.FindStorage<StorageMeat>().Capacity, Is.EqualTo(0));
-                Assert.That(house.Racks.Find(rack => rack is RackMeat).Capacity, Is.EqualTo(150));
+                Assert.That(farm.Buildings.FindStorage<StorageMeat>().
+                    Capacity, Is.EqualTo(0));
+                Assert.That(house.Racks.Find(rack => rack is RackMeat).
+                    Capacity, Is.EqualTo(150));
             }
         }
 

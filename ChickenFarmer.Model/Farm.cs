@@ -37,7 +37,11 @@ namespace ChickenFarmer.Model
             return new XElement("Farm", new XAttribute("Money", Money), Buildings.ToXml(), Player.ToXml());
         }
 
-        public void AddEgg() { Buildings.FindStorage<StorageEgg>().Capacity ++; }
+        public void AddEgg()
+        {
+            Buildings.FindStorage<StorageEgg>().
+                Capacity ++;
+        }
 
         public void Update() { Buildings.Update(); }
 
@@ -45,8 +49,9 @@ namespace ChickenFarmer.Model
         {
             return new[]
             {
-                Money, Buildings.FindStorage<StorageEgg>().Capacity, Buildings.ChickenCount(),
-                Buildings.DyingChickenCount()
+                Money, Buildings.FindStorage<StorageEgg>().
+                    Capacity,
+                Buildings.ChickenCount(), Buildings.DyingChickenCount()
             };
         }
     }

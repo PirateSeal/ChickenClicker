@@ -20,16 +20,16 @@ namespace ChickenFarmer.Model
             CtxCollection = ctxCollection;
             Factory = factory;
 
-            PosVector = new Vector(( float ) xElement?.Attribute(nameof( PosVector.X )),
-                                   ( float ) xElement?.Attribute(nameof( PosVector.Y )));
+            PosVector = new Vector(( float ) xElement?.Attribute(nameof(PosVector.X)),
+                ( float ) xElement?.Attribute(nameof(PosVector.Y)));
 
-            Lvl = ( int ) xElement?.Attribute(nameof( Lvl ));
+            Lvl = ( int ) xElement?.Attribute(nameof(Lvl));
         }
 
         public XElement ToXml()
         {
-            return new XElement("ChickenStore", new XAttribute(nameof( PosVector.X ), PosVector.X),
-                                new XAttribute(nameof( PosVector.Y ), PosVector.Y), new XAttribute(nameof( Lvl ), Lvl));
+            return new XElement("ChickenStore", new XAttribute(nameof(PosVector.X), PosVector.X),
+                new XAttribute(nameof(PosVector.Y), PosVector.Y), new XAttribute(nameof(Lvl), Lvl));
         }
 
         public BuildingCollection CtxCollection { get; set; }
@@ -38,7 +38,10 @@ namespace ChickenFarmer.Model
         public IBuildingFactory Factory { get; }
         public void Upgrade() { Lvl ++; }
 
-        public void BuyFood<TStorageType>(int amount) where TStorageType : IStorage { Market.BuyFood<TStorageType>(amount); }
+        public void BuyFood<TStorageType>(int amount) where TStorageType : IStorage
+        {
+            Market.BuyFood<TStorageType>(amount);
+        }
 
         public void BuyChicken(int amount, Chicken.Breed breed) { Market.BuyChicken(amount, breed); }
 

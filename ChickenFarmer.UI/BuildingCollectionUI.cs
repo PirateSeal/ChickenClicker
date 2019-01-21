@@ -40,30 +40,20 @@ namespace ChickenFarmer.UI
                         (int)building.PosVector.Y));
                 MapTypes type = MapTypes.None;
                 Texture houseTexture;
-                if (building is Henhouse)
+                switch (building)
                 {
-                    houseTexture = CtxfarmUI.FarmOptionsUI.HenhouseTexture[building.Lvl];
-                    type = MapTypes.InnerHenhouse;
-                    
-                }else if(building is StorageSeed) {
-
-                    houseTexture = CtxfarmUI.FarmOptionsUI.StorageTexture[building.Lvl];
-
-                }
-                else if (building is StorageEgg)
-                {
-                    houseTexture = CtxfarmUI.FarmOptionsUI.StorageTexture[building.Lvl];
-       
-                }
-                else if (building is StorageMeat)
-                {
-                    houseTexture = CtxfarmUI.FarmOptionsUI.StorageTexture[building.Lvl];
-
-                }
-                else
-                {
-                    houseTexture = null;
-                    
+                    case Henhouse _:
+                        houseTexture = CtxfarmUI.FarmOptionsUI.HenhouseTexture[building.Lvl];
+                        type = MapTypes.InnerHenhouse;
+                        break;
+                    case StorageSeed _:
+                    case StorageEgg _:
+                    case StorageMeat _:
+                        houseTexture = CtxfarmUI.FarmOptionsUI.StorageTexture[building.Lvl];
+                        break;
+                    default:
+                        houseTexture = null;
+                        break;
                 }
 
                 if ( houseTexture != null )

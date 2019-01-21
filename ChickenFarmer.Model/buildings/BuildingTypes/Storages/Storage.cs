@@ -21,21 +21,20 @@ namespace ChickenFarmer.Model
         {
             CtxCollection = ctx;
             Factory = factory;
-            PosVector = new Vector(( float ) xElement.Attribute(nameof( PosVector.X )),
-                                   ( float ) xElement.Attribute(nameof( PosVector.Y )));
-            Capacity = ( int ) xElement.Attribute(nameof( Capacity ));
-            MaxCapacity = ( int ) xElement.Attribute(nameof( MaxCapacity ));
-            Lvl = ( int ) xElement.Attribute(nameof( Lvl ));
+            PosVector = new Vector(( float ) xElement.Attribute(nameof(PosVector.X)),
+                ( float ) xElement.Attribute(nameof(PosVector.Y)));
+            Capacity = ( int ) xElement.Attribute(nameof(Capacity));
+            MaxCapacity = ( int ) xElement.Attribute(nameof(MaxCapacity));
+            Lvl = ( int ) xElement.Attribute(nameof(Lvl));
         }
 
         protected abstract string StorageName { get; }
 
         public XElement ToXml()
         {
-            return new XElement(StorageName, new XAttribute(nameof( PosVector.X ), PosVector.X),
-                                new XAttribute(nameof( PosVector.Y ), PosVector.Y), new XAttribute(nameof( Lvl ), Lvl),
-                                new XAttribute(nameof( Capacity ), Capacity),
-                                new XAttribute(nameof( MaxCapacity ), MaxCapacity));
+            return new XElement(StorageName, new XAttribute(nameof(PosVector.X), PosVector.X),
+                new XAttribute(nameof(PosVector.Y), PosVector.Y), new XAttribute(nameof(Lvl), Lvl),
+                new XAttribute(nameof(Capacity), Capacity), new XAttribute(nameof(MaxCapacity), MaxCapacity));
         }
 
         public BuildingCollection CtxCollection { get; set; }

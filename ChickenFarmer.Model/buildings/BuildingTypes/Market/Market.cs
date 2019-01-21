@@ -30,7 +30,7 @@ namespace ChickenFarmer.Model
         public static void UpgradeHenhouseRack<TRackType>(Henhouse henhouse) where TRackType : IRack
         {
             IRack upgradedRack = henhouse?.Racks.Find(rack => rack is TRackType) ??
-                                 throw new ArgumentNullException("Rack is null", nameof( upgradedRack ));
+                                 throw new ArgumentNullException("Rack is null", nameof(upgradedRack));
             if ( CtxFarm.Money >= upgradedRack.UpgrageCost )
             {
                 CtxFarm.Money -= upgradedRack.UpgrageCost;
@@ -49,7 +49,7 @@ namespace ChickenFarmer.Model
             }
             else
             {
-                throw new ArgumentException("Invalid type of food given", nameof( TStorageType ));
+                throw new ArgumentException("Invalid type of food given", nameof(TStorageType));
             }
         }
 
@@ -70,8 +70,10 @@ namespace ChickenFarmer.Model
 
         public static void Sellegg()
         {
-            CtxFarm.Money += 2 * CtxFarm.Buildings.FindStorage<StorageEgg>().Capacity;
-            CtxFarm.Buildings.FindStorage<StorageEgg>().Capacity = 0;
+            CtxFarm.Money += 2 * CtxFarm.Buildings.FindStorage<StorageEgg>().
+                                 Capacity;
+            CtxFarm.Buildings.FindStorage<StorageEgg>().
+                Capacity = 0;
         }
 
         public static void BuyRack<TRackType>(Henhouse henhouse) where TRackType : IRack
