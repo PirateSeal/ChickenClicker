@@ -1,4 +1,10 @@
-﻿namespace ChickenFarmer.Model
+﻿#region Usings
+
+using System.Xml.Linq;
+
+#endregion
+
+namespace ChickenFarmer.Model
 {
     public class HenhouseFactory : IBuildingFactory
     {
@@ -6,6 +12,12 @@
         {
             NbrBuilt ++;
             return new Henhouse(ctx, this, posVector);
+        }
+
+        public IBuilding Create(BuildingCollection ctx, XElement xElement)
+        {
+            NbrBuilt ++;
+            return new Henhouse(ctx, this, xElement);
         }
 
         public void OnRemove(IBuilding building) { NbrBuilt --; }

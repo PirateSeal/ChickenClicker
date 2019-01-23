@@ -1,4 +1,10 @@
-﻿namespace ChickenFarmer.Model
+﻿#region Usings
+
+using System.Xml.Linq;
+
+#endregion
+
+namespace ChickenFarmer.Model
 {
     public class Builder : IBuilding
     {
@@ -7,6 +13,23 @@
             CtxCollection = ctxCollection;
             Factory = factory;
             PosVector = posVector;
+        }
+
+        public Builder(BuildingCollection ctxCollection, IBuildingFactory factory, XElement xElement)
+        {
+            CtxCollection = ctxCollection;
+            Factory = factory;
+
+            PosVector = new Vector(( float ) xElement?.Attribute(nameof(PosVector.X)),
+                ( float ) xElement?.Attribute(nameof(PosVector.Y)));
+
+            Lvl = ( int ) xElement?.Attribute(nameof(Lvl));
+        }
+
+        public XElement ToXml()
+        {
+            return new XElement("Builder", new XAttribute(nameof(PosVector.X), PosVector.X),
+                new XAttribute(nameof(PosVector.Y), PosVector.Y), new XAttribute(nameof(Lvl), Lvl));
         }
 
         public BuildingCollection CtxCollection { get; set; }

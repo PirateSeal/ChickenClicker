@@ -1,4 +1,10 @@
-﻿namespace ChickenFarmer.Model
+﻿#region Usings
+
+using System.Xml.Linq;
+
+#endregion
+
+namespace ChickenFarmer.Model
 {
     public interface IBuilding
     {
@@ -6,6 +12,7 @@
         Vector PosVector { get; set; }
         int Lvl { get; set; }
         IBuildingFactory Factory { get; }
-        void Upgrade();
+        void     Upgrade();
+        XElement ToXml();
     }
 }

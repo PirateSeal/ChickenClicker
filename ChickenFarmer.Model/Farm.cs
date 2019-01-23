@@ -1,5 +1,7 @@
 ﻿#region Usings
 
+using System.Xml.Linq;
+
 #endregion
 
 namespace ChickenFarmer.Model
@@ -15,12 +17,25 @@ namespace ChickenFarmer.Model
             Market = new Market(this);
         }
 
+        public Farm(XElement xElement)
+        {
+            Money = int.Parse(( string ) xElement.Attribute("Money"));
+            CollideCollection = new CollideCollection(this);
+            XElement xBuildings = xElement.Element("Buildings");
+            Buildings = new BuildingCollection(this, xBuildings);
+            Player = new Player(this, xElement);
+        }
+
         private Market Market { get; }
         public CollideCollection CollideCollection { get; }
         public Player Player { get; }
         public BuildingCollection Buildings { get; }
         public int Money { get; set; }
-        private int Chickencount => Buildings.ChickenCount();
+
+        public XElement ToXml()
+        {
+            return new XElement("Farm", new XAttribute("Money", Money), Buildings.ToXml(), Player.ToXml());
+        }
 
         public void AddEgg()
         {
@@ -36,7 +51,7 @@ namespace ChickenFarmer.Model
             {
                 Money, Buildings.FindStorage<StorageEgg>().
                     Capacity,
-                Chickencount, Buildings.DyingChickenCount()
+                Buildings.ChickenCount(), Buildings.DyingChickenCount()
             };
         }
     }

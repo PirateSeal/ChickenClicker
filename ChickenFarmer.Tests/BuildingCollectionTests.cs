@@ -1,10 +1,10 @@
 ﻿#region Usings
 
 using System;
-using ChickenFarmer.Model;
-using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using ChickenFarmer.Model;
+using NUnit.Framework;
 
 #endregion
 
@@ -24,11 +24,12 @@ namespace ChickenFarmer.Tests
             Assert.That(farm.Buildings.BuildingList.Count, Is.EqualTo(2));
 
             Assert.That(farm.Buildings.FindBuilding<StorageEgg>(5, 5), Is.TypeOf<StorageEgg>());
-            Assert.That(farm.Buildings.FindBuilding<StorageEgg>(5, 5).PosVector, Is.EqualTo(new Vector(5, 5)));
+            Assert.That(farm.Buildings.FindBuilding<StorageEgg>(5, 5).
+                PosVector, Is.EqualTo(new Vector(5, 5)));
 
             Assert.That(farm.Buildings.FindBuilding<Henhouse>(1, 1), Is.TypeOf<Henhouse>());
-            Assert.That(farm.Buildings.FindBuilding<Henhouse>(1, 1).PosVector, Is.EqualTo(new Vector(1, 1)));
-
+            Assert.That(farm.Buildings.FindBuilding<Henhouse>(1, 1).
+                PosVector, Is.EqualTo(new Vector(1, 1)));
         }
 
         [Test]
@@ -43,11 +44,9 @@ namespace ChickenFarmer.Tests
             farm.Buildings.Build<Henhouse>(4, 1);
 
             Assert.That(farm.Buildings.BuildingList.Count, Is.EqualTo(5));
-            Assert.That(farm.Buildings.BuildingList.
-                Count(building => building is Henhouse), Is.EqualTo(4));
+            Assert.That(farm.Buildings.BuildingList.Count(building => building is Henhouse), Is.EqualTo(4));
 
-            Assert.Throws<InvalidOperationException>(()
-                => farm.Buildings.Build<Henhouse>(6, 6));
+            Assert.Throws<InvalidOperationException>(() => farm.Buildings.Build<Henhouse>(6, 6));
         }
 
         [Test]
@@ -58,12 +57,9 @@ namespace ChickenFarmer.Tests
             farm.Buildings.Build<Henhouse>(1, 2);
             farm.Buildings.Build<Henhouse>(1, 3);
 
-            List<Henhouse> henhouses = farm.Buildings.GetBuildingInListByType<Henhouse>();
+            List<IBuilding> henhouses = farm.Buildings.BuildingList.Where(b => b is Henhouse).
+                ToList();
 
-            foreach (Henhouse henhouse in henhouses)
-            {
-                Assert.That(henhouse.GetType(), Is.EqualTo(typeof(Henhouse)));
-            }
             Assert.That(henhouses.Count, Is.EqualTo(2));
         }
     }

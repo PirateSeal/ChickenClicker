@@ -1,6 +1,7 @@
 ﻿#region Usings
 
 using System;
+using System.Xml.Linq;
 
 #endregion
 
@@ -22,21 +23,49 @@ namespace ChickenFarmer.Model
             CtxHenhouse = ctxHenhouse ?? throw new ArgumentNullException(nameof(ctxHenhouse));
             ChikenBreed = chikenBreed;
             Hunger = 100;
+            Random r = new Random();
+            PredateChance = r.Next(0, 20000);
         }
 
-        public bool CheckIfStarving => Hunger <= 25;
+        public Chicken(Henhouse ctxHenhouse, XElement xElement)
+        {
+            CtxHenhouse = ctxHenhouse;
+            ChikenBreed = ( Breed ) int.Parse(xElement?.Attribute(nameof(ChikenBreed))?.
+                                                  Value ?? throw new InvalidOperationException(nameof(Breed)));
+            Hunger = float.Parse(xElement.Attribute(nameof(Hunger))?.
+                                     Value ?? throw new InvalidOperationException());
+        }
 
         private Breed ChikenBreed { get; }
 
-        public float Hunger { get; private set; }
+        public float Hunger { get; set; }
 
-        private Henhouse CtxHenhouse { get; set; }
+        public Henhouse CtxHenhouse { get; set; }
+
+        public int PredateChance { get; set; }
+
+        public XElement ToXml()
+        {
+            return new XElement("Chicken", new XAttribute(nameof(ChikenBreed), ( int ) ChikenBreed),
+                new XAttribute(nameof(Hunger), Hunger));
+        }
 
         public void Update()
         {
             Hunger -= FarmOptions.DefaultFoodConsumption * ( int ) ChikenBreed;
             Peck();
             Lay();
+            Predate(PredateChance);
+        }
+
+        private void Predate(int predateChance)
+        {
+            Random r = new Random();
+            int random = r.Next(0, predateChance);
+            if ( random == 0 )
+                Die();
+            else
+                PredateChance = r.Next(0, 20000);
         }
 
         public void ChickenFeed()
@@ -44,6 +73,7 @@ namespace ChickenFarmer.Model
             if ( CtxHenhouse != null )
                 CtxHenhouse.CtxCollection.FindStorage<StorageSeed>().
                     Capacity -= ( int ) Math.Round(Hunger);
+
             Hunger = 100;
         }
 
@@ -56,10 +86,13 @@ namespace ChickenFarmer.Model
                     if ( !(rack is RackVegetable) )
                     {
                         if ( !(rack is RackSeed) ) throw new InvalidOperationException("Incorrect Rack type");
+
                         if ( rack.Capacity > 0 )
                         {
                             rack.Capacity --;
                             Hunger ++;
+                            if ( Hunger > 100f ) Hunger = 100f;
+
                             break;
                         }
                     }
@@ -68,6 +101,8 @@ namespace ChickenFarmer.Model
                     {
                         rack.Capacity --;
                         Hunger += 2;
+                        if ( Hunger > 100f ) Hunger = 100f;
+
                         break;
                     }
                 }
@@ -76,6 +111,8 @@ namespace ChickenFarmer.Model
                 {
                     rack.Capacity --;
                     Hunger += 5;
+                    if ( Hunger > 100f ) Hunger = 100f;
+
                     break;
                 }
             }

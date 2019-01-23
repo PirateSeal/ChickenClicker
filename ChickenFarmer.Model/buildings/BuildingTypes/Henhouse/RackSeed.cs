@@ -1,4 +1,11 @@
-﻿namespace ChickenFarmer.Model
+﻿#region Usings
+
+using System;
+using System.Xml.Linq;
+
+#endregion
+
+namespace ChickenFarmer.Model
 {
     public class RackSeed : IRack
     {
@@ -7,6 +14,15 @@
             CtxHenhouse = ctx;
             Capacity = 0;
             Lvl = 1;
+        }
+
+        public RackSeed(Henhouse ctx, XElement xElement)
+        {
+            CtxHenhouse = ctx;
+            Capacity = int.Parse(xElement.Attribute(nameof(Capacity))?.
+                                     Value ?? throw new InvalidOperationException(nameof(Capacity)));
+            Lvl = int.Parse(xElement.Attribute(nameof(Lvl))?.
+                                Value ?? throw new InvalidOperationException(nameof(Lvl)));
         }
 
         public Henhouse CtxHenhouse { get; set; }
@@ -43,5 +59,11 @@
         }
 
         public void Upgrade() { Lvl ++; }
+
+        public XElement ToXml()
+        {
+            return new XElement("RackSeed", new XAttribute(nameof(Capacity), Capacity),
+                new XAttribute(nameof(MaxCapacity), MaxCapacity), new XAttribute(nameof(Lvl), Lvl));
+        }
     }
 }

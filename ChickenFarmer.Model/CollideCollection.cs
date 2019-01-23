@@ -28,7 +28,7 @@ namespace ChickenFarmer.Model
 
         public void LoadBuilingsCollide()
         {
-            foreach ( var item in CtxFarm.Buildings.BuildingList ) AddObject(item.PosVector, 64, 96);
+            foreach ( IBuilding item in CtxFarm.Buildings.BuildingList ) AddObject(item.PosVector, 64, 96);
         }
 
         public bool IsCollide(CollideObject obj)

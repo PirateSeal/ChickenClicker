@@ -1,4 +1,10 @@
-﻿namespace ChickenFarmer.Model
+﻿#region Usings
+
+using System.Xml.Linq;
+
+#endregion
+
+namespace ChickenFarmer.Model
 {
     public interface IRack
     {
@@ -15,6 +21,7 @@
         /// <returns></returns>
         int Fill(int amount);
 
-        void Upgrade();
+        void     Upgrade();
+        XElement ToXml();
     }
 }

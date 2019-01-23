@@ -14,7 +14,7 @@ namespace ChickenFarmer.Model
 {
     public class Market
     {
-        internal Market(Farm ctx) { CtxFarm = ctx; }
+        public Market(Farm ctx) { CtxFarm = ctx; }
 
         public static Farm CtxFarm { get; set; }
 

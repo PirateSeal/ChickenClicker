@@ -1,4 +1,10 @@
-﻿namespace ChickenFarmer.Model
+﻿#region Usings
+
+using System.Xml.Linq;
+
+#endregion
+
+namespace ChickenFarmer.Model
 {
     internal class SeedStorageFactory : IStorageFactory
     {
@@ -8,16 +14,15 @@
             return new StorageSeed(ctx, this, posVector);
         }
 
+        public IBuilding Create(BuildingCollection ctx, XElement xElement)
+        {
+            NbrBuilt ++;
+            return new StorageSeed(ctx, this, xElement);
+        }
+
         public void OnRemove(IBuilding building) { NbrBuilt --; }
         public int NbrBuilt { get; set; }
         public bool IsEnabled => !NbrBuilt.Equals(1);
-        public int DefaultCapacity
-        {
-            get
-            {
-                FarmOptions.DefaultStorageCapacity.TryGetValue(typeof(StorageMeat), out int capacity);
-                return capacity;
-            }
-        }
+        public int DefaultCapacity => FarmOptions.DefaultSeedCapacity;
     }
 }
