@@ -16,7 +16,9 @@ namespace ChickenFarmer.UI
         {
             CtxBuildingUI = ctxBuildingUI;
             MenuPos = new Vector2f(CtxBuildingUI.Pos.X, (CtxBuildingUI.Pos.Y + CtxBuildingUI.Shape.Size.Y));
-            TotalMenu = new RectangleShape(MenuSize) { Position = MenuPos, FillColor = Color };
+            TotalMenu = new RectangleShape(MenuSize) { Position = MenuPos};
+            Texture texture = new Texture("../../../../Data/Menu/contextualmenu.png");
+            TotalMenu.Texture = texture;
             ContextualButtons = new ContextualMenuButton(this, MenuPos);
         }
 
