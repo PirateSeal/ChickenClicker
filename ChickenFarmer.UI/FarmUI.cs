@@ -3,6 +3,7 @@
 using ChickenFarmer.Model;
 using SFML.Graphics;
 using SFML.System;
+using System.Collections.Generic;
 
 #endregion
 
@@ -27,9 +28,11 @@ namespace ChickenFarmer.UI
 
 
             CtxGame = ctx;
-            BuildingCollectionUI = new BuildingCollectionUI( this );
-            PlayerUI = new PlayerUI(this, Farm.Player);
+            BuildingCollectionUI = new BuildingCollectionUI( this ); 
+            ChickenCollectionUI = new ChickenCollectionUI(this);
 
+            PlayerUI = new PlayerUI(this, Farm.Player);
+            listChicken = new List<Chicken>();
             Font font = new Font( FontLocation );
             Text = new Text( "", font );
 
@@ -41,6 +44,7 @@ namespace ChickenFarmer.UI
 
         public Text Text { get; }
         public PlayerUI PlayerUI { get; }
+        public List<Chicken> listChicken { get; set; }
         public Farm Farm { get; }
 
         public FarmOptionsUI FarmOptionsUI { get; }
@@ -48,6 +52,7 @@ namespace ChickenFarmer.UI
 
         public GameLoop CtxGame { get; }
         internal BuildingCollectionUI BuildingCollectionUI { get; set; }
+        internal ChickenCollectionUI ChickenCollectionUI { get; set; }
         public void Update()
         {
             Farm.Update();

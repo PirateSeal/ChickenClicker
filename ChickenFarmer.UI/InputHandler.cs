@@ -92,12 +92,21 @@ namespace ChickenFarmer.UI
 
                     if (buildingUI.BuildingCtx is IInteractible house)
                     {
+                       
+
                         if (house.EntryZone.Isin(CtxGameLoop.FarmUI.Farm.Player.BoundingBox) && Keyboard.IsKeyPressed(Keyboard.Key.E))
                         {
+                            if (house is Henhouse henhouse)
+                            {
+                                CtxGameLoop.FarmUI.listChicken = henhouse.Chickens;
+                                CtxGameLoop.FarmUI.ChickenCollectionUI.LoadChickens();
+                            }
+
                             CtxGameLoop.MapManager.LoadMap(buildingUI.MapTypes, buildingUI.BuildingCtx.Lvl);
                             CtxGameLoop.FarmUI.PlayerUI.OldPos = CtxGameLoop.FarmUI.PlayerUI.Sprite.Position;
                             _oldUpdate = DateTime.Now;
                         }
+
                     }
 
                     if (buildingUI.Shape.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left)) buildingUI.DrawMenuState = true;

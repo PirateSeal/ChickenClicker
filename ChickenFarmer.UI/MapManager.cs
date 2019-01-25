@@ -17,7 +17,7 @@ namespace ChickenFarmer.UI
         public MapTypes CurrentType { get; private set; }
         public GameLoop CtxGame { get; }
 
-        public void LoadMap(MapTypes type, int lvl = 0)
+        public void LoadMap(MapTypes type, int lvl = 0, int chicken = 0)
         {
             CtxGame.FarmUI.Farm.CollideCollection.Clear();
 

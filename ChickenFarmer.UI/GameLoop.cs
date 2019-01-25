@@ -79,6 +79,11 @@ namespace ChickenFarmer.UI
                 {
                     FarmUI.BuildingCollectionUI.Draw(Window, State);
                 }
+                
+                if(MapManager.CurrentType == MapTypes.InnerHenhouse)
+                {
+                    FarmUI.ChickenCollectionUI.Draw(Window, State);
+                }
                 FarmUI.PlayerUI.UpdateSpritePosition();
                 FarmUI.PlayerUI.Draw(Window, State);
                 MapManager.CurrentMap.DrawOver(Window, State);
