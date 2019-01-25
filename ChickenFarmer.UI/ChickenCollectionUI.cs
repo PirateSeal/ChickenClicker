@@ -53,7 +53,7 @@ namespace ChickenFarmer.UI
         {
             foreach (ChickenUI item in ChickenList)
             {
-                target.Draw(item);
+                    target.Draw(item);
             }
         }
 
@@ -61,9 +61,10 @@ namespace ChickenFarmer.UI
         {
             foreach (ChickenUI item in ChickenList)
             {
-                item.AnimationLoop();
-                item.AnimFrame++;
+                    item.AnimationLoop();
+                    item.AnimFrame++;
             }
+
         }
     }
 }

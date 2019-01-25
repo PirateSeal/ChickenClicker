@@ -114,7 +114,7 @@ namespace ChickenFarmer.UI
 
                 // debug 
 
-                Console.WriteLine(FarmUI.PlayerUI.Sprite.Position);
+                //Console.WriteLine(FarmUI.PlayerUI.Sprite.Position);
 
             }
 

@@ -24,6 +24,7 @@ namespace ChickenFarmer.Model
             ChikenBreed = chikenBreed;
             Hunger = 100;
             Random r = new Random();
+            IsAlive = true;
             PredateChance = r.Next(0, 20000);
         }
 
@@ -39,6 +40,8 @@ namespace ChickenFarmer.Model
         private Breed ChikenBreed { get; }
 
         public float Hunger { get; set; }
+
+        public bool IsAlive { get; set; }
 
         public Henhouse CtxHenhouse { get; set; }
 
@@ -57,6 +60,7 @@ namespace ChickenFarmer.Model
             Lay();
             Predate(PredateChance);
         }
+        
 
         private void Predate(int predateChance)
         {
@@ -118,7 +122,10 @@ namespace ChickenFarmer.Model
             }
         }
 
-        internal void Die() { CtxHenhouse = null; }
+        internal void Die() {
+            CtxHenhouse = null;
+            IsAlive = false;
+        }
 
         private void Lay()
         {

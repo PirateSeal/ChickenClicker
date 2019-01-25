@@ -53,6 +53,7 @@ namespace ChickenFarmer.UI
         public GameLoop CtxGame { get; }
         internal BuildingCollectionUI BuildingCollectionUI { get; set; }
         internal ChickenCollectionUI ChickenCollectionUI { get; set; }
+
         public void Update()
         {
             Farm.Update();
