@@ -15,43 +15,39 @@ namespace ChickenFarmer.UI
         public Vector2f SpriteSize { get; }
         public Vector2f Position { get; }
         public Sprite Sprite { get; }
+        public Vector2f MaxPointLeftUpHenHouse { get; set; }
+        public Vector2f MaxPointLeftDownHenHouse { get; set; }
 
-        public ChickenUI(FarmUI ctxFarmUI, Chicken chicken, int incrementX)
+
+        public ChickenUI(FarmUI ctxFarmUI, Chicken chicken, int incrementX, int incrementY, int countChickenSpawn)
         {
             AnimFrame = 0;
             Direction = 0;
             SpriteSize = new Vector2f(16f, 32f);
             CtxFarmUI = ctxFarmUI;
             Chicken = Chicken;
-            Position = new Vector2f(316 + incrementX, 300);
-            Texture = new Texture("../../../../Data/Chicken.png");
+            MaxPointLeftUpHenHouse = new Vector2f(300,197);
+            MaxPointLeftDownHenHouse = new Vector2f(540, 453);
+
+
+            Position = new Vector2f(MaxPointLeftUpHenHouse.X + incrementX, 300 + incrementY);
+           
+            if(countChickenSpawn == 3 )
+            {
+                Vector2f NewPosition = new Vector2f(MaxPointLeftUpHenHouse.X + incrementX, Position.Y + 50);
+
+                Position = NewPosition;
+            }
+
+            Texture = new Texture("../../../../Data/chicken_walk.png");
             Sprite = new Sprite(Texture);
             Sprite.Position = Position;
         }
 
         public void AnimationLoop()
         {
-
-            Sprite.TextureRect = new IntRect(0, 0, 16, 32);
-
-            if (Direction == 1)
-            {
-                Sprite.TextureRect = new IntRect(AnimFrame * 16, 64, 16, 32);
-            }
-            if (Direction == 2)
-            {
-                Sprite.TextureRect = new IntRect(AnimFrame * 16, 96, 16, 32);
-            }
-            if (Direction == 3)
-            {
-                Sprite.TextureRect = new IntRect(AnimFrame * 16, 32, 16, 32);
-            }
-            if (Direction == 4)
-            {
-                Sprite.TextureRect = new IntRect(AnimFrame * 16, 0, 16, 32);
-            }
-
-            if (AnimFrame == 3) AnimFrame = 0;
+           Sprite.TextureRect = new IntRect(AnimFrame * 32, 64, 32, 32);
+           if (AnimFrame == 3) AnimFrame = 0;
 
         }
 

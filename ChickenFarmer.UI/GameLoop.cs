@@ -16,8 +16,10 @@ namespace ChickenFarmer.UI
     {
         public InputHandler PlayerInput { get; }
         public TimeSpan IntervalUpdate { get; } = new TimeSpan(0, 0, 0, 0, 60);
+        public TimeSpan IntervalUpdateAnimationChicken { get; } = new TimeSpan(0, 0, 0, 0, 300);
         public DateTime OldUpdate { get; private set; } = DateTime.Now;
-        
+        public DateTime OldUpdateChickens { get; private set; } = DateTime.Now;
+
 
         public GameLoop()
         {
@@ -107,6 +109,7 @@ namespace ChickenFarmer.UI
                 FarmUI.PlayerUI.AnimationLoop();
                 FarmUI.PlayerUI.AnimFrame++;
 
+
                 OldUpdate = current;
 
                 // debug 
@@ -114,6 +117,19 @@ namespace ChickenFarmer.UI
                 Console.WriteLine(FarmUI.PlayerUI.Sprite.Position);
 
             }
+
+
+            if (MapManager.CurrentType == MapTypes.InnerHenhouse)
+            {
+                if (OldUpdateChickens.Add(IntervalUpdateAnimationChicken) < current)
+                {
+                    FarmUI.ChickenCollectionUI.Update();
+
+                    OldUpdateChickens = current;
+                }
+
+            }
+
         }
     }
 }

@@ -38,7 +38,6 @@ namespace ChickenFarmer.UI
 
         public void Draw(IRenderTarget target, in RenderStates states)
         {
-            
             if (DrawMenuState) Menu.Draw(target, states);
 
             Shape.Draw(target,states);

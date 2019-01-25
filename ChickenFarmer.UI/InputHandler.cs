@@ -96,6 +96,8 @@ namespace ChickenFarmer.UI
                             {
                                 CtxGameLoop.FarmUI.listChicken = henhouse.Chickens;
                                 CtxGameLoop.FarmUI.ChickenCollectionUI.LoadChickens();
+                                CtxGameLoop.FarmUI.ChickenCollectionUI.MusicHenHouse.Play();
+                                CtxGameLoop.FarmUI.ChickenCollectionUI.MusicHenHouse.Loop = true;
                             }
 
                             CtxGameLoop.MapManager.LoadMap(buildingUI.MapTypes, buildingUI.BuildingCtx.Lvl);
