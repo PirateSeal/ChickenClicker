@@ -97,10 +97,13 @@ namespace ChickenFarmer.UI
                             {
                                 CtxGameLoop.FarmUI.listChicken = henhouse.Chickens;
                                 CtxGameLoop.FarmUI.ChickenCollectionUI.LoadChickens();
-                                CtxGameLoop.FarmUI.MainMusic.Stop();
-                                CtxGameLoop.FarmUI.MainMusic = new Music("../../../../Data/SoundEffect/ChickenSound.ogg");
-                                CtxGameLoop.FarmUI.MainMusic.Play();
-                                CtxGameLoop.FarmUI.MainMusic.Loop = true;
+                                if (henhouse.Chickens.Count > 0)
+                                {
+                                    CtxGameLoop.FarmUI.MainMusic.Stop();
+                                    CtxGameLoop.FarmUI.MainMusic = new Music("../../../../Data/SoundEffect/ChickenSound.ogg");
+                                    CtxGameLoop.FarmUI.MainMusic.Play();
+                                    CtxGameLoop.FarmUI.MainMusic.Loop = true;
+                                }
                             }
                            
 
