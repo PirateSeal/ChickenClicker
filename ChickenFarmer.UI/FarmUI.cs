@@ -1,6 +1,7 @@
 ﻿#region Usings
 
 using ChickenFarmer.Model;
+using SFML.Audio;
 using SFML.Graphics;
 using SFML.System;
 using System.Collections.Generic;
@@ -36,16 +37,20 @@ namespace ChickenFarmer.UI
             Font font = new Font( FontLocation );
             Text = new Text( "", font );
 
+            MainMusic = new Music("../../../../Data/SoundEffect/MainTheme.ogg");
+            MainMusic.Play();
+
 
 
             //ButtonSellEggs = new RectangleShape( _buttonSize ) { Position = _buttonPos };
-         
+
         }
 
         public Text Text { get; }
         public PlayerUI PlayerUI { get; }
         public List<Chicken> listChicken { get; set; }
         public Farm Farm { get; }
+        public Music MainMusic { get; set; }
 
         public FarmOptionsUI FarmOptionsUI { get; }
 

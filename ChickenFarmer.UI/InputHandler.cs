@@ -2,6 +2,7 @@
 
 using System;
 using ChickenFarmer.Model;
+using SFML.Audio;
 using SFML.System;
 using SFML.Window;
 
@@ -96,13 +97,18 @@ namespace ChickenFarmer.UI
                             {
                                 CtxGameLoop.FarmUI.listChicken = henhouse.Chickens;
                                 CtxGameLoop.FarmUI.ChickenCollectionUI.LoadChickens();
-                                CtxGameLoop.FarmUI.ChickenCollectionUI.MusicHenHouse.Play();
-                                CtxGameLoop.FarmUI.ChickenCollectionUI.MusicHenHouse.Loop = true;
+                                CtxGameLoop.FarmUI.MainMusic.Stop();
+                                CtxGameLoop.FarmUI.MainMusic = new Music("../../../../Data/SoundEffect/ChickenSound.ogg");
+                                CtxGameLoop.FarmUI.MainMusic.Play();
+                                CtxGameLoop.FarmUI.MainMusic.Loop = true;
                             }
+                           
 
                             CtxGameLoop.MapManager.LoadMap(buildingUI.MapTypes, buildingUI.BuildingCtx.Lvl);
                             CtxGameLoop.FarmUI.PlayerUI.OldPos = CtxGameLoop.FarmUI.PlayerUI.Sprite.Position;
                             _oldUpdate = DateTime.Now;
+                         
+
                         }
 
                     }
@@ -133,6 +139,10 @@ namespace ChickenFarmer.UI
                     {
                         if (house.LeaveZone.Isin(CtxGameLoop.FarmUI.Farm.Player.BoundingBox) && Keyboard.IsKeyPressed(Keyboard.Key.E))
                         {
+                            CtxGameLoop.FarmUI.MainMusic.Stop();
+                            CtxGameLoop.FarmUI.MainMusic = new Music("../../../../Data/SoundEffect/MainTheme.ogg");
+                            CtxGameLoop.FarmUI.MainMusic.Play();
+                            CtxGameLoop.FarmUI.MainMusic.Loop = true;
                             CtxGameLoop.MapManager.LoadMap(MapTypes.World);
                             CtxGameLoop.FarmUI.PlayerUI.Sprite.Position = CtxGameLoop.FarmUI.PlayerUI.OldPos;
                             _oldUpdate = DateTime.Now;
