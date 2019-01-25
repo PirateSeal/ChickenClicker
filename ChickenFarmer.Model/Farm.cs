@@ -1,8 +1,11 @@
 ﻿#region Usings
+using System;
+using System.Xml.Linq;
 
 using System.Xml.Linq;
 
 #endregion
+
 
 namespace ChickenFarmer.Model
 {
@@ -15,6 +18,7 @@ namespace ChickenFarmer.Model
             Money = FarmOptions.DefaultMoney;
             Player = new Player(this);
             Market = new Market(this);
+            Buildings.Build<Builder>(200, 200);    
         }
 
         public Farm(XElement xElement)

@@ -29,10 +29,13 @@ namespace ChickenFarmer.Model
 
         public Dictionary<Type, IBuildingFactory> BuildingFactories { get; } = new Dictionary<Type, IBuildingFactory>
         {
-            { typeof(StorageEgg), new EggStorageFactory() }, { typeof(StorageSeed), new SeedStorageFactory() },
+            { typeof(StorageEgg), new EggStorageFactory() },
+            { typeof(StorageSeed), new SeedStorageFactory() },
             { typeof(StorageVegetable), new VegetableStorageFactory() },
-            { typeof(StorageMeat), new MeatStorageFactory() }, { typeof(Builder), new BuilderFactory() },
-            { typeof(ChickenStore), new ChickenStoreFactory() }, { typeof(Henhouse), new HenhouseFactory() }
+            { typeof(StorageMeat), new MeatStorageFactory() },
+            { typeof(Builder), new BuilderFactory() },
+            { typeof(ChickenStore), new ChickenStoreFactory() },
+            { typeof(Henhouse), new HenhouseFactory() }
         };
 
         public Farm CtxFarm { get; }
@@ -62,6 +65,8 @@ namespace ChickenFarmer.Model
             IBuilding building = factory.Create(this, new Vector(xCoord, yCoord));
 
             BuildingList.Add(building);
+            
+
         }
 
         public void Update()
@@ -84,8 +89,8 @@ namespace ChickenFarmer.Model
         public int ChickenCount()
         {
             int sum = 0;
-            foreach ( IBuilding building in BuildingList )
-                if ( building is Henhouse house )
+            foreach (IBuilding building in BuildingList)
+                if (building is Henhouse house)
                     sum += house.ChickenCount;
 
             return sum;

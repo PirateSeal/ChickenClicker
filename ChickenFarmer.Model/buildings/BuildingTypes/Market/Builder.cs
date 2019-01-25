@@ -6,13 +6,18 @@ using System.Xml.Linq;
 
 namespace ChickenFarmer.Model
 {
-    public class Builder : IBuilding
+    public class Builder : IBuilding ,IInteractible
     {
         public Builder(BuildingCollection ctxCollection, IBuildingFactory factory, Vector posVector)
         {
             CtxCollection = ctxCollection;
             Factory = factory;
             PosVector = posVector;
+            Vector interactionZonePos = new Vector(posVector.X + 80, PosVector.Y + 130);
+            EntryZone = new InteractionZone(interactionZonePos, 20, 50);
+
+            FarmOptions.SpawnPos.TryGetValue(typeof(Builder), out var value);
+            LeaveZone = new InteractionZone(value, 75, 75);      
         }
 
         public Builder(BuildingCollection ctxCollection, IBuildingFactory factory, XElement xElement)
@@ -25,6 +30,11 @@ namespace ChickenFarmer.Model
 
             Lvl = ( int ) xElement?.Attribute(nameof(Lvl));
         }
+
+
+        public InteractionZone EntryZone { get; set; }
+        public InteractionZone LeaveZone { get; set; }
+
 
         public XElement ToXml()
         {

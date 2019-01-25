@@ -8,6 +8,7 @@ using SFML.System;
 using SFML.Window;
 
 #endregion
+using System.Runtime.Serialization;
 
 namespace ChickenFarmer.UI
 {
@@ -74,10 +75,12 @@ namespace ChickenFarmer.UI
 
                 Window.Draw(MapManager.CurrentMap);
 
+                if (MapManager.CurrentType == MapTypes.World)
+                {
+                    FarmUI.BuildingCollectionUI.Draw(Window, State);
+                }
                 FarmUI.PlayerUI.UpdateSpritePosition();
                 FarmUI.PlayerUI.Draw(Window, State);
-                FarmUI.BuildingCollectionUI.Draw(Window, State);
-
                 MapManager.CurrentMap.DrawOver(Window, State);
                 FarmUI.DrawInfo();
                 Update();
@@ -100,6 +103,11 @@ namespace ChickenFarmer.UI
                 FarmUI.PlayerUI.AnimFrame++;
 
                 OldUpdate = current;
+
+                // debug 
+
+                Console.WriteLine(FarmUI.PlayerUI.Sprite.Position);
+
             }
         }
     }

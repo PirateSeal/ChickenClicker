@@ -14,10 +14,12 @@ namespace ChickenFarmer.Model
             if ( yCoord <= 0 ) throw new ArgumentOutOfRangeException(nameof(yCoord));
             CtxFarm = ctxFarm ?? throw new ArgumentNullException(nameof(ctxFarm));
             Position = new Vector(xCoord, yCoord);
+            Vector interactionZonePos = new Vector(Position.X - 16, Position.Y - 16);
             Life = FarmOptions.DefaultPlayerLife;
             Speed = FarmOptions.DefaultPlayerMaxSpeed;
             Vector boundingBoxPos = new Vector(Position.X, Position.Y - 16);
             BoundingBox = new CollideObject(boundingBoxPos, 16, 16);
+            InteractionZone = new InteractionZone(interactionZonePos, 50, 60);
         }
 
         public int Life { get; }
@@ -26,6 +28,7 @@ namespace ChickenFarmer.Model
         public Farm CtxFarm { get; }
         public Vector Direction { get; set; }
         public CollideObject BoundingBox { get; }
+        InteractionZone InteractionZone { get; set; }
 
         public void Move(Vector direction)
         {

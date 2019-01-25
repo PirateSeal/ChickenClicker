@@ -44,6 +44,18 @@ namespace ChickenFarmer.Model
                 { typeof(StorageMeat), 30 }
             };
 
+
+            SpawnPos = new Dictionary<Type, Vector>
+            {
+                { typeof(Farm), new Vector(100,200) },
+                { typeof(Henhouse), new Vector(305,434) },
+                {typeof(Builder), new Vector(570,624) },
+
+            };
+
+            HenhouseSpawn = new Vector(305, 434);
+            
+
             DefaultEggCapacity = 0;
             DefaultEggMaxCapacity = 5000;
 
@@ -112,5 +124,9 @@ namespace ChickenFarmer.Model
         public static float DefaultPlayerMaxSpeed { get; }
         public static int EggValue { get; }
         public static Dictionary<Type, int> DefaultUpgradePrices { get; }
+
+        public static Dictionary<Type, Vector> SpawnPos;
+
+        public static Vector HenhouseSpawn { get; private set; }
     }
 }

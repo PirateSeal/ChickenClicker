@@ -40,29 +40,53 @@ namespace ChickenFarmer.UI
                         (int)building.PosVector.Y));
                 MapTypes type = MapTypes.None;
                 Texture houseTexture;
-                switch (building)
+
+                if (building is Henhouse)
                 {
-                    case Henhouse _:
-                        houseTexture = CtxfarmUI.FarmOptionsUI.HenhouseTexture[building.Lvl];
-                        type = MapTypes.InnerHenhouse;
-                        break;
-                    case StorageSeed _:
-                    case StorageEgg _:
-                    case StorageMeat _:
-                        houseTexture = CtxfarmUI.FarmOptionsUI.StorageTexture[building.Lvl];
-                        break;
-                    default:
-                        houseTexture = null;
-                        break;
+                    houseTexture = CtxfarmUI.FarmOptionsUI.HenhouseTexture[building.Lvl];
+                    type = MapTypes.InnerHenhouse;
+
+                }
+                else if (building is StorageSeed)
+                {
+
+                    houseTexture = CtxfarmUI.FarmOptionsUI.StorageTexture[building.Lvl];
+
+                }
+                else if (building is StorageEgg)
+                {
+                    houseTexture = CtxfarmUI.FarmOptionsUI.StorageTexture[building.Lvl];
+
+                }
+                else if (building is StorageMeat)
+                {
+                    houseTexture = CtxfarmUI.FarmOptionsUI.StorageTexture[building.Lvl];
+
+                }
+                else if (building is Builder)
+                {
+                    houseTexture = CtxfarmUI.FarmOptionsUI.BuilderTexture;
+                    type = MapTypes.InnerBuilder;
                 }
 
-                if ( houseTexture != null )
-                    BuildingsUIList.Add(new BuildingUI(this, building,
-                        new RectangleShape(( Vector2f ) houseTexture.Size)
+                else
+                {
+                    houseTexture = null;
+
+                }
+
+                if (houseTexture != null)
+                    BuildingsUIList.Add(new BuildingUI
+                    (
+                        this,
+                        building,
+                        new RectangleShape((Vector2f)houseTexture.Size)
                         {
                             Texture = houseTexture,
                             Position = new Vector2f(building.PosVector.X, building.PosVector.Y)
-                        }, new Vector2f(building.PosVector.X, building.PosVector.Y), type));
+                        },
+                        new Vector2f(building.PosVector.X, building.PosVector.Y), type)
+                   );
             }
         }
 

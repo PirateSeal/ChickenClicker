@@ -21,7 +21,9 @@ namespace ChickenFarmer.Model
             Lvl = 0;
             Chickens = new List<Chicken>(MaxCapacity * Lvl);
             Vector interactionZonePos = new Vector(posVector.X + 20, PosVector.Y + 96);
-            InteractionZone = new InteractionZone(interactionZonePos, 15, 15);
+            EntryZone = new InteractionZone(interactionZonePos, 15, 15);
+            LeaveZone = new InteractionZone(FarmOptions.HenhouseSpawn, 50, 50);
+
         }
 
         public Henhouse(BuildingCollection ctx, IBuildingFactory factory, XElement xElement)
@@ -93,6 +95,8 @@ namespace ChickenFarmer.Model
         }
 
         public InteractionZone InteractionZone { get; set; }
+        public InteractionZone EntryZone { get; set; }
+        public InteractionZone LeaveZone { get; set; }
 
         public bool CheckIfInside(InteractionZone interactionZone) { return true; }
 
