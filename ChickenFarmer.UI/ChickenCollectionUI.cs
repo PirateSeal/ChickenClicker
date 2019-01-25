@@ -16,16 +16,19 @@ namespace ChickenFarmer.UI
         }
 
         public FarmUI CtxfarmUI { get; }
-        public List<ChickenUI> ChickenList { get; }
+        public List<ChickenUI> ChickenList { get; set; }
 
         internal void LoadChickens ()
         {
+            this.ChickenList = new List<ChickenUI>();
 
+            int increment = 0;
             for (int i = 0; i < CtxfarmUI.listChicken.Count(); i++)
             {
-                ChickenUI chicken = new ChickenUI(CtxfarmUI, CtxfarmUI.listChicken[i]);
+                ChickenUI chicken = new ChickenUI(CtxfarmUI, CtxfarmUI.listChicken[i], increment);
 
                 ChickenList.Add(chicken);
+                increment += 50;
 
             }
 

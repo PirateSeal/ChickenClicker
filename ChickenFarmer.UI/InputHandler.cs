@@ -77,10 +77,6 @@ namespace ChickenFarmer.UI
             foreach ( BuildingUI buildingUI in CtxGameLoop.FarmUI.BuildingCollectionUI.BuildingsUIList )
             {
 
-
-
-
-
                 if (CtxGameLoop.MapManager.CurrentType == MapTypes.World && _oldUpdate.Add(Time) < current)
                 {
                     if (!buildingUI.Shape.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) && !buildingUI.Menu.TotalMenu.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) &&

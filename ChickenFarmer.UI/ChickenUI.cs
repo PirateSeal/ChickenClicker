@@ -16,15 +16,15 @@ namespace ChickenFarmer.UI
         public Vector2f Position { get; }
         public Sprite Sprite { get; }
 
-        public ChickenUI(FarmUI ctxFarmUI, Chicken chicken)
+        public ChickenUI(FarmUI ctxFarmUI, Chicken chicken, int incrementX)
         {
             AnimFrame = 0;
             Direction = 0;
             SpriteSize = new Vector2f(16f, 32f);
             CtxFarmUI = ctxFarmUI;
             Chicken = Chicken;
-            Position = new Vector2f(316,300);
-            Texture = new Texture("../../../../Data/SpriteSheet/Player/player.png");
+            Position = new Vector2f(316 + incrementX, 300);
+            Texture = new Texture("../../../../Data/Chicken.png");
             Sprite = new Sprite(Texture);
             Sprite.Position = Position;
         }
@@ -55,7 +55,7 @@ namespace ChickenFarmer.UI
 
         }
 
-
+        public void Dispose() { Sprite.Dispose(); }
 
         public void Draw(IRenderTarget target, in RenderStates states)
         {
