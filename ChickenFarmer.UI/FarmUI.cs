@@ -1,8 +1,10 @@
 ﻿#region Usings
 
 using ChickenFarmer.Model;
+using SFML.Audio;
 using SFML.Graphics;
 using SFML.System;
+using System.Collections.Generic;
 
 #endregion
 
@@ -27,27 +29,36 @@ namespace ChickenFarmer.UI
 
 
             CtxGame = ctx;
-            BuildingCollectionUI = new BuildingCollectionUI( this );
-            PlayerUI = new PlayerUI(this, Farm.Player);
+            BuildingCollectionUI = new BuildingCollectionUI( this ); 
+            ChickenCollectionUI = new ChickenCollectionUI(this);
 
+            PlayerUI = new PlayerUI(this, Farm.Player);
+            listChicken = new List<Chicken>();
             Font font = new Font( FontLocation );
             Text = new Text( "", font );
+
+            MainMusic = new Music("../../../../Data/SoundEffect/MainTheme.ogg");
+            MainMusic.Play();
 
 
 
             //ButtonSellEggs = new RectangleShape( _buttonSize ) { Position = _buttonPos };
-         
+
         }
 
         public Text Text { get; }
         public PlayerUI PlayerUI { get; }
+        public List<Chicken> listChicken { get; set; }
         public Farm Farm { get; }
+        public Music MainMusic { get; set; }
 
         public FarmOptionsUI FarmOptionsUI { get; }
 
 
         public GameLoop CtxGame { get; }
         internal BuildingCollectionUI BuildingCollectionUI { get; set; }
+        internal ChickenCollectionUI ChickenCollectionUI { get; set; }
+
         public void Update()
         {
             Farm.Update();

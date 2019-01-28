@@ -2,6 +2,7 @@
 
 using System;
 using ChickenFarmer.Model;
+using SFML.Audio;
 using SFML.System;
 using SFML.Window;
 
@@ -77,10 +78,6 @@ namespace ChickenFarmer.UI
             foreach ( BuildingUI buildingUI in CtxGameLoop.FarmUI.BuildingCollectionUI.BuildingsUIList )
             {
 
-
-
-
-
                 if (CtxGameLoop.MapManager.CurrentType == MapTypes.World && _oldUpdate.Add(Time) < current)
                 {
                     if (!buildingUI.Shape.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) && !buildingUI.Menu.TotalMenu.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) &&
@@ -92,12 +89,31 @@ namespace ChickenFarmer.UI
 
                     if (buildingUI.BuildingCtx is IInteractible house)
                     {
+                       
+
                         if (house.EntryZone.Isin(CtxGameLoop.FarmUI.Farm.Player.BoundingBox) && Keyboard.IsKeyPressed(Keyboard.Key.E))
                         {
+                            if (house is Henhouse henhouse)
+                            {
+                                CtxGameLoop.FarmUI.listChicken = henhouse.Chickens;
+                                CtxGameLoop.FarmUI.ChickenCollectionUI.LoadChickens();
+                                if (henhouse.Chickens.Count > 0)
+                                {
+                                    CtxGameLoop.FarmUI.MainMusic.Stop();
+                                    CtxGameLoop.FarmUI.MainMusic = new Music("../../../../Data/SoundEffect/ChickenSound.ogg");
+                                    CtxGameLoop.FarmUI.MainMusic.Play();
+                                    CtxGameLoop.FarmUI.MainMusic.Loop = true;
+                                }
+                            }
+                           
+
                             CtxGameLoop.MapManager.LoadMap(buildingUI.MapTypes, buildingUI.BuildingCtx.Lvl);
                             CtxGameLoop.FarmUI.PlayerUI.OldPos = CtxGameLoop.FarmUI.PlayerUI.Sprite.Position;
                             _oldUpdate = DateTime.Now;
+                         
+
                         }
+
                     }
 
                     if (buildingUI.Shape.GetGlobalBounds().Contains(worldPos.X, worldPos.Y) && Mouse.IsButtonPressed(Mouse.Button.Left)) buildingUI.DrawMenuState = true;
@@ -126,6 +142,10 @@ namespace ChickenFarmer.UI
                     {
                         if (house.LeaveZone.Isin(CtxGameLoop.FarmUI.Farm.Player.BoundingBox) && Keyboard.IsKeyPressed(Keyboard.Key.E))
                         {
+                            CtxGameLoop.FarmUI.MainMusic.Stop();
+                            CtxGameLoop.FarmUI.MainMusic = new Music("../../../../Data/SoundEffect/MainTheme.ogg");
+                            CtxGameLoop.FarmUI.MainMusic.Play();
+                            CtxGameLoop.FarmUI.MainMusic.Loop = true;
                             CtxGameLoop.MapManager.LoadMap(MapTypes.World);
                             CtxGameLoop.FarmUI.PlayerUI.Sprite.Position = CtxGameLoop.FarmUI.PlayerUI.OldPos;
                             _oldUpdate = DateTime.Now;
