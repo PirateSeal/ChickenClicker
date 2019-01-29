@@ -142,7 +142,7 @@ namespace ChickenFarmer.Tests
             house.Chickens.First().
                 PredateChance = 1;
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 100; i++)
             {
                 farm.Update();
             }
